@@ -3,8 +3,8 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "TINA_PUBLIC_IS_LOCAL=false tinacms dev -c \"next dev --turbopack\"",
-        "build": "tinacms build && next build --turbopack",
+        "dev": "next dev --turbopack",
+        "build": "next build --turbopack",
         "start": "next start",
         "lint": "eslint"
     },
@@ -32,15 +32,12 @@
         "react": "19.1.0",
         "react-dom": "19.1.0",
         "react-icons": "^5.5.0",
-        "react-tinacms-editor": "^0.53.26",
         "tailwind-merge": "^3.3.1",
-        "three": "^0.180.0",
-        "tinacms": "^2.8.3"
+        "three": "^0.180.0"
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3.3.1",
         "@tailwindcss/postcss": "^4.1.13",
-        "@tinacms/cli": "^1.10.3",
         "@types/dropzone": "^5.7.9",
         "@types/jquery": "^3.5.33",
         "@types/lodash": "^4.17.20",
