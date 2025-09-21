@@ -1,17 +1,17 @@
 import Link from "next/link";
 import { LuGithub, LuLinkedin, LuArrowRight } from "react-icons/lu";
 import {
-    SiNextdotjs,
-    SiTypescript,
-    SiTailwindcss,
-    SiDiscord,
-    SiReact,
-    SiNodedotjs,
-    SiPrisma,
-    SiPostgresql,
-    SiThreedotjs,
-    SiExpress,
-    SiSwift,
+  SiNextdotjs,
+  SiTypescript,
+  SiTailwindcss,
+  SiDiscord,
+  SiReact,
+  SiNodedotjs,
+  SiPrisma,
+  SiPostgresql,
+  SiThreedotjs,
+  SiExpress,
+  SiSwift,
 } from "react-icons/si";
 import Hero3DClient from "./components/Hero3DClient";
 import PronunciationButton from "./components/PronunciationButton";
@@ -20,236 +20,194 @@ import { projects } from "@/lib/projects";
 import ProjectCard from "@/app/components/ProjectCard";
 import ContactForm from "./contact/ContactForm";
 import SectionHeader from "./components/SectionHeader";
+import AboutContent from "@/content/about/content.mdx";
 
 export default function Home() {
-    const GITHUB_URL =
-        process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com/prakharmavi";
-    const LINKEDIN_URL =
-        process.env.NEXT_PUBLIC_LINKEDIN_URL ??
-        "https://www.linkedin.com/in/prakharmavi";
-    const DISCORD_URL =
-        process.env.NEXT_PUBLIC_DISCORD_URL ??
-        "https://discord.com/users/parkermavi";
-    // const EMAIL = process.env.NEXT_PUBLIC_EMAIL ?? "hello@prakhar.ca";
+  const GITHUB_URL =
+    process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com/prakharmavi";
+  const LINKEDIN_URL =
+    process.env.NEXT_PUBLIC_LINKEDIN_URL ??
+    "https://www.linkedin.com/in/prakharmavi";
+  const DISCORD_URL =
+    process.env.NEXT_PUBLIC_DISCORD_URL ??
+    "https://discord.com/users/parkermavi";
+  // const EMAIL = process.env.NEXT_PUBLIC_EMAIL ?? "hello@prakhar.ca";
 
-    return (
-        <main className="min-h-dvh w-full">
-            {/* Hero */}
-            <section className="min-h-dvh w-full pt-12 md:pt-20">
-                <div className="mx-auto w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 items-center gap-10 md:gap-12 px-6 md:px-10">
-                    {/* Content left taking 2/3 on desktop */}
-                    <div className="md:col-span-2 flex items-center">
-                        <div className="w-full max-w-2xl">
-                            <p className="text-xs md:text-sm text-gray-500 tracking-wide uppercase">Hi, I’m</p>
-                            <h1 className="mt-2 text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight text-gray-900 leading-[0.95] text-3d">
-                                Prakhar Mavi
-                            </h1>
-                            <div className="mt-3">
-                                <PronunciationButton
-                                    text="Pruh-khur Maa-vee"
-                                    phonetic="Pruh-khur Maa-vee"
-                                    audioSrc="/pronunciation.mp3"
-                                />
-                            </div>
-                            <p className="mt-5 text-lg md:text-xl text-gray-600 leading-relaxed max-w-prose">
-                                Software developer turning ideas into fast,
-                                user‑friendly apps.
-                            </p>
+  return (
+    <main className="min-h-dvh w-full">
+      {/* Hero */}
+      <section className="min-h-dvh w-full pt-12 md:pt-20">
+        <div className="mx-auto w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 items-center gap-10 md:gap-12 px-6 md:px-10">
+          {/* Content left taking 2/3 on desktop */}
+          <div className="md:col-span-2 flex items-center">
+            <div className="w-full max-w-2xl">
+              <p className="text-xs md:text-sm text-gray-500 tracking-wide uppercase">
+                Hi, I’m
+              </p>
+              <h1 className="mt-2 text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight text-gray-900 leading-[0.95] text-3d">
+                Prakhar Mavi
+              </h1>
+              <div className="mt-3">
+                <PronunciationButton
+                  text="Pruh-khur Maa-vee"
+                  phonetic="Pruh-khur Maa-vee"
+                  audioSrc="/pronunciation.mp3"
+                />
+              </div>
+              <p className="mt-5 text-lg md:text-xl text-gray-600 leading-relaxed max-w-prose">
+                Software developer turning ideas into fast, user‑friendly apps.
+              </p>
 
-                            <div className="mt-7 flex items-center gap-3">
-                                <Link
-                                    href="/#projects"
-                                    className="inline-flex items-center gap-2 rounded-full bg-gray-800 text-white px-5 py-2.5 text-sm md:text-base hover:bg-gray-900 focus:outline-hidden"
-                                >
-                                    View Projects
-                                    <LuArrowRight className="size-4" aria-hidden />
-                                </Link>
-                                <Link
-                                    href="/#about"
-                                    className="inline-flex items-center gap-2 rounded-full bg-gray-800 text-white px-5 py-2.5 text-sm md:text-base hover:bg-gray-900 focus:outline-hidden"
-                                >
-                                    About Me
-                                </Link>
-                            </div>
+              <div className="mt-7 flex items-center gap-3">
+                <Link
+                  href="/#projects"
+                  className="inline-flex items-center gap-2 rounded-full bg-gray-800 text-white px-5 py-2.5 text-sm md:text-base hover:bg-gray-900 focus:outline-hidden"
+                >
+                  View Projects
+                  <LuArrowRight className="size-4" aria-hidden />
+                </Link>
+                <Link
+                  href="/#
 
-                            <div className="mt-7 flex flex-wrap items-center gap-3 text-gray-600">
-                                <span className="text-xs">Core:</span>
-                                <SiReact
-                                    className="size-5"
-                                    title="React / React Native"
-                                />
-                                <SiNextdotjs
-                                    className="size-5"
-                                    title="Next.js"
-                                />
-                                <SiTypescript
-                                    className="size-5"
-                                    title="TypeScript"
-                                />
-                                <SiNodedotjs
-                                    className="size-5"
-                                    title="Node.js"
-                                />
-                                <SiExpress className="size-5" title="Express" />
-                                <SiPrisma className="size-5" title="Prisma" />
-                                <SiPostgresql
-                                    className="size-5"
-                                    title="PostgreSQL"
-                                />
-                                <SiThreedotjs
-                                    className="size-5"
-                                    title="Three.js / R3F"
-                                />
-                                <SiTailwindcss
-                                    className="size-5"
-                                    title="Tailwind CSS"
-                                />
-                                <SiSwift
-                                    className="size-5"
-                                    title="Swift (iOS)"
-                                />
-                            </div>
+                  about"
+                  className="inline-flex items-center gap-2 rounded-full bg-gray-800 text-white px-5 py-2.5 text-sm md:text-base hover:bg-gray-900 focus:outline-hidden"
+                >
+                  About Me
+                </Link>
+              </div>
 
-                            <div className="mt-7 flex flex-wrap items-center gap-3">
-                                <Link
-                                    href={GITHUB_URL}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label="GitHub (prakharmavi)"
-                                    title="GitHub (prakharmavi)"
-                                    className="inline-flex items-center justify-center size-10 rounded-full bg-[#24292F] text-white shadow-sm hover:brightness-110 focus:outline-hidden"
-                                >
-                                    <LuGithub className="size-4" aria-hidden />
-                                </Link>
-                                <Link
-                                    href={LINKEDIN_URL}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label="LinkedIn (prakharmavi)"
-                                    title="LinkedIn (prakharmavi)"
-                                    className="inline-flex items-center justify-center size-10 rounded-full bg-[#0A66C2] text-white shadow-sm hover:brightness-110 focus:outline-hidden"
-                                >
-                                    <LuLinkedin className="size-4" aria-hidden />
-                                </Link>
-                                <Link
-                                    href={DISCORD_URL}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label="Discord (parkermavi)"
-                                    title="Discord (parkermavi)"
-                                    className="inline-flex items-center justify-center size-10 rounded-full bg-[#5865F2] text-white shadow-sm hover:brightness-110 focus:outline-hidden"
-                                >
-                                    <SiDiscord className="size-4" aria-hidden />
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
+              <div className="mt-7 flex flex-wrap items-center gap-3 text-gray-600">
+                <span className="text-xs">Core:</span>
+                <SiReact className="size-5" title="React / React Native" />
+                <SiNextdotjs className="size-5" title="Next.js" />
+                <SiTypescript className="size-5" title="TypeScript" />
+                <SiNodedotjs className="size-5" title="Node.js" />
+                <SiExpress className="size-5" title="Express" />
+                <SiPrisma className="size-5" title="Prisma" />
+                <SiPostgresql className="size-5" title="PostgreSQL" />
+                <SiThreedotjs className="size-5" title="Three.js / R3F" />
+                <SiTailwindcss className="size-5" title="Tailwind CSS" />
+                <SiSwift className="size-5" title="Swift (iOS)" />
+              </div>
 
-                    {/* 3D Avatar visible on all viewports */}
-                    <div className="flex items-center justify-center md:justify-end w-full">
-                        <Hero3DClient className="h-[60svh] md:h-[80svh] w-full" />
-                    </div>
-                </div>
-            </section>
+              <div className="mt-7 flex flex-wrap items-center gap-3">
+                <Link
+                  href={GITHUB_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub (prakharmavi)"
+                  title="GitHub (prakharmavi)"
+                  className="inline-flex items-center justify-center size-10 rounded-full bg-[#24292F] text-white shadow-sm hover:brightness-110 focus:outline-hidden"
+                >
+                  <LuGithub className="size-4" aria-hidden />
+                </Link>
+                <Link
+                  href={LINKEDIN_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn (prakharmavi)"
+                  title="LinkedIn (prakharmavi)"
+                  className="inline-flex items-center justify-center size-10 rounded-full bg-[#0A66C2] text-white shadow-sm hover:brightness-110 focus:outline-hidden"
+                >
+                  <LuLinkedin className="size-4" aria-hidden />
+                </Link>
+                <Link
+                  href={DISCORD_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Discord (parkermavi)"
+                  title="Discord (parkermavi)"
+                  className="inline-flex items-center justify-center size-10 rounded-full bg-[#5865F2] text-white shadow-sm hover:brightness-110 focus:outline-hidden"
+                >
+                  <SiDiscord className="size-4" aria-hidden />
+                </Link>
+              </div>
+            </div>
+          </div>
 
-            {/* About + Tech Stack */}
-            <section
-                id="about"
-                className="w-full px-6 md:px-10 py-12 md:py-16 scroll-mt-24"
-            >
-                <div className="max-w-4xl mx-auto space-y-8">
-                    <article className="relative bg-white border border-gray-200 rounded-[24px] p-6 md:p-8">
-                        <SectionHeader
-                            label="About"
-                            title="A bit about me"
-                            description="I love building clean, fast interfaces and shipping products that feel great to use."
-                        />
-                        <div className="mt-5 space-y-3 text-gray-600 leading-relaxed">
-                            <p>
-                                I’m Prakhar Mavi, a software developer
-                                passionate about turning ideas into fast,
-                                user‑friendly apps. I recently completed my
-                                Computer Programming diploma at Seneca College
-                                and have since built projects like an AI‑powered
-                                resume optimization tool and a business card
-                                scanner app.
-                            </p>
-                            <p>
-                                I love working with modern frameworks (Next.js,
-                                React Native, Node.js) and exploring ways to
-                                integrate AI and automation into real‑world
-                                solutions. My focus is on building apps that not
-                                only work—but feel smooth, polished, and
-                                practical.
-                            </p>
-                            <p>
-                                Outside of code, I’m always experimenting with
-                                new tools, refining workflows, and pushing
-                                myself to learn faster. I’m eager to bring that
-                                energy into real projects and collaborate with
-                                teams that value growth, innovation, and clean
-                                engineering.
-                            </p>
-                        </div>
-                        <div className="mt-6 flex items-center justify-end">
-                            <RainbowButton asChild size="lg" className="rounded-full">
-                                <Link href="/about/notes/tech-stack" aria-label="See full tech notes">
-                                    Full tech notes
-                                </Link>
-                            </RainbowButton>
-                        </div>
-                    </article>
+          {/* 3D Avatar visible on all viewports */}
+          <div className="flex items-center justify-center md:justify-end w-full">
+            <Hero3DClient className="h-[60svh] md:h-[80svh] w-full" />
+          </div>
+        </div>
+      </section>
 
-                </div>
-            </section>
+      {/* About + Tech Stack */}
+      <section
+        id="about"
+        className="w-full px-6 md:px-10 py-12 md:py-16 scroll-mt-24"
+      >
+        <div className="max-w-4xl mx-auto space-y-8">
+          <article className="relative bg-white border border-gray-200 rounded-[24px] p-6 md:p-8">
+            <SectionHeader
+              label="About"
+              title="A bit about me"
+              description="I love building clean, fast interfaces and shipping products that feel great to use."
+            />
+            <div className="mt-5 space-y-4 text-gray-700">
+              <AboutContent />
+            </div>
+            <div className="mt-6 flex items-center justify-end">
+              <RainbowButton asChild size="lg" className="rounded-full">
+                <Link
+                  href="/about/notes/tech-stack"
+                  aria-label="See full tech notes"
+                >
+                  Full tech notes
+                </Link>
+              </RainbowButton>
+            </div>
+          </article>
+        </div>
+      </section>
 
-            {/* Projects */}
-            <section
-                id="projects"
-                className="w-full px-6 md:px-10 py-12 md:py-16 scroll-mt-24"
-            >
-                <div className="max-w-5xl mx-auto">
-                    <article className="relative bg-white border border-gray-200 rounded-[24px] p-6 md:p-8">
-                        <SectionHeader
-                            label="Projects"
-                            title="Selected work"
-                            description="A few things I’ve built and shipped. Click a card to read the story."
-                        />
-                        <HomeProjectsGrid />
-                    </article>
-                </div>
-            </section>
+      {/* Projects */}
+      <section
+        id="projects"
+        className="w-full px-6 md:px-10 py-12 md:py-16 scroll-mt-24"
+      >
+        <div className="max-w-5xl mx-auto">
+          <article className="relative bg-white border border-gray-200 rounded-[24px] p-6 md:p-8">
+            <SectionHeader
+              label="Projects"
+              title="Selected work"
+              description="A few things I’ve built and shipped. Click a card to read the story."
+            />
+            <HomeProjectsGrid />
+          </article>
+        </div>
+      </section>
 
-            {/* Contact */}
-            <section
-                id="contact"
-                className="min-h-dvh w-full px-6 md:px-10 py-16 scroll-mt-24"
-            >
-                <div className="max-w-4xl mx-auto">
-                    <article className="relative bg-white border border-gray-200 rounded-[24px] p-6 md:p-8">
-                        <SectionHeader
-                            label="Contact"
-                            title="Let’s talk"
-                            description="Reach out through the form, or unlock my email with a quick check — whatever’s easier."
-                        />
-                        <div className="mt-6">
-                            <ContactForm />
-                        </div>
-                    </article>
-                </div>
-            </section>
-        </main>
-    );
+      {/* Contact */}
+      <section
+        id="contact"
+        className="min-h-dvh w-full px-6 md:px-10 py-16 scroll-mt-24"
+      >
+        <div className="max-w-4xl mx-auto">
+          <article className="relative bg-white border border-gray-200 rounded-[24px] p-6 md:p-8">
+            <SectionHeader
+              label="Contact"
+              title="Let’s talk"
+              description="Reach out through the form, or unlock my email with a quick check — whatever’s easier."
+            />
+            <div className="mt-6">
+              <ContactForm />
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  );
 }
 
 function HomeProjectsGrid() {
-    return (
-        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {projects.slice(0, 3).map((p) => (
-                <ProjectCard key={p.slug} project={p} />
-            ))}
-        </div>
-    );
+  return (
+    <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {projects.slice(0, 3).map((p) => (
+        <ProjectCard key={p.slug} project={p} />
+      ))}
+    </div>
+  );
 }
 
 // 3D is lazy-loaded via client wrapper in components/Hero3DClient.tsx

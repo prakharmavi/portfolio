@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getProjectBySlug, projects } from "@/lib/projects";
+import { getProjectBySlug, getProjectContentModule, projects } from "@/lib/projects";
 
 type Params = { slug: string };
 
@@ -42,9 +42,17 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
   };
 }
 
-export default function ProjectDetailPage({ params }: { params: Params }) {
+export default async function ProjectDetailPage({ params }: { params: Params }) {
   const project = getProjectBySlug(params.slug);
   if (!project) return notFound();
+
+  const contentModule = await getProjectContentModule(project.slug);
+  if (!contentModule) return notFound();
+
+  const { default: ProjectStory, metadata } = contentModule;
+  const heroAltMeta =
+    metadata && typeof metadata["heroAlt"] === "string" ? (metadata["heroAlt"] as string) : null;
+  const heroAlt = heroAltMeta && heroAltMeta.trim().length > 0 ? heroAltMeta : project.title;
 
   return (
     <main className="px-4">
@@ -75,7 +83,7 @@ export default function ProjectDetailPage({ params }: { params: Params }) {
         <div className="relative w-full aspect-[16/9] bg-gray-100">
           <Image
             src={project.image}
-            alt={project.title}
+            alt={heroAlt}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 800px"
             className="object-contain p-8"
@@ -98,26 +106,7 @@ export default function ProjectDetailPage({ params }: { params: Params }) {
           <p className="mt-4 text-gray-600">{project.summary}</p>
 
           <div className="mt-8 space-y-6 text-gray-700">
-            <section>
-              <h2 className="text-lg font-medium text-gray-900">Overview</h2>
-              <p className="mt-2 leading-relaxed">{project.sections.overview}</p>
-            </section>
-            <section>
-              <h2 className="text-lg font-medium text-gray-900">What I Did</h2>
-              <p className="mt-2 leading-relaxed">{project.sections.whatIDid}</p>
-            </section>
-            <section>
-              <h2 className="text-lg font-medium text-gray-900">How I Did It</h2>
-              <p className="mt-2 leading-relaxed">{project.sections.howIDidIt}</p>
-            </section>
-            <section>
-              <h2 className="text-lg font-medium text-gray-900">What I Learned</h2>
-              <p className="mt-2 leading-relaxed">{project.sections.whatILearned}</p>
-            </section>
-            <section>
-              <h2 className="text-lg font-medium text-gray-900">Outcome</h2>
-              <p className="mt-2 leading-relaxed">{project.sections.outcome}</p>
-            </section>
+            <ProjectStory />
           </div>
         </div>
       </article>

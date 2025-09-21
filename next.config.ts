@@ -1,17 +1,28 @@
 import type { NextConfig } from "next";
+import createMDX from "@next/mdx";
 
-// Extend NextConfig to allow `allowedDevOrigins` without type errors while
-// Next.js updates the types. This is used to allow cross-origin access to
-// /_next/* resources in development (e.g. from web.prakhar.ca).
-type NextConfigWithDevOrigins = NextConfig & { allowedDevOrigins?: string[] };
+// Extend NextConfig to include `allowedDevOrigins`
+interface NextConfigWithDevOrigins extends NextConfig {
+  allowedDevOrigins?: string[];
+}
+
+const withMDX = createMDX({
+  extension: /\.(md|mdx)$/,
+});
 
 const nextConfig: NextConfigWithDevOrigins = {
-  // Allow dev asset requests from these origins (see warning in logs)
-  // Add or edit as needed for your setup.
+  reactStrictMode: true,
+
+  // Allow dev asset requests from these origins
   allowedDevOrigins: [
-    "https://web.prakhar.ca",
+    "http://localhost:3000",
     "http://web.prakhar.ca",
+    "https://web.prakhar.ca",
   ],
+
+  // Configure `pageExtensions` to include markdown and MDX files
+  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
 };
 
-export default nextConfig;
+// Merge MDX config with Next.js config
+export default withMDX(nextConfig);
