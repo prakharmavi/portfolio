@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 import { getAllProjects, getProjectBySlug } from "@/lib/projects";
 
-type ProjectParams = { slug: string };
+type ProjectParams = Promise<{ slug: string }>;
 
 export const dynamicParams = false;
 
@@ -17,7 +17,8 @@ export async function generateMetadata({
 }: {
   params: ProjectParams;
 }): Promise<Metadata> {
-  const project = await getProjectBySlug(params.slug).catch(() => null);
+  const { slug } = await params;
+  const project = await getProjectBySlug(slug).catch(() => null);
 
   if (!project) {
     return {
@@ -31,9 +32,14 @@ export async function generateMetadata({
   };
 }
 
-export default async function ProjectPage({ params }: { params: ProjectParams }) {
+export default async function ProjectPage({
+  params,
+}: {
+  params: ProjectParams;
+}) {
   try {
-    const { meta, Component } = await getProjectBySlug(params.slug);
+    const { slug } = await params;
+    const { meta, Component } = await getProjectBySlug(slug);
 
     return (
       <article className="prose lg:prose-xl mx-auto max-w-3xl">

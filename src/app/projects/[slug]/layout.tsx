@@ -4,25 +4,24 @@ import { LuArrowLeft, LuExternalLink } from "react-icons/lu";
 
 import { getProjectBySlug } from "@/lib/projects";
 
-interface ProjectLayoutProps {
+type ProjectLayoutProps = {
   children: ReactNode;
-  params: {
-    slug: string;
-  };
-}
+  params: Promise<{ slug: string }>;
+};
 
 export default async function ProjectLayout({
   children,
   params,
 }: ProjectLayoutProps) {
-  const project = await getProjectBySlug(params.slug).catch(() => null);
+  const { slug } = await params;
+  const project = await getProjectBySlug(slug).catch(() => null);
 
   const primaryLink =
     project?.meta.links?.find((link) => link.type === "live") ??
     project?.meta.links?.[0];
 
   return (
-    <main className="min-h-dvh w-full">
+    <main className="min-h-dvh w-full bg-gray-50">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-6 py-10 md:px-10 md:py-16">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Link
