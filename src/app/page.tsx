@@ -19,7 +19,7 @@ import { RainbowButton } from "@/components/ui/rainbow-button";
 import SectionHeader from "../components/SectionHeader";
 import AboutContent from "@/content/about/content.mdx";
 import ProjectsGrid from "@/components/ProjectsGrid";
-import ContactForm from "./contact/ContactForm";
+import ContactModalTrigger from "@/components/ContactModalTrigger";
 
 export default async function Home() {
   const GITHUB_URL =
@@ -66,13 +66,19 @@ export default async function Home() {
                   <LuArrowRight className="size-4" aria-hidden />
                 </Link>
                 <Link
-                  href="/#
-
-                  about"
+                  href="/#about"
                   className="inline-flex items-center gap-2 rounded-full bg-gray-800 text-white px-5 py-2.5 text-sm md:text-base hover:bg-gray-900 focus:outline-hidden"
                 >
                   About Me
                 </Link>
+                <ContactModalTrigger>
+                  <button
+                    type="button"
+                    className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm md:text-base text-gray-800 shadow-sm transition hover:border-gray-300 hover:bg-gray-50 focus:outline-hidden"
+                  >
+                    Contact
+                  </button>
+                </ContactModalTrigger>
               </div>
 
               <div className="mt-7 flex flex-wrap items-center gap-3 text-gray-600">
@@ -173,24 +179,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Contact */}
-      <section
-        id="contact"
-        className="min-h-dvh w-full px-6 md:px-10 py-16 scroll-mt-24"
-      >
-        <div className="max-w-4xl mx-auto">
-          <article className="relative bg-white border border-gray-200 rounded-[24px] p-6 md:p-8">
-            <SectionHeader
-              label="Contact"
-              title="Let’s talk"
-              description="Reach out through the form, or unlock my email with a quick check — whatever’s easier."
-            />
-            <div className="mt-6">
-              <ContactForm />
-            </div>
-          </article>
-        </div>
-      </section>
     </main>
   );
 }

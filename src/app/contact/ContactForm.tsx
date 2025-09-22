@@ -65,23 +65,13 @@ export default function ContactForm() {
   return (
     <div className="space-y-6">
       {/* Shared verification for both form + quick email */}
-      <div>
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-medium text-gray-900">Verification</h3>
-          {token ? (
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-xs text-emerald-700">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="size-3.5" aria-hidden>
-                <path d="m20 6-11 11-5-5" />
-              </svg>
-              Verified
-            </span>
-          ) : null}
-        </div>
-        <p className="mt-1 text-xs text-gray-600">Complete once to enable the form and reveal my email.</p>
-        <div className="mt-3">
-          <TurnstileWidget theme="light" size="normal" onSuccess={onVerify} />
-        </div>
-      </div>
+      <TurnstileWidget
+        theme="light"
+        size="normal"
+        onSuccess={onVerify}
+        helperText="Complete once to enable the form and unlock direct email."
+        className="border-gray-200/60"
+      />
 
       {/* Form (single column) */}
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -99,20 +89,54 @@ export default function ContactForm() {
             <textarea id="message" name="message" required rows={5} className="mt-1 w-full rounded-2xl border border-gray-200 bg-gray-50 px-3 py-3 text-sm focus:outline-hidden focus:ring-2 focus:ring-gray-300" placeholder="What are we building? TL;DR, stack, bugs, and dreams welcome." />
           </div>
         </div>
-        <div className="pt-2 flex items-center gap-3">
-          <button type="submit" disabled={submitting || !token} className="inline-flex items-center gap-2 rounded-full bg-gray-900 text-white px-5 py-2.5 text-sm hover:bg-black focus:outline-hidden disabled:opacity-50">
+        <div className="pt-2 flex flex-wrap items-center gap-3">
+          <button
+            type="submit"
+            disabled={submitting || !token}
+            className="inline-flex items-center gap-2 rounded-full bg-gray-900 text-white px-5 py-2.5 text-sm hover:bg-black focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-40"
+          >
             {submitting ? "Sending…" : "Send message"}
           </button>
-          {!token ? <span className="text-xs text-gray-500">Verification required</span> : null}
+          {!token ? (
+            <span className="inline-flex items-center gap-1 rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs text-gray-600">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                className="size-3"
+                aria-hidden
+              >
+                <circle cx="12" cy="12" r="9" />
+              </svg>
+              Verification required
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs text-emerald-700">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                className="size-3"
+                aria-hidden
+              >
+                <path d="m20 6-11 11-5-5" />
+              </svg>
+              Ready to send
+            </span>
+          )}
         </div>
         {error ? <p className="text-xs text-red-600">{error}</p> : null}
       </form>
 
       {/* Quick email reveal (icons-only actions) */}
-      <div className="rounded-2xl border border-gray-200 p-4">
+      <div className="rounded-2xl border border-gray-200/80 bg-white p-4 shadow-sm">
         <p className="text-sm text-gray-700">Prefer email?</p>
         {!token ? (
-          <p className="mt-1 text-xs text-gray-600">Complete verification above to reveal my email.</p>
+          <p className="mt-1 text-xs text-gray-500">Complete verification above to reveal my email.</p>
         ) : (
           <div className="mt-3 flex items-center gap-2">
             <code className="rounded-full bg-gray-50 px-3 py-1.5 text-sm text-gray-900 border border-gray-200">{EMAIL}</code>
