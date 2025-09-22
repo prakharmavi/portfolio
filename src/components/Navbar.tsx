@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ContactModalTrigger from "@/components/ContactModalTrigger";
 import { RainbowButton } from "@/components/ui/rainbow-button";
 
 export default function Navbar() {
@@ -86,14 +87,13 @@ export default function Navbar() {
                         >
                             Projects
                         </Link>
-                        <RainbowButton asChild size="sm" className="rounded-full">
-                            <Link
-                                href="/#contact"
-                                aria-label="Contact"
-                            >
-                                Contact
-                            </Link>
-                        </RainbowButton>
+                        <ContactModalTrigger>
+                            <RainbowButton asChild size="sm" className="rounded-full">
+                                <button type="button" aria-label="Contact">
+                                    Contact
+                                </button>
+                            </RainbowButton>
+                        </ContactModalTrigger>
                     </div>
                 </div>
             </nav>
