@@ -31,7 +31,7 @@ export function TorontoMap({
 
     const map = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/dark-v11",
+      style: "mapbox://styles/mapbox/standard",
       center: toronto,
       zoom: 4,
     });
@@ -71,7 +71,12 @@ export function TorontoMap({
     return () => map.remove();
   }, [clientLat, clientLon]);
 
-  return <div ref={mapContainer} className="h-64 w-full rounded-xl" />;
+  return (
+    <div
+      ref={mapContainer}
+      className="h-64 w-full overflow-hidden rounded-xl border border-gray-200 shadow-sm"
+    />
+  );
 }
 
 export function DistanceCard({
@@ -91,17 +96,17 @@ export function DistanceCard({
   });
 
   return (
-    <div className="rounded-2xl bg-gray-900 p-4 text-white">
+    <div className="rounded-2xl border border-gray-200 bg-white p-4 text-gray-900">
       {mapboxToken ? (
         <TorontoMap clientLat={clientLat} clientLon={clientLon} />
       ) : (
-        <div className="flex h-64 w-full items-center justify-center rounded-xl border border-gray-800 bg-gray-950 text-xs text-gray-500">
+        <div className="flex h-64 w-full items-center justify-center rounded-xl border border-gray-200 bg-gray-50 text-xs text-gray-500">
           Map unavailable — set NEXT_PUBLIC_MAPBOX_TOKEN
         </div>
       )}
       <p className="mt-4 text-sm leading-relaxed">
         I’m in Toronto 🇨🇦 — roughly{" "}
-        <span className="font-bold text-pink-500">
+        <span className="font-bold text-pink-600">
           {distance.toFixed(1)} km
         </span>{" "}
         away
