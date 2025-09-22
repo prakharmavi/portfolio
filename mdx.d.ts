@@ -10,4 +10,5 @@ declare module "*.mdx" {
 
   export default MDXComponent;
   export const metadata: Record<string, unknown> | undefined;
+  export const project: import("@/types/project").Project | undefined;
 }

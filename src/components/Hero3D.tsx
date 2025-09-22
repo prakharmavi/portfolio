@@ -68,9 +68,18 @@ function Character({
         });
     }, [gltf, onMetrics]);
 
+    useEffect(() => {
+        return () => {
+            const targetUrl = url ?? "/me.glb";
+            if (typeof targetUrl === "string") {
+                useGLTF.clear(targetUrl);
+            }
+        };
+    }, [url]);
+
     return (
         <group ref={group}>
-            <primitive object={gltf.scene} dispose={null} />
+            <primitive object={gltf.scene} />
         </group>
     );
 }

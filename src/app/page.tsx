@@ -13,16 +13,15 @@ import {
   SiExpress,
   SiSwift,
 } from "react-icons/si";
-import Hero3DClient from "./components/Hero3DClient";
-import PronunciationButton from "./components/PronunciationButton";
+import Hero3DClient from "../components/Hero3DClient";
+import PronunciationButton from "../components/PronunciationButton";
 import { RainbowButton } from "@/components/ui/rainbow-button";
-import { projects } from "@/lib/projects";
-import ProjectCard from "@/app/components/ProjectCard";
-import ContactForm from "./contact/ContactForm";
-import SectionHeader from "./components/SectionHeader";
+import SectionHeader from "../components/SectionHeader";
 import AboutContent from "@/content/about/content.mdx";
+import ProjectsGrid from "@/components/ProjectsGrid";
+import ContactForm from "./contact/ContactForm";
 
-export default function Home() {
+export default async function Home() {
   const GITHUB_URL =
     process.env.NEXT_PUBLIC_GITHUB_URL ?? "https://github.com/prakharmavi";
   const LINKEDIN_URL =
@@ -139,11 +138,7 @@ export default function Home() {
       >
         <div className="max-w-4xl mx-auto space-y-8">
           <article className="relative bg-white border border-gray-200 rounded-[24px] p-6 md:p-8">
-            <SectionHeader
-              label="About"
-              title="A bit about me"
-              description="I love building clean, fast interfaces and shipping products that feel great to use."
-            />
+            <SectionHeader label="About" title="A bit about me" />
             <div className="mt-5 space-y-4 text-gray-700">
               <AboutContent />
             </div>
@@ -173,7 +168,7 @@ export default function Home() {
               title="Selected work"
               description="A few things I’ve built and shipped. Click a card to read the story."
             />
-            <HomeProjectsGrid />
+            <ProjectsGrid />
           </article>
         </div>
       </section>
@@ -197,16 +192,6 @@ export default function Home() {
         </div>
       </section>
     </main>
-  );
-}
-
-function HomeProjectsGrid() {
-  return (
-    <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-      {projects.slice(0, 3).map((p) => (
-        <ProjectCard key={p.slug} project={p} />
-      ))}
-    </div>
   );
 }
 

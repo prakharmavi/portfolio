@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import TurnstileWidget from "@/app/components/TurnstileWidget";
+import TurnstileWidget from "@/components/TurnstileWidget";
 import { useToast } from "@/components/ui/toast";
 
 export default function ContactForm() {

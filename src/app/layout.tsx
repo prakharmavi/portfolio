@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Fira_Code } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import Navbar from "./components/Navbar";
-import CalFloatingButton from "./components/CalFloatingButton";
-import PrelineScriptWrapper from "./components/PrelineScriptWrapper";
+import Navbar from "../components/Navbar";
+import CalFloatingButton from "../components/CalFloatingButton";
+import PrelineScriptWrapper from "../components/PrelineScriptWrapper";
 import Script from "next/script";
 
 // Code / accent font (self-hosted via next/font)

@@ -20,12 +20,13 @@ declare global {
 export {};
 
 // Module declarations for packages without types
-declare module 'dropzone/dist/dropzone-min.js' {
+declare module "dropzone/dist/dropzone-min.js" {
   const Dropzone: any;
   export default Dropzone;
 }
-declare module 'dropzone' {
+declare module "dropzone" {
   const Dropzone: any;
   export default Dropzone;
 }
-declare module 'vanilla-calendar-pro';
+declare module "vanilla-calendar-pro";
+/// <reference types="vite/client" />
