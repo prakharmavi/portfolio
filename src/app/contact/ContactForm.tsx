@@ -1,14 +1,25 @@
 "use client";
 
-import { useCallback, useEffect, useId, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useToast } from "@/components/ui/toast";
+
+type TurnstileApi = {
+  render: (
+    container: HTMLElement,
+    params: {
+      sitekey: string;
+      theme?: string;
+      callback: (token: string) => void;
+    },
+  ) => string;
+  reset?: (id?: string) => void;
+  remove?: (id?: string) => void;
+};
 
 declare global {
   interface Window {
     onVerify?: (token: string) => void;
-    turnstile?: {
-      execute: (selector: string) => void;
-    };
+    turnstile?: TurnstileApi;
   }
 }
 
@@ -20,32 +31,69 @@ export default function ContactForm() {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const toast = useToast();
-  const turnstileId = useId().replace(/[:]/g, "-");
+  const widgetRef = useRef<HTMLDivElement | null>(null);
+  const widgetId = useRef<string | null>(null);
 
-  const handleVerify = useCallback((t: string) => {
-    setToken(t);
+  const handleVerify = useCallback((value: string) => {
+    setToken(value);
     setError(null);
   }, []);
 
   useEffect(() => {
-    window.onVerify = handleVerify;
-    return () => {
-      delete window.onVerify;
-    };
-  }, [handleVerify]);
+    if (!SITE_KEY) {
+      return;
+    }
 
-  const runInteractive = useCallback(() => {
-    if (!turnstileId) return;
-    window.turnstile?.execute(`#${turnstileId}`);
-  }, [turnstileId]);
+    window.onVerify = handleVerify;
+
+    let cancelled = false;
+    const initWidget = () => {
+      if (cancelled || !widgetRef.current || !window.turnstile?.render) return;
+      if (widgetId.current) return;
+
+      widgetId.current = window.turnstile.render(widgetRef.current, {
+        sitekey: SITE_KEY,
+        theme: "light",
+        callback: handleVerify,
+      });
+    };
+
+    if (window.turnstile?.render) {
+      initWidget();
+    } else {
+      const interval = window.setInterval(() => {
+        if (window.turnstile?.render) {
+          window.clearInterval(interval);
+          initWidget();
+        }
+      }, 200);
+      return () => {
+        cancelled = true;
+        window.clearInterval(interval);
+        delete window.onVerify;
+        if (widgetId.current && window.turnstile?.remove) {
+          window.turnstile.remove(widgetId.current);
+          widgetId.current = null;
+        }
+      };
+    }
+
+    return () => {
+      cancelled = true;
+      delete window.onVerify;
+      if (widgetId.current && window.turnstile?.remove) {
+        window.turnstile.remove(widgetId.current);
+        widgetId.current = null;
+      }
+    };
+  }, [SITE_KEY, handleVerify]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
 
     if (!token) {
-      runInteractive();
-      setError("Please try again in a moment.");
+      setError("Please complete the verification and try again.");
       return;
     }
 
@@ -61,6 +109,9 @@ export default function ContactForm() {
       if (res.ok && json?.ok) {
         form.reset();
         setToken(null);
+        if (widgetId.current && window.turnstile?.reset) {
+          window.turnstile.reset(widgetId.current);
+        }
         toast({
           title: "Message sent",
           description: "Thanks for reaching out — I’ll reply shortly.",
@@ -69,7 +120,7 @@ export default function ContactForm() {
       } else {
         const code: string | undefined = json?.error;
         let msg = "Something went wrong. Please try again.";
-        if (code === "missing-input-response") msg = "Please try again in a moment.";
+        if (code === "missing-input-response") msg = "Please complete the verification and try again.";
         else if (code === "rate_limited") msg = "Too many attempts. Please wait a few minutes and try again.";
         else if (code === "invalid-email") msg = "Please enter a valid email address.";
         else if (code === "input-too-long") msg = "Your message is too long. Please shorten it and try again.";
@@ -96,16 +147,6 @@ export default function ContactForm() {
 
   return (
     <div className="space-y-6">
-      {SITE_KEY ? (
-        <div
-          id={turnstileId}
-          className="cf-turnstile"
-          data-sitekey={SITE_KEY}
-          data-theme="invisible"
-          data-callback="onVerify"
-        />
-      ) : null}
-
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 gap-3">
           <div>
@@ -176,10 +217,17 @@ export default function ContactForm() {
         {error ? <p className="text-xs text-red-600">{error}</p> : null}
       </form>
 
+      {SITE_KEY ? (
+        <div className="space-y-2">
+          <p className="text-xs text-gray-500">Quick check before you hit send:</p>
+          <div ref={widgetRef} className="cf-turnstile" />
+        </div>
+      ) : null}
+
       <div className="rounded-2xl border border-gray-200/80 bg-white p-4 shadow-sm">
         <p className="text-sm text-gray-700">Prefer email?</p>
         {!token ? (
-          <p className="mt-1 text-xs text-gray-500">One moment while we get things ready.</p>
+          <p className="mt-1 text-xs text-gray-500">Complete the check above to reveal my email.</p>
         ) : (
           <div className="mt-3 flex items-center gap-2">
             <code className="rounded-full bg-gray-50 px-3 py-1.5 text-sm text-gray-900 border border-gray-200">
