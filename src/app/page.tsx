@@ -130,7 +130,7 @@ export default async function Home() {
 
           {/* Hero image */}
           <div className="flex items-center justify-center md:justify-end w-full">
-            <div className="relative aspect-[3/4] h-[60svh] md:h-[80svh] w-auto overflow-hidden rounded-lg">
+            <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg">
               <Image
                 src="/images/software-developer-portfolio-image--t3chat--1.jpg"
                 alt="Prakhar Mavi - Software Developer"
