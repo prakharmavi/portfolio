@@ -34,7 +34,7 @@ export default async function Home() {
   return (
     <main className="min-h-dvh w-full">
       {/* Hero */}
-      <section className="min-h-dvh w-full flex items-center pt-12 md:pt-20">
+      <section className="min-h-dvh w-full flex items-center pt-20 md:pt-16">
         <div className="mx-auto w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 items-center gap-10 md:gap-12 px-6 md:px-10">
           {/* Content left taking 2/3 on desktop */}
           <div className="md:col-span-2 flex items-center">
@@ -130,7 +130,7 @@ export default async function Home() {
 
           {/* Hero image */}
           <div className="flex items-center justify-center md:justify-end w-full">
-            <div className="relative aspect-[3/4] h-[50vh] w-auto overflow-hidden rounded-lg">
+            <div className="relative aspect-[3/4] h-[calc(50vh-5rem)] md:h-[calc(50vh-6rem)] w-auto overflow-hidden rounded-lg">
               <Image
                 src="/images/software-developer-portfolio-image--t3chat--1.jpg"
                 alt="Prakhar Mavi - Software Developer"
@@ -184,7 +184,6 @@ export default async function Home() {
           </article>
         </div>
       </section>
-
     </main>
   );
 }
