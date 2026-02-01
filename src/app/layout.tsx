@@ -5,7 +5,6 @@ import { Providers } from "./providers";
 import Navbar from "../components/Navbar";
 import CalFloatingButton from "../components/CalFloatingButton";
 import PrelineScriptWrapper from "../components/PrelineScriptWrapper";
-import Script from "next/script";
 
 // Code / accent font (self-hosted via next/font)
 const firaCode = Fira_Code({
@@ -77,12 +76,6 @@ export default function RootLayout({
           {children}
           <CalFloatingButton />
         </Providers>
-        <Script
-          src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-          strategy="afterInteractive"
-          async
-          defer
-        />
         <PrelineScriptWrapper />
       </body>
     </html>

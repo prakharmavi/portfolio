@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 
-const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
-
 function getClientIp(headers: Headers): string | undefined {
   const cf = headers.get("CF-Connecting-IP");
   if (cf) return cf;
@@ -19,16 +17,17 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, error: "rate_limited" }, { status: 429 });
     }
 
-    const secret = process.env.TURNSTILE_SECRET_KEY;
-    if (!secret) {
-      return NextResponse.json({ ok: false, error: "Server misconfigured (no secret)" }, { status: 500 });
-    }
-
     const form = await req.formData();
-    const token = form.get("cf-turnstile-response");
     const name = form.get("name");
     const email = form.get("email");
     const message = form.get("message");
+    const honeypot = form.get("website");
+
+    // Honeypot check — real users never fill this hidden field
+    if (honeypot && typeof honeypot === "string" && honeypot.trim().length > 0) {
+      // Silently reject but return 200 so bots think it succeeded
+      return NextResponse.json({ ok: true });
+    }
 
     // Input validation and normalization
     const nameStr = typeof name === "string" ? name.trim() : "";
@@ -48,40 +47,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, error: "invalid-email" }, { status: 400 });
     }
 
-    if (!token || typeof token !== "string") {
-      return NextResponse.json({ ok: false, error: "missing-input-response" }, { status: 400 });
-    }
-
-    const remoteip = ip;
-
-    const verifyData = new FormData();
-    verifyData.append("secret", secret);
-    verifyData.append("response", token);
-    if (remoteip) verifyData.append("remoteip", remoteip);
-
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000);
-
-    const resp = await fetch(TURNSTILE_VERIFY_URL, {
-      method: "POST",
-      body: verifyData,
-      signal: controller.signal,
-    }).catch(() => {
-      return new Response(JSON.stringify({ success: false, "error-codes": ["internal-error"] }), {
-        status: 200,
-        headers: { "content-type": "application/json" },
-      });
-    });
-
-    clearTimeout(timeout);
-
-    const result = await resp.json();
-
-    if (!result?.success) {
-      return NextResponse.json({ ok: false, error: result?.["error-codes"] ?? "turnstile_failed" }, { status: 400 });
-    }
-
-    // At this point, token is valid. Send via Resend API.
+    // Send via Resend API.
     const resendKey = process.env.RESEND_API_KEY;
     const toEmail = process.env.CONTACT_TO_EMAIL || process.env.NEXT_PUBLIC_EMAIL || "hello@prakhar.ca";
     const fromEmail = process.env.CONTACT_FROM_EMAIL || "onboarding@resend.dev";
@@ -139,7 +105,7 @@ export async function POST(req: Request) {
         <div style="font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica Neue,Arial;line-height:1.6;">
           <p>Hi${nameStr ? " " + escapeHtml(nameStr) : ""},</p>
           <p>Thanks for reaching out. I received your message and will get back to you at this address.</p>
-          <p style="margin-top:12px;color:#6b7280;font-size:12px;">This is an automated receipt. If you didn’t submit the form, you can ignore this email.</p>
+          <p style="margin-top:12px;color:#6b7280;font-size:12px;">This is an automated receipt. If you didn't submit the form, you can ignore this email.</p>
           <p style="margin-top:16px;">— Prakhar</p>
         </div>
       `;
