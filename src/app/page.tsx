@@ -59,21 +59,21 @@ export default async function Home() {
               <div className="mt-7 flex items-center gap-3">
                 <Link
                   href="/#projects"
-                  className="inline-flex items-center gap-2 rounded-full bg-gray-800 text-white px-5 py-2.5 text-sm md:text-base hover:bg-gray-900 focus:outline-hidden"
+                  className="inline-flex items-center gap-2 rounded-full bg-gray-800 text-white px-5 py-2.5 text-sm md:text-base focus:outline-hidden"
                 >
                   View Projects
                   <LuArrowRight className="size-4" aria-hidden />
                 </Link>
                 <Link
                   href="/#about"
-                  className="inline-flex items-center gap-2 rounded-full bg-gray-800 text-white px-5 py-2.5 text-sm md:text-base hover:bg-gray-900 focus:outline-hidden"
+                  className="inline-flex items-center gap-2 rounded-full bg-gray-800 text-white px-5 py-2.5 text-sm md:text-base focus:outline-hidden"
                 >
                   About Me
                 </Link>
                 <ContactModalTrigger>
                   <button
                     type="button"
-                    className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm md:text-base text-gray-800 shadow-sm transition hover:border-gray-300 hover:bg-gray-50 focus:outline-hidden"
+                    className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm md:text-base text-gray-800 shadow-sm focus:outline-hidden"
                   >
                     Contact
                   </button>
@@ -100,7 +100,7 @@ export default async function Home() {
                   rel="noopener noreferrer"
                   aria-label="GitHub (prakharmavi)"
                   title="GitHub (prakharmavi)"
-                  className="inline-flex items-center justify-center size-10 rounded-full bg-[#24292F] text-white shadow-sm hover:brightness-110 focus:outline-hidden"
+                  className="inline-flex items-center justify-center size-10 rounded-full bg-[#24292F] text-white shadow-sm focus:outline-hidden"
                 >
                   <LuGithub className="size-4" aria-hidden />
                 </Link>
@@ -110,7 +110,7 @@ export default async function Home() {
                   rel="noopener noreferrer"
                   aria-label="LinkedIn (prakharmavi)"
                   title="LinkedIn (prakharmavi)"
-                  className="inline-flex items-center justify-center size-10 rounded-full bg-[#0A66C2] text-white shadow-sm hover:brightness-110 focus:outline-hidden"
+                  className="inline-flex items-center justify-center size-10 rounded-full bg-[#0A66C2] text-white shadow-sm focus:outline-hidden"
                 >
                   <LuLinkedin className="size-4" aria-hidden />
                 </Link>
@@ -120,7 +120,7 @@ export default async function Home() {
                   rel="noopener noreferrer"
                   aria-label="Discord (parkermavi)"
                   title="Discord (parkermavi)"
-                  className="inline-flex items-center justify-center size-10 rounded-full bg-[#5865F2] text-white shadow-sm hover:brightness-110 focus:outline-hidden"
+                  className="inline-flex items-center justify-center size-10 rounded-full bg-[#5865F2] text-white shadow-sm focus:outline-hidden"
                 >
                   <SiDiscord className="size-4" aria-hidden />
                 </Link>

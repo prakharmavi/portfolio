@@ -10,7 +10,7 @@ export default function ProjectCard({ project }: Props) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="group block rounded-xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-lg focus:outline-hidden"
+      className="group block rounded-xl border border-gray-200 bg-white shadow-sm focus:outline-hidden"
       aria-label={`${project.title} — read the story`}
     >
       <div className="relative aspect-[16/9] overflow-hidden rounded-t-xl bg-gray-100">
@@ -18,7 +18,7 @@ export default function ProjectCard({ project }: Props) {
           src={project.thumbnail}
           alt={project.title}
           fill
-          className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+          className="object-cover"
           sizes="(max-width: 768px) 100vw, 50vw"
           priority={false}
         />

@@ -12,7 +12,6 @@ import {
   type RefObject,
 } from "react";
 import { createPortal } from "react-dom";
-import { AnimatePresence, motion } from "motion/react";
 import { LuX } from "react-icons/lu";
 
 import ContactForm from "@/app/contact/ContactForm";
@@ -38,11 +37,7 @@ function ContactDialog({
   labelledBy: string;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
+    <div
       className="fixed inset-0 z-[120] flex items-center justify-center bg-black/40 px-4 py-6 backdrop-blur-sm"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) {
@@ -50,22 +45,18 @@ function ContactDialog({
         }
       }}
     >
-      <motion.div
+      <div
         ref={dialogRef}
         tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-labelledby={labelledBy}
-        initial={{ opacity: 0, scale: 0.95, y: 18 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 18 }}
-        transition={{ duration: 0.22, ease: "easeOut" }}
         className="relative w-full max-w-2xl overflow-hidden rounded-[28px] border border-gray-200/80 bg-white/95 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.4)] backdrop-blur"
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-5 top-5 inline-flex size-9 items-center justify-center rounded-full border border-gray-200/70 bg-white/90 text-gray-600 transition hover:border-gray-300 hover:bg-gray-50 focus:outline-hidden"
+          className="absolute right-5 top-5 inline-flex size-9 items-center justify-center rounded-full border border-gray-200/70 bg-white/90 text-gray-600 focus:outline-hidden"
           aria-label="Close contact form"
         >
           <LuX className="size-5" aria-hidden />
@@ -84,8 +75,8 @@ function ContactDialog({
           </div>
           <ContactForm />
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
 
@@ -181,17 +172,13 @@ export default function ContactModalTrigger({
   return (
     <>
       {clonedTrigger}
-      {mounted
+      {mounted && open
         ? createPortal(
-            <AnimatePresence>
-              {open ? (
-                <ContactDialog
-                  onClose={() => setOpen(false)}
-                  dialogRef={dialogRef}
-                  labelledBy={labelId}
-                />
-              ) : null}
-            </AnimatePresence>,
+            <ContactDialog
+              onClose={() => setOpen(false)}
+              dialogRef={dialogRef}
+              labelledBy={labelId}
+            />,
             document.body,
           )
         : null}
