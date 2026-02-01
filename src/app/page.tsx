@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { LuGithub, LuLinkedin, LuArrowRight } from "react-icons/lu";
 import {
@@ -9,11 +10,9 @@ import {
   SiNodedotjs,
   SiPrisma,
   SiPostgresql,
-  SiThreedotjs,
   SiExpress,
   SiSwift,
 } from "react-icons/si";
-import Hero3DClient from "../components/Hero3DClient";
 import PronunciationButton from "../components/PronunciationButton";
 import { RainbowButton } from "@/components/ui/rainbow-button";
 import SectionHeader from "../components/SectionHeader";
@@ -90,7 +89,6 @@ export default async function Home() {
                 <SiExpress className="size-5" title="Express" />
                 <SiPrisma className="size-5" title="Prisma" />
                 <SiPostgresql className="size-5" title="PostgreSQL" />
-                <SiThreedotjs className="size-5" title="Three.js / R3F" />
                 <SiTailwindcss className="size-5" title="Tailwind CSS" />
                 <SiSwift className="size-5" title="Swift (iOS)" />
               </div>
@@ -130,9 +128,17 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* 3D Avatar visible on all viewports */}
+          {/* Hero image */}
           <div className="flex items-center justify-center md:justify-end w-full">
-            <Hero3DClient className="h-[60svh] md:h-[80svh] w-full" />
+            <div className="relative h-[60svh] md:h-[80svh] w-full overflow-hidden rounded-lg">
+              <Image
+                src="/images/software-developer-portfolio-image--t3chat--1.jpg"
+                alt="Prakhar Mavi - Software Developer"
+                fill
+                priority
+                className="object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -182,5 +188,3 @@ export default async function Home() {
     </main>
   );
 }
-
-// 3D is lazy-loaded via client wrapper in components/Hero3DClient.tsx
