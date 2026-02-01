@@ -25,7 +25,7 @@ export default function Navbar() {
                         {/* Toggle Button */}
                         <button
                             type="button"
-                            className="hs-collapse-toggle flex justify-center items-center size-9.5 border border-gray-200 text-gray-500 rounded-full hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200"
+                            className="hs-collapse-toggle flex justify-center items-center size-9.5 border border-gray-200 text-gray-500 rounded-full focus:outline-hidden focus:bg-gray-200"
                             id="hs-navbar-header-floating-collapse"
                             aria-expanded="false"
                             aria-controls="hs-navbar-header-floating"
@@ -75,13 +75,13 @@ export default function Navbar() {
                 >
                     <div className="flex flex-col md:flex-row md:items-center md:justify-end gap-2 md:gap-3 mt-3 md:mt-0 py-2 md:py-0 md:ps-7">
                         <Link
-                            className="py-0.5 md:py-3 px-4 md:px-1 text-gray-500 hover:text-gray-800 focus:outline-hidden"
+                            className="py-0.5 md:py-3 px-4 md:px-1 text-gray-500 focus:outline-hidden"
                             href="/#about"
                         >
                             About
                         </Link>
                         <Link
-                            className="py-0.5 md:py-3 px-4 md:px-1 text-gray-500 hover:text-gray-800 focus:outline-hidden"
+                            className="py-0.5 md:py-3 px-4 md:px-1 text-gray-500 focus:outline-hidden"
                             href="/#projects"
                         >
                             Projects

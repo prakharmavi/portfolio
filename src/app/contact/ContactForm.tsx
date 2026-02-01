@@ -115,7 +115,7 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={submitting}
-            className="inline-flex items-center gap-2 rounded-full bg-gray-900 text-white px-5 py-2.5 text-sm hover:bg-black focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-40"
+            className="inline-flex items-center gap-2 rounded-full bg-gray-900 text-white px-5 py-2.5 text-sm focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-40"
           >
             {submitting ? "Sending…" : "Send message"}
           </button>
@@ -131,7 +131,7 @@ export default function ContactForm() {
           </code>
           <button
             onClick={copy}
-            className="inline-flex items-center justify-center rounded-full bg-gray-800 text-white size-9 hover:bg-black focus:outline-hidden"
+            className="inline-flex items-center justify-center rounded-full bg-gray-800 text-white size-9 focus:outline-hidden"
             type="button"
             aria-label={copied ? "Copied" : "Copy email"}
             title={copied ? "Copied" : "Copy email"}
@@ -151,7 +151,7 @@ export default function ContactForm() {
           </button>
           <a
             href={`mailto:${EMAIL}`}
-            className="inline-flex items-center justify-center rounded-full border border-gray-200 size-9 text-gray-800 hover:bg-gray-50"
+            className="inline-flex items-center justify-center rounded-full border border-gray-200 size-9 text-gray-800"
             aria-label="Open mail app"
             title="Open mail app"
           >

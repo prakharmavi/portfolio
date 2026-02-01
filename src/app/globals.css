@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 @source "../node_modules/preline/dist/*.js";
 /* Display + Body fonts loaded via <link> in layout.tsx */
 

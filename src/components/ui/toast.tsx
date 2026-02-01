@@ -81,7 +81,7 @@ function ToastCard({ item, onClose }: { item: ToastItem; onClose: () => void }) 
         type="button"
         onClick={onClose}
         aria-label="Dismiss notification"
-        className="ml-auto inline-flex size-7 items-center justify-center rounded-full text-gray-500 hover:text-gray-700 focus:outline-hidden"
+        className="ml-auto inline-flex size-7 items-center justify-center rounded-full text-gray-500 focus:outline-hidden"
       >
         <LuX className="size-4" aria-hidden />
       </button>

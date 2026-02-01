@@ -26,7 +26,7 @@ export default async function ProjectLayout({
         <div className="flex flex-wrap items-center justify-between gap-3">
           <Link
             href="/#projects"
-            className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:border-gray-300 hover:bg-gray-50 focus:outline-hidden"
+            className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 focus:outline-hidden"
           >
             <LuArrowLeft className="size-4" aria-hidden />
             <span>Back to projects</span>
@@ -36,7 +36,7 @@ export default async function ProjectLayout({
               href={primaryLink.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:border-gray-300 hover:bg-gray-50 focus:outline-hidden"
+              className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 focus:outline-hidden"
             >
               <span>{primaryLink.label}</span>
               <LuExternalLink className="size-4" aria-hidden />
