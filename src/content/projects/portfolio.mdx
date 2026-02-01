@@ -1,0 +1,315 @@
+export const project = {
+    slug: "portfolio",
+    title: "Developer Portfolio",
+    description: "Modern Next.js portfolio with 3D hero, MDX project pages, and Turnstile-protected contact form",
+    thumbnail: "/images/portfolio.jpg",
+    date: "2025-01-20"
+}
+
+# Developer Portfolio
+
+A modern, performance-focused portfolio website built with Next.js 15 and React 19, featuring an interactive 3D hero, structured project storytelling, and a verified contact workflow.
+
+## The Problem
+
+Most developer portfolios fall into two camps: either over-engineered with unnecessary animations and complexity, or under-designed with basic HTML. I wanted something in between—professional, fast, and just interactive enough to stand out without sacrificing load times or accessibility.
+
+## Solution Overview
+
+This portfolio is built around three core experiences:
+1. **Interactive hero** - 3D WebGL scene with device-aware fallbacks
+2. **Project storytelling** - MDX-powered case studies with structured metadata
+3. **Verified contact** - Cloudflare Turnstile protection with email delivery through Resend
+
+The site prioritizes performance, using Next.js 15's App Router for automatic code splitting and React Server Components to minimize client-side JavaScript.
+
+## Key Features
+
+### Interactive 3D Hero
+
+The landing page features a WebGL-rendered 3D model built with React Three Fiber. Key optimizations:
+- **Device detection** - Checks `navigator.deviceMemory` and `navigator.connection.saveData`
+- **Graceful degradation** - Falls back to a static image on low-power devices
+- **Lazy loading** - 3D scene only loads after the hero section is visible
+- **Camera controls** - Smooth orbital controls with damping
+
+### Project Case Studies
+
+Projects are authored in MDX with frontmatter metadata:
+```typescript
+export const project = {
+    slug: "project-slug",
+    title: "Project Title",
+    description: "Short summary",
+    thumbnail: "/images/project.jpg",
+    date: "2025-01-20"
+}
+```
+
+The system automatically:
+- Generates SEO metadata from frontmatter
+- Renders a grid of project cards on the home page
+- Creates individual `/projects/[slug]` routes
+- Processes Markdown with syntax highlighting
+
+### Contact Workflow
+
+The contact form is protected by Cloudflare Turnstile (CAPTCHA alternative) and integrates with Resend for email delivery:
+
+1. User fills out form (name, email, message)
+2. Turnstile challenge validates client-side
+3. Server verifies token with Cloudflare API
+4. Message sent via Resend to configured inbox
+5. Confirmation email sent to user
+6. Rate limiting prevents spam (10 messages/hour/IP)
+
+### Additional Features
+
+- **Cal.com integration** - Floating booking button for scheduling calls
+- **Pronunciation helper** - Audio playback for name pronunciation
+- **Social links** - GitHub, LinkedIn, Discord with custom icons
+- **Tech stack icons** - Visual representation of core technologies
+- **Responsive navigation** - Mobile-friendly header with Preline components
+- **Smooth scrolling** - Section anchors with scroll offset
+
+## Technical Architecture
+
+### Frontend Stack
+
+**Next.js 15 (App Router)**
+- React Server Components for reduced client JS
+- Server Actions for form handling
+- Automatic code splitting and lazy loading
+- Image optimization with `next/image`
+
+**React 19**
+- Concurrent rendering for smoother interactions
+- New hooks (`useActionState`, `useFormStatus`)
+- Enhanced Suspense boundaries
+
+**Tailwind CSS v4**
+- Utility-first styling with @tailwindcss/postcss
+- Custom UI primitives in `src/components/ui/`
+- `class-variance-authority` for component variants
+- `tailwind-merge` for className composition
+
+### 3D Graphics
+
+**React Three Fiber**
+- Declarative React wrapper around Three.js
+- Component-based scene management
+- Automatic memory cleanup
+
+**Drei Helpers**
+- `OrbitControls` for camera interaction
+- `Environment` for realistic lighting
+- `useGLTF` for model loading
+
+**Three.js**
+- WebGL rendering engine
+- PBR materials for realistic surfaces
+- Shadow mapping and tone mapping
+
+### Contact & Verification
+
+**Cloudflare Turnstile**
+- Invisible CAPTCHA alternative
+- Privacy-focused (no tracking)
+- Server-side token verification
+
+**Resend Email API**
+- Reliable email delivery
+- Template support for confirmations
+- Built-in bounce handling
+
+**Cal.com Embed**
+- React component for booking widget
+- Customizable theme and colors
+- Event type routing
+
+### Content Management
+
+**MDX**
+- Markdown with JSX component support
+- `@next/mdx` for Next.js integration
+- `@mdx-js/react` for component rendering
+- Frontmatter metadata extraction
+
+### Additional Libraries
+
+- **Framer Motion** - Declarative animations
+- **Lucide React** - Icon system
+- **canvas-confetti** - Celebration effects
+- **clsx** + **tailwind-merge** - Conditional class composition
+
+## Project Structure
+
+```
+src/
+  app/
+    components/          # Shared UI components
+      Hero3DClient.tsx   # WebGL hero scene
+      ContactModalTrigger.tsx
+      ProjectsGrid.tsx
+      SectionHeader.tsx
+    contact/             # Contact form route
+    projects/
+      [slug]/            # Dynamic project pages
+    about/
+      notes/             # Tech stack notes
+    layout.tsx           # Root layout
+    page.tsx             # Landing page
+  components/ui/         # Reusable primitives
+    rainbow-button.tsx
+    button.tsx
+  content/
+    projects/            # MDX project files
+      project1.mdx
+      fastman.mdx
+      portfolio.mdx
+    about/
+      content.mdx        # About section
+  lib/                   # Utilities
+  types/                 # TypeScript definitions
+public/
+  images/                # Static images
+  me.glb                 # 3D model
+  pronunciation.mp3      # Name audio
+```
+
+## Engineering Decisions
+
+**Why Next.js 15?**
+The App Router's React Server Component architecture reduces client-side JavaScript significantly. Most of the site is server-rendered, with only interactive elements (3D scene, contact form) hydrated on the client.
+
+**Why React Three Fiber?**
+It provides a React-friendly API for Three.js without sacrificing performance. The declarative scene setup is easier to maintain than imperative Three.js code.
+
+**Why MDX for Projects?**
+MDX gives me the best of both worlds: Markdown's simplicity for writing, plus the ability to embed custom React components when needed (interactive demos, embedded videos, etc.).
+
+**Why Turnstile over reCAPTCHA?**
+Cloudflare Turnstile is more privacy-friendly (no Google tracking) and has better UX (often invisible). It's also free for unlimited verifications.
+
+**Device Detection Strategy**
+Instead of serving WebGL to everyone and risking poor performance, the hero checks device capabilities upfront. Low-memory devices and users with "save-data" enabled get a static image instantly.
+
+## Performance Optimizations
+
+**Code Splitting**
+- 3D scene lazy-loaded with `React.lazy()` and Suspense
+- Optional libraries (DataTables, Dropzone) excluded unless explicitly enabled
+- Route-based code splitting via App Router
+
+**Image Optimization**
+- All images processed through `next/image`
+- Automatic WebP conversion
+- Lazy loading with blur placeholders
+- Responsive srcset generation
+
+**Font Loading**
+- System font stack as fallback
+- `font-display: swap` for custom fonts
+- Subset fonts to reduce file size
+
+**Caching Strategy**
+- Static assets served with long cache headers
+- API routes use appropriate `Cache-Control`
+- ISR (Incremental Static Regeneration) for project pages
+
+## Deployment
+
+Deployed on Vercel with:
+- Edge runtime for global low latency
+- Automatic HTTPS and CDN
+- Preview deployments for pull requests
+- Environment variable management
+
+### Environment Variables
+```
+NEXT_PUBLIC_SITE_URL
+NEXT_PUBLIC_GITHUB_URL
+NEXT_PUBLIC_LINKEDIN_URL
+NEXT_PUBLIC_DISCORD_URL
+NEXT_PUBLIC_TURNSTILE_SITE_KEY
+TURNSTILE_SECRET_KEY
+RESEND_API_KEY
+CONTACT_TO_EMAIL
+CONTACT_FROM_EMAIL
+```
+
+## Challenges Solved
+
+**3D Model Performance**
+The initial GLB file was 8MB. I optimized it by:
+- Reducing polygon count by 60%
+- Compressing textures to 1K resolution
+- Using Draco compression
+- Final size: 1.2MB
+
+**Turnstile Integration**
+Turnstile's React component needed custom error handling for:
+- Token expiration (90-second timeout)
+- Network failures during verification
+- Race conditions between widget load and form submit
+
+**Rate Limiting**
+Implemented in-memory rate limiting with a Map-based store. This works for serverless deployments but won't scale across multiple regions. For production, this should migrate to Redis or a KV store.
+
+**Contact Form UX**
+The form provides clear feedback at every step:
+- Loading state during submission
+- Success confetti animation
+- Error messages with retry option
+- Email confirmation for peace of mind
+
+## Accessibility
+
+- Semantic HTML structure
+- ARIA labels on interactive elements
+- Keyboard navigation support
+- Focus indicators on all interactive elements
+- Color contrast ratios meet WCAG AA
+- Skip-to-content link for screen readers
+
+## SEO Optimization
+
+- Dynamic metadata generation for all routes
+- OpenGraph and Twitter Card tags
+- Sitemap.xml generation
+- Robots.txt configuration
+- Structured data (JSON-LD) for rich snippets
+
+## Results
+
+- **Lighthouse Score**: 95+ on all metrics (Performance, Accessibility, Best Practices, SEO)
+- **First Contentful Paint**: <1.5s on fast 3G
+- **Time to Interactive**: <3s on desktop
+- **Bundle Size**: ~120KB gzipped (excluding 3D scene)
+
+## Future Enhancements
+
+- Blog section with MDX posts
+- Dark mode toggle with system preference detection
+- Project filtering/search
+- View transition API for smoother navigation
+- Analytics dashboard (privacy-friendly)
+- RSS feed for projects/blog
+
+## Lessons Learned
+
+- Device detection is crucial for WebGL experiences—don't assume everyone has a GPU
+- MDX frontmatter makes content management feel like a CMS without the overhead
+- Turnstile verification is surprisingly easy compared to reCAPTCHA
+- React Server Components dramatically reduce client JavaScript when used correctly
+- Form UX matters more than form validation—clear feedback builds trust
+
+## Open Source
+
+This portfolio is built with a focus on clean architecture and reusable patterns. Key takeaways for your own portfolio:
+
+1. **Start with content structure** - Define your project metadata schema early
+2. **Optimize for the median device** - Not everyone has a MacBook Pro
+3. **Contact forms need trust signals** - Verification + confirmation emails
+4. **3D is nice, but static images are fast** - Always have a fallback
+5. **Write about your projects** - Code tells what, writing tells why

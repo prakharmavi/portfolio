@@ -1,0 +1,148 @@
+export const project = {
+    slug: "fastman",
+    title: "Fastman - AI Chat Interface",
+    description: "Interactive AI-powered chat application built with SvelteKit and Cerebras AI, featuring real-time streaming responses and a polished UX",
+    thumbnail: "/images/fastman.jpg",
+    date: "2025-01-15"
+}
+
+# Fastman - AI Chat Interface
+
+An AI-powered chat application that provides an interactive "Ask Prakhar" experience, built with SvelteKit and powered by Cerebras AI's ultra-fast inference engine.
+
+## The Problem
+
+Traditional chat interfaces often feel disconnected from the person they represent. I wanted to create a conversational AI that could authentically represent my engineering philosophy, project decisions, and technical thinking patterns while delivering responses with minimal latency.
+
+## Solution Overview
+
+Fastman is a real-time streaming chat application that combines SvelteKit's reactive architecture with Cerebras AI's blazing-fast inference. The system prompt is carefully crafted to answer questions as if I'm directly responding, grounded in my real projects, architectural decisions, and engineering constraints.
+
+### Key Features
+
+**Real-Time Streaming**
+- Responses stream token-by-token for immediate feedback
+- Visual loading indicators during generation
+- Smooth scroll-to-bottom with auto-detection
+
+**Message Management**
+- Edit any user message and regenerate responses from that point
+- Regenerate the last assistant response with one click
+- Clear chat history with confirmation
+- Export conversations as JSON for reference
+
+**Rate Limit Handling**
+- Real-time rate limit display with tokens remaining
+- Graceful error overlay when limits are hit
+- Countdown timer until limits reset
+
+**Developer Experience**
+- Syntax-highlighted code blocks using highlight.js
+- Markdown rendering with marked.js
+- Responsive design optimized for mobile and desktop
+- Clean, minimal UI focused on conversation
+
+## Technical Architecture
+
+### Frontend Stack
+- **SvelteKit** - Chosen for its reactive state management and minimal boilerplate
+- **Svelte 5** - Leveraging the new `$state` and `$effect` runes for cleaner reactivity
+- **Tailwind CSS v4** - Utility-first styling with the latest Vite plugin integration
+- **TypeScript** - Full type safety across components
+
+### AI Integration
+- **Cerebras AI** - Using the `gpt-oss-120b` model for fast inference
+- **Vercel AI SDK** - Handles streaming text generation with automatic retries
+- **Custom System Prompt** - 60+ line prompt that encodes my engineering philosophy, technical preferences, and communication style
+
+### Component Architecture
+
+The chat interface is built from modular components:
+- `Chat.svelte` - Main orchestrator managing state and API calls
+- `Message.svelte` - Individual message bubbles with actions
+- `CodeBlock.svelte` - Syntax-highlighted code rendering
+- `EmptyState.svelte` - Starter prompts for new conversations
+- `RateLimitOverlay.svelte` - Full-screen error state for rate limits
+
+### API Design
+
+The backend is a single SvelteKit server endpoint (`/api/chat/+server.ts`) that:
+1. Validates request origin against allowlist
+2. Streams responses using NDJSON format
+3. Captures and forwards rate limit headers
+4. Handles errors gracefully with typed responses
+
+## Engineering Decisions
+
+**Why Cerebras?**
+Speed was the priority. Cerebras consistently delivers sub-second first-token latency, making the chat feel instant compared to alternatives. The free tier is generous enough for a portfolio project.
+
+**Why SvelteKit over Next.js?**
+For a chat-heavy application, Svelte's reactivity model felt more natural than React's hook-based approach. Managing streaming state, message arrays, and UI updates was cleaner with `$state` runes.
+
+**Message Editing Strategy**
+When a user edits a message, all subsequent messages are discarded. This prevents confusing conversation branches and keeps the history linear and debuggable.
+
+**Rate Limit UX**
+Instead of failing silently, the UI proactively displays remaining tokens and shows a full-screen overlay when limits are hit. This sets expectations upfront and reduces frustration.
+
+## Challenges Solved
+
+**Streaming State Management**
+Coordinating streaming responses with message updates, scroll behavior, and loading states required careful state sequencing. Using Svelte's reactive primitives made this significantly easier than it would have been with React.
+
+**Origin Validation**
+The API validates both `origin` and `referer` headers to prevent abuse. This catches both direct API calls and embedded iframe attacks.
+
+**Export Format**
+Chat exports include ISO timestamps and structured JSON for easy parsing. This enables users to build their own analysis tools or import conversations elsewhere.
+
+## Deployment
+
+Currently deployed on Vercel with:
+- Edge runtime for global low latency
+- Environment variables for API keys
+- Automatic preview deployments for branches
+
+## Tech Stack Summary
+
+**Frontend**
+- SvelteKit 2.x with Vite
+- Svelte 5 (runes-based reactivity)
+- TypeScript 5
+- Tailwind CSS v4
+- highlight.js for syntax highlighting
+- marked for Markdown parsing
+
+**Backend**
+- SvelteKit server endpoints
+- Cerebras AI SDK (@ai-sdk/cerebras)
+- Vercel AI SDK (ai package)
+- NDJSON streaming protocol
+
+**Tooling**
+- Bun for local development
+- Prettier + ESLint
+- svelte-check for type validation
+
+## Results
+
+- Sub-second response latency on most queries
+- Zero downtime since deployment
+- Positive feedback on conversation quality
+- Handles edge cases (rate limits, network errors) gracefully
+
+## Future Enhancements
+
+- Conversation history persistence (local storage or DB)
+- Multi-model support (compare responses across providers)
+- Voice input/output using Web Speech API
+- Shareable conversation links
+- Analytics dashboard for usage patterns
+
+## Lessons Learned
+
+- Streaming UX requires rethinking traditional request/response patterns
+- Good system prompts are 80% of AI application quality
+- Rate limits should be a first-class UX consideration, not an afterthought
+- Svelte's reactivity model shines for real-time interfaces
