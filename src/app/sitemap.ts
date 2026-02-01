@@ -4,7 +4,7 @@ import { getAllProjects } from "@/lib/projects";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = (
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://prakhar.ca"
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://pmavi.com"
   ).replace(/\/$/, "");
   const now = new Date();
 

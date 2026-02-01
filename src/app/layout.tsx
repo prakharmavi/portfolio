@@ -14,7 +14,7 @@ const firaCode = Fira_Code({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://prakhar.ca";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://pmavi.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     title: "Prakhar Mavi — Software Developer",
     description:
       "Software developer building fast, user‑friendly apps with Next.js, React, and modern tooling.",
-    siteName: "prakhar.ca",
+    siteName: "prakhar",
     images: [
       {
         url: "/next.svg",

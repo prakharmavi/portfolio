@@ -16,8 +16,8 @@ const nextConfig: NextConfigWithDevOrigins = {
   // Allow dev asset requests from these origins
   allowedDevOrigins: [
     "http://localhost:3000",
-    "http://web.prakhar.ca",
-    "https://web.prakhar.ca",
+    "http://web.pmavi.com",
+    "https://web.pmavi.com",
   ],
 
   // Configure `pageExtensions` to include markdown and MDX files

@@ -11,10 +11,9 @@ export default function Navbar() {
                     <Link
                         className="flex-none inline-flex items-baseline rounded-md text-xl font-semibold tracking-tight text-gray-900 focus:outline-hidden font-display text-3d"
                         href="/"
-                        aria-label="prakhar.ca — home"
+                        aria-label="prakhar — home"
                     >
                         <span className="leading-none">prakhar</span>
-                        <span className="ml-0.5 font-normal text-gray-500">.ca</span>
                     </Link>
                     {/* End Logo */}
 

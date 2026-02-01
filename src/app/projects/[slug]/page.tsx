@@ -27,7 +27,7 @@ export async function generateMetadata({
   }
 
   const { title, description, thumbnail, date } = project.meta;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://prakhar.ca";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://pmavi.com";
   const url = `${siteUrl}/projects/${slug}`;
   const ogImage = thumbnail
     ? [{ url: thumbnail, width: 1200, height: 630, alt: title }]
@@ -67,7 +67,7 @@ export default async function ProjectPage({
   try {
     const { slug } = await params;
     const { meta, Component } = await getProjectBySlug(slug);
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://prakhar.ca";
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://pmavi.com";
 
     const jsonLd = {
       "@context": "https://schema.org",
