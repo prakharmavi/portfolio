@@ -34,7 +34,7 @@ export default async function Home() {
   return (
     <main className="min-h-dvh w-full">
       {/* Hero */}
-      <section className="min-h-dvh w-full pt-12 md:pt-20">
+      <section className="min-h-dvh w-full flex items-center pt-12 md:pt-20">
         <div className="mx-auto w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 items-center gap-10 md:gap-12 px-6 md:px-10">
           {/* Content left taking 2/3 on desktop */}
           <div className="md:col-span-2 flex items-center">
