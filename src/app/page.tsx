@@ -19,6 +19,7 @@ import SectionHeader from "../components/SectionHeader";
 import AboutContent from "@/content/about/content.mdx";
 import ProjectsGrid from "@/components/ProjectsGrid";
 import ContactModalTrigger from "@/components/ContactModalTrigger";
+import AskMeInput from "@/components/AskMeInput";
 
 export default async function Home() {
   const GITHUB_URL =
@@ -34,7 +35,7 @@ export default async function Home() {
   return (
     <main className="min-h-dvh w-full">
       {/* Hero */}
-      <section className="min-h-dvh w-full flex items-center pt-20 md:pt-16">
+      <section className="min-h-dvh w-full flex items-center">
         <div className="mx-auto w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 items-center gap-10 md:gap-12 px-6 md:px-10">
           {/* Content left taking 2/3 on desktop */}
           <div className="md:col-span-2 flex items-center">
@@ -56,7 +57,7 @@ export default async function Home() {
                 Software developer turning ideas into fast, user‑friendly apps.
               </p>
 
-              <div className="mt-7 flex items-center gap-3">
+              <div className="mt-7 flex flex-wrap items-center gap-3">
                 <Link
                   href="/#projects"
                   className="inline-flex items-center gap-2 rounded-full bg-gray-800 text-white px-5 py-2.5 text-sm md:text-base focus:outline-hidden"
@@ -78,6 +79,10 @@ export default async function Home() {
                     Contact
                   </button>
                 </ContactModalTrigger>
+              </div>
+
+              <div className="mt-4 max-w-sm">
+                <AskMeInput />
               </div>
 
               <div className="mt-7 flex flex-wrap items-center gap-3 text-gray-600">
