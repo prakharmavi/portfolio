@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 @source "../node_modules/preline/dist/*.js";
 /* Display + Body fonts loaded via <link> in layout.tsx */
 
@@ -176,6 +177,34 @@
     text-shadow:
       0 0.03em 0 rgba(17,24,39,0.45),
       0 0.12em 0.25em rgba(17,24,39,0.18);
+  }
+}
+
+/* Project page prose refinements */
+@layer base {
+  .prose table {
+    @apply w-full text-sm;
+  }
+  .prose thead th {
+    @apply border-b-2 border-gray-200 bg-gray-50 px-4 py-2.5 text-left text-xs font-semibold uppercase tracking-wider text-gray-500;
+  }
+  .prose tbody td {
+    @apply border-b border-gray-100 px-4 py-2.5;
+  }
+  .prose tbody tr:last-child td {
+    @apply border-b-0;
+  }
+  .prose hr {
+    @apply border-gray-200;
+  }
+  .prose blockquote {
+    @apply border-l-4 border-gray-900 bg-gray-50 px-5 py-4 not-italic;
+  }
+  .prose pre {
+    @apply border border-gray-800;
+  }
+  .prose code:not(pre code) {
+    @apply rounded bg-gray-100 px-1.5 py-0.5 text-sm font-medium text-gray-800 before:content-[''] after:content-[''];
   }
 }
 

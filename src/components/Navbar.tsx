@@ -1,8 +1,15 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import ContactModalTrigger from "@/components/ContactModalTrigger";
 import { RainbowButton } from "@/components/ui/rainbow-button";
 
 export default function Navbar() {
+    const pathname = usePathname();
+
+    if (pathname.startsWith("/projects/")) return null;
+
     return (
         <header className="fixed top-0 inset-x-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full text-sm">
             <nav className="mt-4 relative max-w-2xl w-full bg-white border border-gray-200 rounded-[24px] mx-2 flex flex-wrap md:flex-nowrap items-center justify-between p-1 ps-4 md:py-0 sm:mx-auto">

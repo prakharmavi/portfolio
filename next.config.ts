@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
+import remarkGfm from "remark-gfm";
 
 // Extend NextConfig to include `allowedDevOrigins`
 interface NextConfigWithDevOrigins extends NextConfig {
@@ -8,6 +9,9 @@ interface NextConfigWithDevOrigins extends NextConfig {
 
 const withMDX = createMDX({
   extension: /\.(md|mdx)$/,
+  options: {
+    remarkPlugins: [remarkGfm],
+  },
 });
 
 const nextConfig: NextConfigWithDevOrigins = {

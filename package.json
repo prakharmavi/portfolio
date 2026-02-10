@@ -20,6 +20,7 @@
     "@openai/codex": "^0.36.0",
     "@preline/theme-switch": "^3.2.3",
     "@radix-ui/react-slot": "^1.2.3",
+    "@tailwindcss/typography": "^0.5.19",
     "@turf/turf": "^7.2.0",
     "@types/canvas-confetti": "^1.9.0",
     "@types/mdx": "^2.0.13",
@@ -40,6 +41,7 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-icons": "^5.5.0",
+    "remark-gfm": "^4.0.1",
     "swr": "^2.3.6",
     "tailwind-merge": "^3.3.1"
   },

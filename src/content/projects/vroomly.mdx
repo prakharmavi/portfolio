@@ -1,0 +1,105 @@
+export const project = {
+    slug: "vroomly",
+    title: "Vroomly - Car Sharing Platform",
+    description: "Full-stack peer-to-peer car rental marketplace with real-time messaging, booking workflows, and Firebase backend",
+    thumbnail: "/images/vroomly.jpg",
+    date: "2025-04-04",
+    links: [
+        { label: "Live Demo", url: "https://vroomly.pmavi.com", type: "live" },
+        { label: "GitHub", url: "https://github.com/prakharmavi/vroomly", type: "repo" }
+    ]
+}
+
+A peer-to-peer car sharing platform where owners list vehicles and renters book them — with real-time messaging, booking approval workflows, user reviews, and profile management.
+
+<VroomlyBrowse />
+
+## Why I Built This
+
+I wanted to build something with real product complexity — not just CRUD, but interconnected features where users interact with each other asynchronously. A car rental marketplace needs auth, multi-role logic (owner vs. renter), date-range availability, image uploads, real-time chat, and a booking state machine.
+
+## What It Does
+
+### For car owners
+- List vehicles with photos, specs (make, model, year, transmission, fuel type), pricing, and availability windows
+- Approve or decline incoming booking requests
+- Manage active listings — edit, deactivate, or remove
+
+### For renters
+- Browse available cars with image carousels, filtering by location and dates
+- Book a car for specific date ranges with a sticky booking card
+- Message owners directly before or after booking
+
+### For everyone
+- Real-time messaging with unread notifications
+- Public user profiles with review ratings
+- Google sign-in or email/password auth
+- User onboarding flow with profile completion tracking
+- Light/dark theme support
+
+## How It's Built
+
+React 19 SPA with React Router for navigation, Tailwind CSS v4 for styling. All data lives in Firebase — Firestore for documents, Storage for images, Authentication for identity.
+
+### Architecture
+
+```
+React 19 + TypeScript + Vite 6
+├── Pages (12 routes, 4 protected)
+├── Components
+│   ├── Auth (sign-in, sign-up, onboarding, protected routes)
+│   ├── Cars (listing cards, add/edit forms, image carousel)
+│   ├── Bookings (form, status badges, approval flow)
+│   ├── Messaging (conversation view, message list, notifications)
+│   ├── Profile (edit form, reviews, public profile)
+│   └── UI (shadcn/ui + Radix primitives)
+└── Firebase
+    ├── Auth (email/password + Google OAuth)
+    ├── Firestore (cars, bookings, messages, reviews, profiles)
+    └── Storage (car photos, avatars)
+```
+
+## Key Decisions
+
+**React Router over Next.js** — Client-heavy app where every page depends on auth state and Firestore listeners. SSR adds complexity without SEO benefit for a marketplace behind auth.
+
+**Firestore for everything** — Real-time listeners power messaging and booking status updates. No separate backend — Firebase rules handle authorization.
+
+**shadcn/ui + Radix** — Accessible components (dialogs, dropdowns, tabs, toasts) let me focus on product logic instead of custom UI.
+
+**DiceBear avatars** — Auto-generated avatars from usernames give every profile a visual identity immediately.
+
+## Booking State Machine
+
+Bookings flow through: `pending → approved → completed` (or `declined`).
+
+The owner sees incoming requests, the renter sees their booking status. Both get toast notifications on state changes. The form validates against the car's availability window and prevents double-booking.
+
+## Real-Time Messaging
+
+Firebase Firestore `onSnapshot` listeners power the chat. Messages appear instantly for both parties. A global `MessageNotifier` component polls for unread counts and shows toast alerts — even when the user isn't on the messages page.
+
+## Tech Stack
+
+| Layer | Tech |
+|-------|------|
+| **Framework** | React 19 + TypeScript |
+| **Build** | Vite 6 |
+| **Styling** | Tailwind CSS v4 |
+| **Components** | shadcn/ui + Radix UI |
+| **Animation** | Framer Motion |
+| **Auth** | Firebase Authentication |
+| **Database** | Cloud Firestore |
+| **Storage** | Firebase Storage |
+| **Hosting** | Firebase Hosting |
+| **Icons** | Lucide React |
+
+## What I Learned
+
+**Multi-role UX is hard.** The same page (car detail) needs to behave differently for owners vs. renters vs. unauthenticated users. Conditional rendering gets complex fast.
+
+**Real-time listeners need cleanup.** Forgetting to unsubscribe from Firestore listeners causes memory leaks and ghost updates. Every `onSnapshot` needs a cleanup function in `useEffect`.
+
+**Image upload UX matters.** Users need previews before upload, progress indicators during upload, and the ability to reorder or delete images after. This was more work than the booking system.
+
+**Firebase rules are the real backend.** Writing security rules that prevent users from modifying other users' bookings or reading private messages required careful rule structuring — it's essentially server-side authorization.
