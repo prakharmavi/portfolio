@@ -1,8 +1,9 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { LuArrowLeft, LuExternalLink } from "react-icons/lu";
 
-import { getProjectBySlug } from "@/lib/projects";
+import { getPublishedProject } from "@/lib/projects";
 
 type ProjectLayoutProps = {
   children: ReactNode;
@@ -14,11 +15,13 @@ export default async function ProjectLayout({
   params,
 }: ProjectLayoutProps) {
   const { slug } = await params;
-  const project = await getProjectBySlug(slug).catch(() => null);
+  const detail = await getPublishedProject(slug);
+
+  if (!detail) notFound();
 
   const primaryLink =
-    project?.meta.links?.find((link) => link.type === "live") ??
-    project?.meta.links?.[0];
+    detail.project.links.find((link) => link.type === "live") ??
+    detail.project.links[0];
 
   return (
     <main className="min-h-dvh w-full bg-gray-50">

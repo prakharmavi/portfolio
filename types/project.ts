@@ -17,8 +17,23 @@ export type Project = {
   date?: string;
 };
 
-export type ProjectEntry = {
-  fileSlug: string;
-  meta: Project;
-  Component: ComponentType<unknown>;
+export type PublishedProject = Required<
+  Pick<
+    Project,
+    | "slug"
+    | "title"
+    | "description"
+    | "thumbnail"
+    | "tags"
+    | "links"
+    | "featured"
+  >
+> &
+  Pick<Project, "date"> & {
+    path: `/projects/${string}`;
+  };
+
+export type PublishedProjectDetail = {
+  project: PublishedProject;
+  Content: ComponentType<unknown>;
 };

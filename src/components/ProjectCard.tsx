@@ -1,15 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { Project } from "@/types/project";
+import type { PublishedProject } from "@/types/project";
 
 type Props = {
-  project: Project;
+  project: PublishedProject;
 };
 
 export default function ProjectCard({ project }: Props) {
   return (
     <Link
-      href={`/projects/${project.slug}`}
+      href={project.path}
       className="group block rounded-xl border border-gray-200 bg-white shadow-sm focus:outline-hidden"
       aria-label={`${project.title} — read the story`}
     >

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { getAllProjects } from "@/lib/projects";
+import { listPublishedProjects } from "@/lib/projects";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = (
@@ -8,10 +8,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ).replace(/\/$/, "");
   const now = new Date();
 
-  const projects = await getAllProjects();
-  const projectEntries: MetadataRoute.Sitemap = projects.map(({ meta }) => ({
-    url: `${siteUrl}/projects/${meta.slug}`,
-    lastModified: meta.date ? new Date(meta.date) : now,
+  const projects = await listPublishedProjects();
+  const projectEntries: MetadataRoute.Sitemap = projects.map((project) => ({
+    url: `${siteUrl}${project.path}`,
+    lastModified: project.date
+      ? new Date(`${project.date}T00:00:00.000Z`)
+      : now,
     changeFrequency: "monthly",
     priority: 0.8,
   }));
@@ -22,12 +24,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: now,
       changeFrequency: "weekly",
       priority: 1,
-    },
-    {
-      url: `${siteUrl}/about/notes/tech-stack`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.6,
     },
   ];
 

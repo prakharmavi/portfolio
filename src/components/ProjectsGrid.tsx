@@ -1,8 +1,8 @@
 import ProjectCard from "@/components/ProjectCard";
-import { getAllProjects } from "@/lib/projects";
+import { listPublishedProjects } from "@/lib/projects";
 
 export default async function ProjectsGrid() {
-  const projects = await getAllProjects();
+  const projects = await listPublishedProjects();
 
   if (projects.length === 0) {
     return null;
@@ -10,8 +10,8 @@ export default async function ProjectsGrid() {
 
   return (
     <div className="mt-6 grid gap-6 md:grid-cols-2">
-      {projects.map(({ meta }) => (
-        <ProjectCard key={meta.slug} project={meta} />
+      {projects.map((project) => (
+        <ProjectCard key={project.slug} project={project} />
       ))}
     </div>
   );
