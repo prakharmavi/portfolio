@@ -1,5 +1,3 @@
-"use client";
-
 export default function VroomlyBrowse() {
   return (
     <div className="not-prose my-8">
