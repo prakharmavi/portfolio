@@ -1,0 +1,82 @@
+export const project = {
+    slug: "hirespark",
+    title: "HireSpark - Video Hiring Platform",
+    description: "Cross-platform real-time video hiring app with instant interviews, AI-powered candidate matching, and real-time messaging",
+    thumbnail: "/images/hirespark.svg",
+    date: "2025-01-01",
+    links: [
+        { label: "GitHub", url: "https://github.com/prakharmavi/hirespark", type: "repo" }
+    ]
+}
+
+A cross-platform hiring app that lets employers ring candidates directly for instant video interviews — no scheduling back-and-forth. Built with React Native for mobile, React for web, and powered by Convex real-time backend.
+
+## The Problem
+
+Hiring is slow. Email tag for scheduling, ghosting, no-shows. Platforms that try to fix this often have clunky mobile apps and unreliable video.
+
+## The Solution
+
+HireSpark lets employers ring candidates directly. One tap to accept. Clean video UI — remote participant fills the screen, local camera in the corner like FaceTime.
+
+## What It Does
+
+### For Employers (Web Dashboard)
+
+- Create and manage job postings with location-based targeting
+- AI-powered screening questions auto-generated from job descriptions using Cerebras LLM
+- Candidate ranking by weighted requirement scores and proximity
+- Real-time messaging with candidates
+- One-click video call initiation
+
+### For Candidates (Mobile App)
+
+- Google SSO authentication via Clerk
+- Location-based eligibility screening with questionnaire
+- FaceTime-style incoming call overlay
+- Real-time instant messaging with employers
+- Fullscreen video interview UI with picture-in-picture
+
+## Architecture
+
+```text
+hirespark/
+├── apps/
+│   ├── native/       # React Native + Expo (candidate mobile app)
+│   └── web/          # React + TanStack Router (employer dashboard)
+├── packages/
+│   ├── backend/      # Convex (shared serverless functions)
+│   └── config/       # Shared configuration
+└── turbo.json        # Monorepo build config
+```
+
+## Tech Stack
+
+| Layer | Tech |
+|-------|------|
+| **Mobile** | React Native, Expo 54, NativeWind |
+| **Web** | React 19, TanStack Router, Vite |
+| **Styling** | Tailwind CSS v4, shadcn/ui, Radix UI |
+| **Backend** | Convex (real-time database + serverless) |
+| **Auth** | Clerk (Google SSO) |
+| **Video** | Stream Video SDK (WebRTC) |
+| **AI** | Cerebras Cloud SDK (Qwen-3-32B) |
+| **Monorepo** | Turborepo + pnpm |
+
+## Key Decisions
+
+**Convex for real-time** — Real-time database sync without WebSocket boilerplate. Type-safe from DB to frontend. One `useQuery` hook and the UI updates instantly.
+
+**Stream Video SDK** — Abstracts WebRTC complexity across web and mobile. Custom minimal layout: remote fills screen, local camera in corner.
+
+**Clerk → Stream auth pipeline** — Clerk handles Google SSO, backend validates session, generates Stream token with user ID, passes to video SDK.
+
+**Monorepo with shared backend** — One Convex package serves both web and mobile apps with full type safety across the stack.
+
+## Challenges Solved
+
+**Cross-platform video** — Making video calls work seamlessly across web AND mobile with a unified codebase required custom UI on both platforms while sharing the same Stream integration logic.
+
+**AI screening questions** — Auto-generating relevant interview questions from job descriptions using Cerebras LLM, then scoring candidate responses with weighted requirement matching.
+
+**Real-time call signaling** — Implementing FaceTime-style incoming call overlays on mobile with auto-dismiss when the other participant leaves.

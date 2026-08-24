@@ -1,0 +1,57 @@
+export const project = {
+    slug: "mavizo",
+    title: "Mavizo - E-Commerce Platform",
+    description: "Full-featured e-commerce platform with Medusa.js commerce backend, Next.js storefronts, and Sanity CMS content management",
+    thumbnail: "/images/mavizo.svg",
+    date: "2025-06-01"
+}
+
+A full-featured e-commerce platform built as a monorepo — combining a headless commerce backend, multiple storefronts, and a content management system for a rich, customizable shopping experience.
+
+## What It Does
+
+A modular commerce platform with multiple interconnected applications:
+
+- **Commerce Backend** — Medusa.js v2 powers core commerce: products, orders, payments, and fulfillment
+- **Storefront** — Customer-facing Next.js storefront connected to the Medusa backend
+- **Main App** — Next.js + HeroUI application for the primary web experience
+- **CMS** — Sanity headless CMS for managing blog content and marketing pages
+
+## Architecture
+
+```text
+mavizo/
+├── apps/
+│   ├── mavistra-medusa/             # Medusa.js commerce backend
+│   ├── mavistra-medusa-storefront/  # E-commerce storefront
+│   ├── mavistra/                    # Next.js + HeroUI main app
+│   ├── mavizo/                      # Next.js application
+│   └── cms/                         # Sanity CMS
+├── packages/
+│   ├── ui/                          # Shared UI components
+│   ├── shared-assets/               # Shared static assets
+│   ├── eslint-config/               # Shared ESLint config
+│   └── typescript-config/           # Shared TypeScript config
+└── turbo.json                       # Monorepo build config
+```
+
+## Tech Stack
+
+| Layer | Tech |
+|-------|------|
+| **Frontend** | Next.js 14+, React 19, HeroUI |
+| **Styling** | Tailwind CSS, Framer Motion |
+| **Commerce** | Medusa.js v2 |
+| **CMS** | Sanity.io |
+| **Language** | TypeScript |
+| **Monorepo** | Turborepo + pnpm |
+
+## Key Decisions
+
+**Medusa.js over Shopify** — Full control over the commerce layer. Medusa's modular architecture allows customizing every aspect of the shopping experience without vendor lock-in.
+
+**Sanity for content** — Decoupled content management lets the marketing team manage blog posts and pages independently from the commerce catalog.
+
+**Monorepo with shared packages** — Shared UI components, assets, and configuration across all apps ensures consistency and reduces duplication.
+
+**HeroUI + Framer Motion** — Modern component library with built-in animations for a polished, interactive storefront experience.

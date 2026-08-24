@@ -1,159 +1,82 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import useSWR from "swr";
-import * as turf from "@turf/turf";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
+import { useEffect, useState } from "react";
 
-const toronto: [number, number] = [-79.3832, 43.6532];
-const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN ?? "";
+import DistanceMap from "@/components/DistanceMap";
 
-if (mapboxToken) {
-  mapboxgl.accessToken = mapboxToken;
-}
+const TORONTO = { lat: 43.6532, lon: -79.3832 };
 
-export function TorontoMap({
-  clientLat,
-  clientLon,
-}: {
-  clientLat: number;
-  clientLon: number;
-}) {
-  const mapContainer = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (!mapboxToken || !mapContainer.current) {
-      return;
-    }
-
-    const client: [number, number] = [clientLon, clientLat];
-
-    const map = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/standard",
-      center: toronto,
-      zoom: 4,
-    });
-
-    map.on("load", () => {
-      new mapboxgl.Marker({ color: "#ff007f" }).setLngLat(toronto).addTo(map);
-      new mapboxgl.Marker().setLngLat(client).addTo(map);
-
-      map.addSource("route", {
-        type: "geojson",
-        data: {
-          type: "Feature",
-          geometry: {
-            type: "LineString",
-            coordinates: [toronto, client],
-          },
-          properties: {},
-        },
-      });
-
-      map.addLayer({
-        id: "route",
-        type: "line",
-        source: "route",
-        paint: {
-          "line-color": "#ff007f",
-          "line-width": 2,
-          "line-dasharray": [2, 2],
-        },
-      });
-
-      const bounds = new mapboxgl.LngLatBounds();
-      bounds.extend(toronto).extend(client);
-      map.fitBounds(bounds, { padding: 50, animate: true });
-    });
-
-    return () => map.remove();
-  }, [clientLat, clientLon]);
-
-  return (
-    <div
-      ref={mapContainer}
-      className="h-64 w-full overflow-hidden rounded-xl border border-gray-200 shadow-sm"
-    />
-  );
-}
-
-export function DistanceCard({
-  clientLat,
-  clientLon,
-  city,
-  country,
-}: {
-  clientLat: number;
-  clientLon: number;
+type Location = {
+  lat: number;
+  lon: number;
   city?: string;
   country?: string;
-}) {
-  const client: [number, number] = [clientLon, clientLat];
-  const distance = turf.distance(turf.point(toronto), turf.point(client), {
-    units: "kilometers",
-  });
+};
 
-  return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-4 text-gray-900">
-      {mapboxToken ? (
-        <TorontoMap clientLat={clientLat} clientLon={clientLon} />
-      ) : (
-        <div className="flex h-64 w-full items-center justify-center rounded-xl border border-gray-200 bg-gray-50 text-xs text-gray-500">
-          Map unavailable — set NEXT_PUBLIC_MAPBOX_TOKEN
-        </div>
-      )}
-      <p className="mt-4 text-sm leading-relaxed">
-        I’m in Toronto 🇨🇦 — roughly{" "}
-        <span className="font-bold text-pink-600">
-          {distance.toFixed(1)} km
-        </span>{" "}
-        away
-        {city || country ? (
-          <span>
-            {" "}
-            from you{city ? ` in ${city}` : ""}
-            {country ? `${city ? "," : " in"} ${country}` : ""}.
-          </span>
-        ) : (
-          " from you."
-        )}
-      </p>
-    </div>
-  );
+function distanceFromToronto({ lat, lon }: Location) {
+  const toRadians = (value: number) => (value * Math.PI) / 180;
+  const earthRadiusKm = 6371;
+  const deltaLat = toRadians(lat - TORONTO.lat);
+  const deltaLon = toRadians(lon - TORONTO.lon);
+  const a =
+    Math.sin(deltaLat / 2) ** 2 +
+    Math.cos(toRadians(TORONTO.lat)) *
+      Math.cos(toRadians(lat)) *
+      Math.sin(deltaLon / 2) ** 2;
+
+  return earthRadiusKm * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
 export function DistanceFromToronto() {
-  const { data } = useSWR("/api/location", (url) =>
-    fetch(url).then((r) => r.json()),
-  );
+  const [location, setLocation] = useState<Location | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  if (!data) {
-    return (
-      <p className="text-sm text-gray-500">
-        Calculating distance from Toronto…
-      </p>
-    );
-  }
+  useEffect(() => {
+    const controller = new AbortController();
 
-  const lat = Number(data.lat);
-  const lon = Number(data.lon);
+    fetch("/api/location", { signal: controller.signal })
+      .then((response) => response.json())
+      .then((data: Record<string, unknown>) => {
+        if (typeof data.lat !== "string" || typeof data.lon !== "string") return;
+        const lat = Number(data.lat);
+        const lon = Number(data.lon);
+        if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+        setLocation({
+          lat,
+          lon,
+          city: typeof data.city === "string" ? data.city : undefined,
+          country: typeof data.country === "string" ? data.country : undefined,
+        });
+      })
+      .catch(() => undefined)
+      .finally(() => setLoading(false));
 
-  if (Number.isNaN(lat) || Number.isNaN(lon)) {
-    return (
-      <p className="text-sm text-gray-500">
-        Couldn’t determine your location just yet.
-      </p>
-    );
-  }
+    return () => controller.abort();
+  }, []);
+
+  const place = location
+    ? [location.city, location.country].filter(Boolean).join(", ")
+    : "";
 
   return (
-    <DistanceCard
-      clientLat={lat}
-      clientLon={lon}
-      city={data.city}
-      country={data.country}
-    />
+    <article className="flex h-full flex-col rounded-[28px] border border-gray-200 bg-white p-3 text-gray-900">
+      <div className="flex items-center justify-between px-2 pb-2">
+        <h2 className="text-sm font-semibold text-gray-800">Toronto ↔ You</h2>
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-[11px] text-gray-600">
+          <span className="size-1.5 rounded-full bg-pink-500" aria-hidden />
+          Home base
+        </span>
+      </div>
+      <DistanceMap clientLat={location?.lat} clientLon={location?.lon} />
+      {!loading && location ? (
+        <p className="px-2 pt-2 text-xs leading-relaxed text-gray-600">
+          I’m in Toronto 🇨🇦 — roughly{" "}
+          <span className="font-bold text-pink-600">
+            {distanceFromToronto(location).toFixed(0)} km
+          </span>{" "}
+          away{place ? ` from you in ${place}.` : " from you."}
+        </p>
+      ) : null}
+    </article>
   );
 }

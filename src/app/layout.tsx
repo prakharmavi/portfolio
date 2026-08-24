@@ -1,17 +1,8 @@
 import type { Metadata } from "next";
-import { Fira_Code } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import Navbar from "../components/Navbar";
 import CalFloatingButton from "../components/CalFloatingButton";
-import PrelineScriptWrapper from "../components/PrelineScriptWrapper";
-
-// Code / accent font (self-hosted via next/font)
-const firaCode = Fira_Code({
-  variable: "--font-fira-code",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://pmavi.com";
 
@@ -57,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-hs-theme="light" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth">
       <head>
         {/* Fontshare fonts for Clash Display and Satoshi */}
         <link
@@ -66,17 +57,16 @@ export default function RootLayout({
         />
         <link rel="preconnect" href="https://api.fontshare.com" />
         <link
-          href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@300,400,500,700&display=swap"
+          href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className={`${firaCode.variable} antialiased`}>
+      <body className="antialiased">
         <Providers>
           <Navbar />
           {children}
           <CalFloatingButton />
         </Providers>
-        <PrelineScriptWrapper />
       </body>
     </html>
   );

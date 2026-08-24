@@ -14,7 +14,6 @@ import {
   SiSwift,
 } from "react-icons/si";
 import PronunciationButton from "../components/PronunciationButton";
-import { RainbowButton } from "@/components/ui/rainbow-button";
 import SectionHeader from "../components/SectionHeader";
 import AboutContent from "@/content/about/content.mdx";
 import ProjectsGrid from "@/components/ProjectsGrid";
@@ -153,21 +152,16 @@ export default async function Home() {
         id="about"
         className="w-full px-6 md:px-10 py-12 md:py-16 scroll-mt-24"
       >
-        <div className="max-w-4xl mx-auto space-y-8">
+        <div className="max-w-5xl mx-auto space-y-8">
           <article className="relative bg-white border border-gray-200 rounded-[24px] p-6 md:p-8">
             <SectionHeader label="About" title="A bit about me" />
             <div className="mt-5 space-y-4 text-gray-700">
               <AboutContent />
             </div>
             <div className="mt-6 flex items-center justify-end">
-              <RainbowButton asChild size="lg" className="rounded-full">
-                <Link
-                  href="/about/notes/tech-stack"
-                  aria-label="See full tech notes"
-                >
-                  Full tech notes
-                </Link>
-              </RainbowButton>
+              <Link href="/about/notes/tech-stack" aria-label="See full tech notes" className="rounded-full border border-gray-200 px-3.5 py-2 text-xs font-medium text-gray-600">
+                Full tech notes
+              </Link>
             </div>
           </article>
         </div>
