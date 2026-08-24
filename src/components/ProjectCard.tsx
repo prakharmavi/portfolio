@@ -11,7 +11,7 @@ export default function ProjectCard({ project }: Props) {
     <Link
       href={project.path}
       className="group block rounded-xl border border-gray-200 bg-white shadow-sm focus:outline-hidden"
-      aria-label={`${project.title} — read the story`}
+      aria-label={`Read about ${project.title}`}
     >
       <div className="relative aspect-[16/9] overflow-hidden rounded-t-xl bg-gray-100">
         <Image

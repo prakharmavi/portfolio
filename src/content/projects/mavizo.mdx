@@ -1,57 +1,45 @@
 export const project = {
     slug: "mavizo",
-    title: "Mavizo - E-Commerce Platform",
-    description: "Full-featured e-commerce platform with Medusa.js commerce backend, Next.js storefronts, and Sanity CMS content management",
+    title: "Mavizo",
+    description: "A Medusa commerce backend, Next.js storefronts, shared UI, and Sanity content in one monorepo",
     thumbnail: "/images/mavizo.svg",
     date: "2025-06-01"
 }
 
-A full-featured e-commerce platform built as a monorepo — combining a headless commerce backend, multiple storefronts, and a content management system for a rich, customizable shopping experience.
+Mavizo separates the parts of a store that change for different reasons. Medusa owns products, orders, payments, and fulfillment. Sanity owns articles and marketing pages. The Next.js apps read from both.
 
-## What It Does
-
-A modular commerce platform with multiple interconnected applications:
-
-- **Commerce Backend** — Medusa.js v2 powers core commerce: products, orders, payments, and fulfillment
-- **Storefront** — Customer-facing Next.js storefront connected to the Medusa backend
-- **Main App** — Next.js + HeroUI application for the primary web experience
-- **CMS** — Sanity headless CMS for managing blog content and marketing pages
-
-## Architecture
+## What lives in the monorepo
 
 ```text
 mavizo/
 ├── apps/
-│   ├── mavistra-medusa/             # Medusa.js commerce backend
-│   ├── mavistra-medusa-storefront/  # E-commerce storefront
-│   ├── mavistra/                    # Next.js + HeroUI main app
-│   ├── mavizo/                      # Next.js application
-│   └── cms/                         # Sanity CMS
+│   ├── mavistra-medusa/             # Medusa commerce backend
+│   ├── mavistra-medusa-storefront/  # Storefront connected to Medusa
+│   ├── mavistra/                    # Next.js and HeroUI app
+│   ├── mavizo/                      # Next.js app
+│   └── cms/                         # Sanity Studio
 ├── packages/
-│   ├── ui/                          # Shared UI components
-│   ├── shared-assets/               # Shared static assets
-│   ├── eslint-config/               # Shared ESLint config
-│   └── typescript-config/           # Shared TypeScript config
-└── turbo.json                       # Monorepo build config
+│   ├── ui/                          # Shared components
+│   ├── shared-assets/               # Shared static files
+│   ├── eslint-config/               # Shared lint rules
+│   └── typescript-config/           # Shared TypeScript settings
+└── turbo.json
 ```
 
-## Tech Stack
+Turborepo and pnpm keep the apps in one workspace. Shared components and configuration live under `packages`, so a storefront does not need to copy the same UI or compiler settings from another app.
 
-| Layer | Tech |
-|-------|------|
-| **Frontend** | Next.js 14+, React 19, HeroUI |
-| **Styling** | Tailwind CSS, Framer Motion |
-| **Commerce** | Medusa.js v2 |
-| **CMS** | Sanity.io |
-| **Language** | TypeScript |
-| **Monorepo** | Turborepo + pnpm |
+## Why it is split this way
 
-## Key Decisions
+### Commerce stays in Medusa
 
-**Medusa.js over Shopify** — Full control over the commerce layer. Medusa's modular architecture allows customizing every aspect of the shopping experience without vendor lock-in.
+Medusa provides the usual commerce flows while leaving the modules open to change. Product and order rules stay in the backend instead of leaking into a storefront or being tied to a hosted shop builder.
 
-**Sanity for content** — Decoupled content management lets the marketing team manage blog posts and pages independently from the commerce catalog.
+### Editorial content stays in Sanity
 
-**Monorepo with shared packages** — Shared UI components, assets, and configuration across all apps ensures consistency and reduces duplication.
+An article is not a product record. Sanity gives content editors a separate place to change pages and posts without touching the catalog or deploying a frontend.
 
-**HeroUI + Framer Motion** — Modern component library with built-in animations for a polished, interactive storefront experience.
+### The apps share foundations, not screens
+
+The apps share TypeScript settings, lint rules, assets, and reusable UI. They can still choose the layout and components that fit their part of the product. One of the Next.js apps uses HeroUI and Framer Motion, but those choices do not become requirements for every package.
+
+This structure costs more setup than a single Next.js app. It pays off only when the storefront, main site, CMS, and commerce service need to move independently.

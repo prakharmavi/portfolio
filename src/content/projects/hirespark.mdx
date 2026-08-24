@@ -1,7 +1,7 @@
 export const project = {
     slug: "hirespark",
-    title: "HireSpark - Video Hiring Platform",
-    description: "Cross-platform real-time video hiring app with instant interviews, AI-powered candidate matching, and real-time messaging",
+    title: "HireSpark",
+    description: "Employers call candidates from the web; candidates answer, message, and interview from an Expo app",
     thumbnail: "/images/hirespark.svg",
     date: "2025-01-01",
     links: [
@@ -9,74 +9,61 @@ export const project = {
     ]
 }
 
-A cross-platform hiring app that lets employers ring candidates directly for instant video interviews — no scheduling back-and-forth. Built with React Native for mobile, React for web, and powered by Convex real-time backend.
+HireSpark starts an interview the same way a phone starts a call. An employer rings a candidate, the candidate accepts on mobile, and both join the same video room.
 
-## The Problem
+## Why skip the calendar
 
-Hiring is slow. Email tag for scheduling, ghosting, no-shows. Platforms that try to fix this often have clunky mobile apps and unreliable video.
+Scheduling adds email, reminders, and another chance for either person to disappear. HireSpark tests a more direct flow for early screening calls: see who is available, call them, and move on if they do not answer.
 
-## The Solution
+The product has two interfaces because the two sides use it differently.
 
-HireSpark lets employers ring candidates directly. One tap to accept. Clean video UI — remote participant fills the screen, local camera in the corner like FaceTime.
+## Employer dashboard
 
-## What It Does
+Employers can:
 
-### For Employers (Web Dashboard)
+- Post a role and limit it by location
+- Generate screening questions from the job description with Cerebras
+- Rank candidates by weighted requirements and proximity
+- Message a candidate
+- Start a video call from the candidate record
 
-- Create and manage job postings with location-based targeting
-- AI-powered screening questions auto-generated from job descriptions using Cerebras LLM
-- Candidate ranking by weighted requirement scores and proximity
-- Real-time messaging with candidates
-- One-click video call initiation
+## Candidate app
 
-### For Candidates (Mobile App)
+Candidates use an Expo app to:
 
-- Google SSO authentication via Clerk
-- Location-based eligibility screening with questionnaire
-- FaceTime-style incoming call overlay
-- Real-time instant messaging with employers
-- Fullscreen video interview UI with picture-in-picture
+- Sign in with Google through Clerk
+- Complete the location and eligibility questionnaire
+- Message employers
+- Answer an incoming call from a full-screen overlay
+- Join a video interview with the other person full screen and their own camera in the corner
 
-## Architecture
+## One backend for both apps
 
 ```text
 hirespark/
 ├── apps/
-│   ├── native/       # React Native + Expo (candidate mobile app)
-│   └── web/          # React + TanStack Router (employer dashboard)
+│   ├── native/       # Expo candidate app
+│   └── web/          # React employer dashboard
 ├── packages/
-│   ├── backend/      # Convex (shared serverless functions)
+│   ├── backend/      # Convex functions and data
 │   └── config/       # Shared configuration
-└── turbo.json        # Monorepo build config
+└── turbo.json
 ```
 
-## Tech Stack
+Convex holds the shared data and server functions. Its generated types are used by both the React 19 web app and the Expo 54 mobile app. The monorepo keeps the call, message, job, and candidate contracts in one place.
 
-| Layer | Tech |
-|-------|------|
-| **Mobile** | React Native, Expo 54, NativeWind |
-| **Web** | React 19, TanStack Router, Vite |
-| **Styling** | Tailwind CSS v4, shadcn/ui, Radix UI |
-| **Backend** | Convex (real-time database + serverless) |
-| **Auth** | Clerk (Google SSO) |
-| **Video** | Stream Video SDK (WebRTC) |
-| **AI** | Cerebras Cloud SDK (Qwen-3-32B) |
-| **Monorepo** | Turborepo + pnpm |
+Stream handles the WebRTC connection. Clerk owns sign-in, then the backend validates the Clerk session and returns a Stream token for that user. The client never creates its own video credentials.
 
-## Key Decisions
+## Where the work went
 
-**Convex for real-time** — Real-time database sync without WebSocket boilerplate. Type-safe from DB to frontend. One `useQuery` hook and the UI updates instantly.
+### The call had to feel native on both sides
 
-**Stream Video SDK** — Abstracts WebRTC complexity across web and mobile. Custom minimal layout: remote fills screen, local camera in corner.
+Stream supplies the connection, not the product interface. The web dashboard and mobile app each needed their own call controls, participant layout, and leave states while sharing the same room logic.
 
-**Clerk → Stream auth pipeline** — Clerk handles Google SSO, backend validates session, generates Stream token with user ID, passes to video SDK.
+### Screening needed a score, not just generated text
 
-**Monorepo with shared backend** — One Convex package serves both web and mobile apps with full type safety across the stack.
+Cerebras turns a job description into questions. Candidate answers are then scored against weighted requirements so the ranking has a reason behind it instead of being a loose model judgment.
 
-## Challenges Solved
+### Ringing is a state problem
 
-**Cross-platform video** — Making video calls work seamlessly across web AND mobile with a unified codebase required custom UI on both platforms while sharing the same Stream integration logic.
-
-**AI screening questions** — Auto-generating relevant interview questions from job descriptions using Cerebras LLM, then scoring candidate responses with weighted requirement matching.
-
-**Real-time call signaling** — Implementing FaceTime-style incoming call overlays on mobile with auto-dismiss when the other participant leaves.
+The incoming overlay has to appear quickly, disappear when the caller leaves, and avoid opening a stale room. Convex carries the call state between devices, while the mobile interface responds to each transition.

@@ -1,7 +1,7 @@
 export const project = {
     slug: "portfolio",
-    title: "Developer Portfolio",
-    description: "Modern Next.js portfolio with MDX project pages, Turnstile-protected contact form, and integrated AI chat",
+    title: "pmavi.com",
+    description: "The site you are on: MDX project pages, a Resend contact flow, and a handoff to Fastman for questions",
     thumbnail: "/images/portfolio.jpg",
     date: "2025-09-20",
     links: [
@@ -9,109 +9,39 @@ export const project = {
     ]
 }
 
-A performance-focused portfolio built with Next.js 15 and React 19 — structured project storytelling, a verified contact workflow, and an embedded AI chat.
+This site is where I explain the work behind the screenshots. It uses Next.js 15 and React 19, keeps project writing in MDX, and sends the few interactive jobs to small client components.
 
-## The Problem
+## What I wanted from it
 
-Most developer portfolios are either over-engineered with unnecessary animations, or under-designed with basic HTML. I wanted something in between — professional, fast, and just interactive enough to stand out without sacrificing load times.
+I did not want a loading animation to be the most memorable part of my portfolio. The site needed to be quick, readable, and specific about what I built. Most pages are rendered on the server, and the interactive pieces load only where they are used.
 
-## What It Does
+## Projects without a CMS
 
-### Project Case Studies
-Projects are authored in MDX with frontmatter metadata. The system automatically generates SEO metadata, renders a card grid on the home page, creates individual `/projects/[slug]` routes, and processes Markdown with syntax highlighting.
+Each project is an MDX file with an exported metadata object. The metadata feeds the home-page cards, project routes, sitemap, social previews, and JSON-LD. The rest of the file becomes the case study.
 
-### Contact Workflow
-Protected by Cloudflare Turnstile (CAPTCHA alternative) with Resend for email delivery:
-1. User fills out form (name, email, message)
-2. Turnstile challenge validates client-side
-3. Server verifies token with Cloudflare API
-4. Message sent via Resend to configured inbox
-5. Confirmation email sent to user
-6. Rate limiting prevents spam (10 messages/hour/IP)
+That gives me one source for each project and still lets me embed a React component when a demo needs more than Markdown.
 
-### Additional Features
-- **Cal.com integration** — Floating booking button for scheduling calls
-- **Pronunciation helper** — Audio playback for name pronunciation
-- **AI chat** — Embedded Fastman chat for interactive Q&A
-- **Social links** — GitHub, LinkedIn, Discord with custom icons
-- **Tech stack icons** — Visual representation of core technologies
+## The contact path
 
-## Technical Architecture
+The contact form posts to a Next.js route that:
 
-### Frontend
+1. Rejects a filled honeypot field
+2. Validates and limits the input
+3. Allows five requests per IP every ten minutes
+4. Sends the message through Resend
+5. Tries to send the sender a receipt without failing the original request if that second email fails
 
-**Next.js 15 (App Router)** — React Server Components for reduced client JS. Server Actions for form handling. Automatic code splitting and lazy loading.
+The limiter is an in-memory `Map`. It is fine for basic abuse control on this site, but it does not share state across server instances or regions. I would move it to Redis or a managed key-value store before treating it as a hard security boundary.
 
-**React 19** — Concurrent rendering, `useActionState`, `useFormStatus`, enhanced Suspense boundaries.
+## Small details I kept
 
-**Tailwind CSS v4** — Utility-first styling with custom UI primitives. `class-variance-authority` for component variants. `tailwind-merge` for className composition.
+- The pronunciation button plays my name instead of asking visitors to decode phonetics
+- The Cal.com button imports the calendar only when someone opens it
+- The hero question field passes a prompt to Fastman
+- Project links and metadata are rendered on the server
 
-### Contact & Verification
+## Why MDX and server components
 
-**Cloudflare Turnstile** — Invisible CAPTCHA alternative. Privacy-focused (no Google tracking). Server-side token verification.
+MDX keeps writing next to the code without turning every paragraph into JSX. React Server Components keep that content out of the client bundle. Client state is reserved for the contact form, calendar, audio control, and other parts that actually respond to input.
 
-**Resend Email API** — Reliable delivery with template support and bounce handling.
-
-### Content Management
-
-**MDX** — Markdown with JSX component support. `@next/mdx` for Next.js integration. Frontmatter metadata extraction for automatic SEO and routing.
-
-## Key Decisions
-
-**Why Next.js 15?** — The App Router's RSC architecture reduces client-side JavaScript significantly. Most of the site is server-rendered, with only interactive elements hydrated on the client.
-
-**Why MDX for Projects?** — Best of both worlds: Markdown's simplicity for writing, plus the ability to embed custom React components when needed.
-
-**Why Turnstile over reCAPTCHA?** — More privacy-friendly (no Google tracking), better UX (often invisible), and free for unlimited verifications.
-
-## Performance
-
-```
-Code Splitting
-├── Optional libraries excluded unless explicitly enabled
-├── Route-based splitting via App Router
-└── React.lazy() + Suspense for heavy components
-
-Image Optimization
-├── All images through next/image
-├── Automatic WebP conversion
-├── Lazy loading with blur placeholders
-└── Responsive srcset generation
-
-Font Loading
-├── System font stack as fallback
-├── font-display: swap for custom fonts
-└── Subset fonts to reduce file size
-```
-
-## Tech Stack
-
-| Layer | Tech |
-|-------|------|
-| **Framework** | Next.js 15 (App Router) |
-| **UI** | React 19 + Server Components |
-| **Styling** | Tailwind CSS v4 |
-| **Content** | MDX with dynamic imports |
-| **Contact** | Cloudflare Turnstile + Resend |
-| **Scheduling** | Cal.com Embed |
-| **Animation** | Framer Motion |
-| **Icons** | Lucide React |
-| **Deploy** | Vercel (Edge Runtime) |
-
-## Challenges Solved
-
-**Turnstile Integration** — Needed custom error handling for token expiration (90s timeout), network failures during verification, and race conditions between widget load and form submit.
-
-**Rate Limiting** — In-memory rate limiting with a Map-based store. Works for serverless but won't scale across regions — production should migrate to Redis or KV store.
-
-**Contact Form UX** — Clear feedback at every step: loading state during submission, success confetti animation, error messages with retry option, email confirmation for peace of mind.
-
-## Lessons Learned
-
-**MDX frontmatter makes content management feel like a CMS** without the overhead. Define your project metadata schema early.
-
-**Turnstile verification is surprisingly easy** compared to reCAPTCHA. Less code, better UX, no tracking.
-
-**React Server Components dramatically reduce client JavaScript** when used correctly. Most pages ship zero JS.
-
-**Form UX matters more than form validation.** Clear feedback builds trust. Users should never wonder "did it work?"
+The useful constraint was simple: if a section can work as HTML, it should ship as HTML.

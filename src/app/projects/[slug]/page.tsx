@@ -36,10 +36,10 @@ export async function generateMetadata({
     : [];
 
   return {
-    title: `${title} — Project`,
+    title: `${title} | Project`,
     description: description,
     openGraph: {
-      title: `${title} — Prakhar Mavi`,
+      title: `${title} | Prakhar Mavi`,
       description: description,
       url,
       siteName: "Prakhar Mavi",
@@ -51,7 +51,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${title} — Prakhar Mavi`,
+      title: `${title} | Prakhar Mavi`,
       description: description,
       images: ogImage,
     },
@@ -106,7 +106,7 @@ export default async function ProjectPage({
         <div className="border-b border-gray-100 px-6 py-8 sm:px-10 md:px-14">
           <div className="mx-auto max-w-3xl">
             <h2 className="font-display mb-4 text-xl font-bold tracking-tight text-gray-900">
-              Try It
+              Try it
             </h2>
             <LiveDemo url={liveLink.url} title={meta.title} />
           </div>

@@ -45,7 +45,7 @@ export default async function Home() {
             <SectionHeader
               label="Projects"
               title="Selected work"
-              description="Five projects with architecture notes and the decisions behind them."
+              description="Things I have built, what got complicated, and why I made the calls I did."
             />
             <ProjectsGrid />
           </article>

@@ -106,3 +106,17 @@ Performance: Use React.Suspense and Next.js streaming for data-heavy components.
 Accessibility: Ensure semantic HTML, ARIA labels, and keyboard navigation.
 
 Code Quality: Enable ESLint + Prettier; no unused imports, console logs, or dead code in main branch.
+
+## Agent skills
+
+### Issue tracker
+
+Issues are tracked in GitHub Issues for `prakharmavi/portfolio`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Use the five canonical triage labels without overrides. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+This repo uses the single-context layout with `CONTEXT.md` and `docs/adr/` at the root. See `docs/agents/domain.md`.

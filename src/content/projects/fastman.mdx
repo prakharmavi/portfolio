@@ -2,8 +2,8 @@ import FastmanInput from "@/components/FastmanInput";
 
 export const project = {
     slug: "fastman",
-    title: "Fastman - AI Chat Interface",
-    description: "Interactive AI-powered chat application built with SvelteKit and Cerebras AI, featuring real-time streaming responses and a polished UX",
+    title: "Fastman",
+    description: "A SvelteKit chat app that streams Cerebras responses, supports message editing, and puts rate limits in the interface",
     thumbnail: "/images/fastman.jpg",
     date: "2026-01-30",
     links: [
@@ -11,112 +11,55 @@ export const project = {
     ]
 }
 
-An AI-powered chat app that provides an interactive "Ask Prakhar" experience — built with SvelteKit and powered by Cerebras AI's ultra-fast inference engine.
+Fastman answers questions about my work through a custom system prompt. Cerebras handles generation, while the interface streams each response as NDJSON instead of waiting for the full message.
 
 <FastmanInput />
 
-## The Problem
+## Why I built it
 
-Traditional chat interfaces often feel disconnected from the person they represent. I wanted a conversational AI that could authentically represent my engineering philosophy, project decisions, and technical thinking — with minimal latency.
+A portfolio can explain what I shipped, but it cannot answer a follow-up question. I built Fastman to handle those questions without making people wait through a slow chat interface.
 
-## What It Does
+The system prompt covers my projects, how I make technical decisions, and how I tend to explain them. It is more useful than a generic assistant wearing my name.
 
-### Real-Time Streaming
-- Responses stream token-by-token for immediate feedback
-- Visual loading indicators during generation
-- Smooth scroll-to-bottom with auto-detection
+## What the chat can do
 
-### Message Management
-- Edit any user message and regenerate responses from that point
-- Regenerate the last assistant response with one click
-- Clear chat history with confirmation
-- Export conversations as JSON
+- Stream responses as they are generated
+- Edit an earlier message and regenerate from that point
+- Regenerate the latest response
+- Render Markdown and highlighted code blocks
+- Export a conversation as JSON with ISO timestamps
+- Show the remaining rate limit and its reset countdown
 
-### Rate Limit Handling
-- Real-time rate limit display with tokens remaining
-- Graceful error overlay when limits are hit
-- Countdown timer until limits reset
+Editing an old message removes everything after it. That keeps the conversation linear instead of inventing a branching model the interface does not support.
 
-### Developer Experience
-- Syntax-highlighted code blocks using highlight.js
-- Markdown rendering with marked.js
-- Responsive design optimized for mobile and desktop
+## How it works
 
-## Technical Architecture
-
-### Frontend Stack
-- **SvelteKit** — Chosen for its reactive state management and minimal boilerplate
-- **Svelte 5** — Leveraging `$state` and `$effect` runes for cleaner reactivity
-- **Tailwind CSS v4** — Utility-first styling with Vite plugin integration
-- **TypeScript** — Full type safety across components
-
-### AI Integration
-- **Cerebras AI** — Using the `gpt-oss-120b` model for fast inference
-- **Vercel AI SDK** — Handles streaming text generation with automatic retries
-- **Custom System Prompt** — 60+ line prompt encoding my engineering philosophy and communication style
-
-### Component Architecture
-
-```
-Chat.svelte          → Main orchestrator (state + API calls)
-Message.svelte       → Individual message bubbles with actions
-CodeBlock.svelte     → Syntax-highlighted code rendering
-EmptyState.svelte    → Starter prompts for new conversations
-RateLimitOverlay.svelte → Full-screen error state for rate limits
+```text
+Chat.svelte              # Message state, requests, and scrolling
+Message.svelte           # Message rendering and actions
+CodeBlock.svelte         # Syntax highlighting
+EmptyState.svelte        # Starter questions
+RateLimitOverlay.svelte  # Reset state and countdown
 ```
 
-### API Design
+The frontend uses SvelteKit 2, Svelte 5 runes, TypeScript, and Tailwind CSS v4. A single `/api/chat/+server.ts` endpoint validates the request origin, sends the prompt to Cerebras through the Vercel AI SDK, and forwards the streamed response and rate-limit headers.
 
-Single SvelteKit server endpoint (`/api/chat/+server.ts`) that:
-1. Validates request origin against allowlist
-2. Streams responses using NDJSON format
-3. Captures and forwards rate limit headers
-4. Handles errors gracefully with typed responses
+## Decisions that mattered
 
-## Key Decisions
+### Cerebras for response time
 
-**Why Cerebras?** — Speed was the priority. Cerebras delivers sub-second first-token latency, making the chat feel instant. The free tier is generous enough for a portfolio project.
+The first token matters more than the total generation time in a chat interface. Cerebras gave this project the short delay I wanted, and its free tier was enough for a portfolio-sized workload.
 
-**Why SvelteKit over Next.js?** — For a chat-heavy app, Svelte's reactivity model felt more natural than React hooks. Managing streaming state, message arrays, and UI updates was cleaner with `$state` runes.
+### Svelte for streaming state
 
-**Message Editing Strategy** — When a user edits a message, all subsequent messages are discarded. This prevents confusing conversation branches and keeps history linear.
+This interface updates the active message, loading state, scroll position, and rate-limit state during one request. Svelte 5 runes kept those updates close to the values they affect, without a stack of React effects.
 
-**Rate Limit UX** — Instead of failing silently, the UI proactively shows remaining tokens and displays a full-screen overlay when limits are hit.
+### Visible limits
 
-## Challenges Solved
+The API returns its rate-limit headers to the client. The interface shows what remains and replaces the composer with a countdown when the limit is exhausted. A blocked request should not look like a broken one.
 
-**Streaming State Management** — Coordinating streaming responses with message updates, scroll behavior, and loading states required careful state sequencing. Svelte's reactive primitives made this significantly easier than React would have.
+## The parts that took work
 
-**Origin Validation** — The API validates both `origin` and `referer` headers to prevent abuse and embedded iframe attacks.
+Streaming exposed small timing problems. Scrolling too early missed the newest text. Clearing the loading state too late made a finished answer look unfinished. Each state change had to follow the stream rather than the original request.
 
-**Export Format** — Chat exports include ISO timestamps and structured JSON for easy parsing and import elsewhere.
-
-## Tech Stack
-
-| Layer | Tech |
-|-------|------|
-| **Frontend** | SvelteKit 2.x + Svelte 5 |
-| **Styling** | Tailwind CSS v4 |
-| **Language** | TypeScript 5 |
-| **AI** | Cerebras AI SDK + Vercel AI SDK |
-| **Streaming** | NDJSON protocol |
-| **Syntax** | highlight.js |
-| **Markdown** | marked.js |
-| **Deploy** | Vercel (Edge Runtime) |
-| **Dev** | Bun + Prettier + ESLint |
-
-## Results
-
-- Sub-second response latency on most queries
-- Zero downtime since deployment
-- Handles edge cases (rate limits, network errors) gracefully
-
-## Lessons Learned
-
-**Streaming UX requires rethinking traditional request/response patterns.** You can't just show a spinner — every millisecond of perceived latency matters.
-
-**Good system prompts are 80% of AI application quality.** The engineering behind the prompt matters more than the model choice.
-
-**Rate limits should be a first-class UX consideration.** Not an afterthought — users need to know before they hit a wall.
-
-**Svelte's reactivity model shines for real-time interfaces.** Less ceremony than React for the same result.
+The endpoint also checks both `origin` and `referer` headers. That does not replace proper authentication, but it stops the public endpoint from being casually reused by another site.
