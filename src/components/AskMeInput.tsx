@@ -20,7 +20,7 @@ export default function AskMeInput() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Ask anything, blazingly fast"
+          placeholder="Ask me about a project"
           className="bg-transparent px-4 py-2.5 text-sm md:text-base text-gray-800 placeholder:text-gray-400 outline-none flex-1 min-w-0"
         />
         <button
