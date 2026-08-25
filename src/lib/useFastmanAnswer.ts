@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { readFastmanStream } from "@/lib/fastman-stream";
 
-type AnswerStatus = "idle" | "loading" | "done" | "error";
+export type AnswerStatus = "idle" | "loading" | "done" | "error";
 
 export function useFastmanAnswer() {
   const [answer, setAnswer] = useState("");

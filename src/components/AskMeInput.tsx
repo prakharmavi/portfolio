@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { LuArrowRight } from "react-icons/lu";
 
+import FastmanPanel from "@/components/FastmanPanel";
 import { useFastmanAnswer } from "@/lib/useFastmanAnswer";
 
 type AskMeInputProps = {
@@ -13,13 +14,22 @@ export default function AskMeInput({
   placeholder = "Ask me about a project",
 }: AskMeInputProps) {
   const [query, setQuery] = useState("");
+  const [question, setQuestion] = useState("");
+  const [panelOpen, setPanelOpen] = useState(false);
   const { answer, ask, error, status } = useFastmanAnswer();
 
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    const question = query.trim();
-    if (!question) return;
-    void ask(question);
+  function submitQuestion(nextQuestion: string) {
+    setQuestion(nextQuestion);
+    setPanelOpen(true);
+    void ask(nextQuestion);
+  }
+
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+    const nextQuestion = query.trim();
+    if (!nextQuestion) return;
+    setQuery("");
+    submitQuestion(nextQuestion);
   }
 
   return (
@@ -44,20 +54,16 @@ export default function AskMeInput({
           </button>
         </div>
       </form>
-
-      <div aria-live="polite" aria-busy={status === "loading"}>
-        {status === "loading" && !answer && (
-          <p className="mt-3 px-1 text-sm text-gray-500">Looking through my work...</p>
-        )}
-        {answer && (
-          <p className="mt-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm leading-6 whitespace-pre-wrap text-gray-700">
-            {answer}
-          </p>
-        )}
-        {status === "error" && (
-          <p className="mt-3 px-1 text-sm text-red-600">{error}</p>
-        )}
-      </div>
+      {panelOpen && (
+        <FastmanPanel
+          answer={answer}
+          error={error}
+          onAsk={submitQuestion}
+          onClose={() => setPanelOpen(false)}
+          question={question}
+          status={status}
+        />
+      )}
     </div>
   );
 }
