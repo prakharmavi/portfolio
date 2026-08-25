@@ -3,14 +3,16 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { readFastmanStream } from "@/lib/fastman-stream";
+import type { FastmanMessage } from "@/types/api";
 
 export type AnswerStatus = "idle" | "loading" | "done" | "error";
 
 export function useFastmanAnswer() {
-  const [answer, setAnswer] = useState("");
+  const [messages, setMessages] = useState<FastmanMessage[]>([]);
   const [error, setError] = useState("");
   const [status, setStatus] = useState<AnswerStatus>("idle");
   const activeRequest = useRef<AbortController | null>(null);
+  const conversation = useRef<FastmanMessage[]>([]);
 
   useEffect(() => () => activeRequest.current?.abort(), []);
 
@@ -18,7 +20,19 @@ export function useFastmanAnswer() {
     activeRequest.current?.abort();
     const controller = new AbortController();
     activeRequest.current = controller;
-    setAnswer("");
+    const recentMessages = conversation.current.slice(-18);
+    while (
+      recentMessages.reduce((total, message) => total + message.content.length, query.length) >
+      12_000
+    ) {
+      recentMessages.shift();
+    }
+    const requestMessages: FastmanMessage[] = [
+      ...recentMessages,
+      { role: "user", content: query },
+    ];
+    conversation.current = requestMessages;
+    setMessages(requestMessages);
     setError("");
     setStatus("loading");
 
@@ -26,7 +40,7 @@ export function useFastmanAnswer() {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ messages: requestMessages }),
         signal: controller.signal,
       });
 
@@ -35,8 +49,15 @@ export function useFastmanAnswer() {
         throw new Error(payload?.error ?? "Fastman could not answer right now.");
       }
 
+      let assistantContent = "";
       await readFastmanStream(response, (content) => {
-        setAnswer((current) => current + content);
+        assistantContent += content;
+        const nextMessages: FastmanMessage[] = [
+          ...requestMessages,
+          { role: "assistant", content: assistantContent },
+        ];
+        conversation.current = nextMessages;
+        setMessages(nextMessages);
       });
       setStatus("done");
     } catch (requestError) {
@@ -46,5 +67,5 @@ export function useFastmanAnswer() {
     }
   }, []);
 
-  return { answer, ask, error, status };
+  return { ask, error, messages, status };
 }

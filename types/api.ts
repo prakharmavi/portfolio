@@ -3,6 +3,11 @@ export type FastmanStreamEvent = {
   data: unknown;
 };
 
+export type FastmanMessage = {
+  role: "user" | "assistant";
+  content: string;
+};
+
 export type AskPrakharRequest = {
-  query: string;
+  messages: FastmanMessage[];
 };

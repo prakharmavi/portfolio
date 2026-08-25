@@ -14,12 +14,10 @@ export default function AskMeInput({
   placeholder = "Ask me about a project",
 }: AskMeInputProps) {
   const [query, setQuery] = useState("");
-  const [question, setQuestion] = useState("");
   const [panelOpen, setPanelOpen] = useState(false);
-  const { answer, ask, error, status } = useFastmanAnswer();
+  const { ask, error, messages, status } = useFastmanAnswer();
 
   function submitQuestion(nextQuestion: string) {
-    setQuestion(nextQuestion);
     setPanelOpen(true);
     void ask(nextQuestion);
   }
@@ -56,11 +54,10 @@ export default function AskMeInput({
       </form>
       {panelOpen && (
         <FastmanPanel
-          answer={answer}
           error={error}
+          messages={messages}
           onAsk={submitQuestion}
           onClose={() => setPanelOpen(false)}
-          question={question}
           status={status}
         />
       )}

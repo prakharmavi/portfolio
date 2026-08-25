@@ -4,18 +4,19 @@ import { useEffect, useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
 import { LuArrowUp, LuX } from "react-icons/lu";
 
+import FastmanConversation from "@/components/FastmanConversation";
 import type { AnswerStatus } from "@/lib/useFastmanAnswer";
+import type { FastmanMessage } from "@/types/api";
 
 type FastmanPanelProps = {
-  answer: string;
   error: string;
+  messages: FastmanMessage[];
   onAsk: (query: string) => void;
   onClose: () => void;
-  question: string;
   status: AnswerStatus;
 };
 export default function FastmanPanel(props: FastmanPanelProps) {
-  const { answer, error, onAsk, onClose, question, status } = props;
+  const { error, messages, onAsk, onClose, status } = props;
   const [mounted, setMounted] = useState(false);
   const [query, setQuery] = useState("");
   useEffect(() => setMounted(true), []);
@@ -55,26 +56,7 @@ export default function FastmanPanel(props: FastmanPanelProps) {
         </button>
       </header>
 
-      <div className="min-h-40 flex-1 overflow-y-auto bg-gray-50/70 px-4 py-5">
-        <p className="ml-auto max-w-[85%] rounded-2xl rounded-br-md bg-gray-900 px-4 py-2.5 text-sm leading-5 text-white">
-          {question}
-        </p>
-        <div className="mt-3 flex items-start gap-2.5">
-          <span className="mt-1 grid size-6 shrink-0 place-items-center rounded-full border border-gray-200 bg-white text-[10px] font-semibold text-gray-700">
-            P
-          </span>
-          <p
-            aria-live="polite"
-            aria-busy={status === "loading"}
-            className="max-w-[88%] rounded-2xl rounded-tl-md border border-gray-200 bg-white px-4 py-3 text-sm leading-6 whitespace-pre-wrap text-gray-700 shadow-sm"
-          >
-            {answer || (status === "loading" ? "Looking through my work..." : error)}
-            {status === "loading" && answer && (
-              <span className="ml-1 inline-block size-1.5 animate-pulse rounded-full bg-gray-400" />
-            )}
-          </p>
-        </div>
-      </div>
+      <FastmanConversation error={error} messages={messages} status={status} />
 
       <form onSubmit={handleSubmit} className="flex gap-2 border-t border-gray-100 bg-white p-3">
         <input
