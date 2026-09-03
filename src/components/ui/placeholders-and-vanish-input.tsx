@@ -4,6 +4,19 @@ import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
+type Particle = {
+  x: number;
+  y: number;
+  r: number;
+  color: string;
+};
+
+type Pixel = {
+  x: number;
+  y: number;
+  color: [number, number, number, number];
+};
+
 export function PlaceholdersAndVanishInput({
   placeholders,
   onChange,
@@ -15,22 +28,29 @@ export function PlaceholdersAndVanishInput({
 }) {
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
 
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const startAnimation = () => {
-    intervalRef.current = setInterval(() => {
-      setCurrentPlaceholder((prev) => (prev + 1) % placeholders.length);
-    }, 3000);
-  };
-  const handleVisibilityChange = () => {
-    if (document.visibilityState !== "visible" && intervalRef.current) {
-      clearInterval(intervalRef.current); // Clear the interval when the tab is not visible
-      intervalRef.current = null;
-    } else if (document.visibilityState === "visible") {
-      startAnimation(); // Restart the interval when the tab becomes visible
-    }
-  };
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
+    const startAnimation = () => {
+      if (intervalRef.current || placeholders.length === 0) return;
+
+      intervalRef.current = setInterval(() => {
+        setCurrentPlaceholder((prev) => (prev + 1) % placeholders.length);
+      }, 3000);
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState !== "visible") {
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
+        return;
+      }
+
+      startAnimation();
+    };
+
     startAnimation();
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
@@ -43,7 +63,7 @@ export function PlaceholdersAndVanishInput({
   }, [placeholders]);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const newDataRef = useRef<any[]>([]);
+  const newDataRef = useRef<Particle[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState("");
   const [animating, setAnimating] = useState(false);
@@ -67,25 +87,25 @@ export function PlaceholdersAndVanishInput({
 
     const imageData = ctx.getImageData(0, 0, 800, 800);
     const pixelData = imageData.data;
-    const newData: any[] = [];
+    const newData: Pixel[] = [];
 
     for (let t = 0; t < 800; t++) {
-      let i = 4 * t * 800;
+      const rowOffset = 4 * t * 800;
       for (let n = 0; n < 800; n++) {
-        let e = i + 4 * n;
+        const pixelIndex = rowOffset + 4 * n;
         if (
-          pixelData[e] !== 0 &&
-          pixelData[e + 1] !== 0 &&
-          pixelData[e + 2] !== 0
+          pixelData[pixelIndex] !== 0 &&
+          pixelData[pixelIndex + 1] !== 0 &&
+          pixelData[pixelIndex + 2] !== 0
         ) {
           newData.push({
             x: n,
             y: t,
             color: [
-              pixelData[e],
-              pixelData[e + 1],
-              pixelData[e + 2],
-              pixelData[e + 3],
+              pixelData[pixelIndex],
+              pixelData[pixelIndex + 1],
+              pixelData[pixelIndex + 2],
+              pixelData[pixelIndex + 3],
             ],
           });
         }
@@ -172,7 +192,7 @@ export function PlaceholdersAndVanishInput({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     vanishAndSubmit();
-    onSubmit && onSubmit(e);
+    onSubmit(e);
   };
   return (
     <form
@@ -193,7 +213,7 @@ export function PlaceholdersAndVanishInput({
         onChange={(e) => {
           if (!animating) {
             setValue(e.target.value);
-            onChange && onChange(e);
+            onChange(e);
           }
         }}
         onKeyDown={handleKeyDown}
