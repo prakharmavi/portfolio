@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
-import { LuArrowUp, LuX } from "react-icons/lu";
+import { LuArrowUpRight, LuX } from "react-icons/lu";
 
 import FastmanConversation from "@/components/FastmanConversation";
 import type { AnswerStatus } from "@/lib/useFastmanAnswer";
@@ -34,23 +34,17 @@ export default function FastmanPanel(props: FastmanPanelProps) {
     <aside
       role="dialog"
       aria-label="Ask Prakhar"
-      className="fixed inset-x-3 bottom-3 z-[130] flex max-h-[min(36rem,calc(100svh-5rem))] flex-col overflow-hidden rounded-[24px] border border-gray-200 bg-white shadow-[0_24px_80px_-24px_rgba(15,23,42,0.45)] sm:inset-x-auto sm:bottom-20 sm:right-5 sm:w-[28rem]"
+      className="fixed inset-x-3 bottom-3 z-[130] flex max-h-[min(40rem,calc(100svh-2rem))] flex-col overflow-hidden rounded-lg border border-gray-900 bg-[#f7f7f4] shadow-[0_24px_80px_-24px_rgba(0,0,0,0.55)] sm:inset-x-auto sm:bottom-6 sm:right-6 sm:w-[32rem]"
     >
-      <header className="flex items-center justify-between border-b border-gray-100 px-4 py-3">
-        <div className="flex items-center gap-2.5">
-          <span className="grid size-8 place-items-center rounded-full bg-gray-900 text-xs font-semibold text-white">
-            P
-          </span>
-          <div>
-            <p className="text-sm font-semibold text-gray-900">Ask Prakhar</p>
-            <p className="text-xs text-gray-500">Answers from my work</p>
-          </div>
-        </div>
+      <header className="flex items-start justify-between border-b border-gray-900 px-5 py-5">
+        <h2 className="font-display text-3xl font-semibold leading-none tracking-[-0.04em] text-gray-900">
+          Ask about my work
+        </h2>
         <button
           type="button"
           onClick={onClose}
           aria-label="Close answer"
-          className="grid size-8 place-items-center rounded-full text-gray-500 hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2"
+          className="grid size-9 place-items-center border border-gray-400 text-gray-600 hover:border-gray-900 hover:bg-gray-900 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2"
         >
           <LuX className="size-4" aria-hidden />
         </button>
@@ -58,21 +52,21 @@ export default function FastmanPanel(props: FastmanPanelProps) {
 
       <FastmanConversation error={error} messages={messages} status={status} />
 
-      <form onSubmit={handleSubmit} className="flex gap-2 border-t border-gray-100 bg-white p-3">
+      <form onSubmit={handleSubmit} className="flex gap-3 border-t border-gray-900 bg-white p-4">
         <input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Ask a follow-up"
           maxLength={500}
-          className="min-w-0 flex-1 rounded-full border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-800 outline-none focus:border-gray-400"
+          className="min-w-0 flex-1 border-b border-gray-400 bg-transparent px-1 py-2.5 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-gray-900"
         />
         <button
           type="submit"
           disabled={!query.trim() || status === "loading"}
           aria-label="Send question"
-          className="grid size-10 shrink-0 place-items-center rounded-full bg-gray-900 text-white disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2"
+          className="grid size-10 shrink-0 place-items-center bg-gray-900 text-white hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2"
         >
-          <LuArrowUp className="size-4" aria-hidden />
+          <LuArrowUpRight className="size-4" aria-hidden />
         </button>
       </form>
     </aside>,

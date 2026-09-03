@@ -51,10 +51,6 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <head>
         {/* Fontshare fonts for Clash Display and Satoshi */}
-        <link
-          rel="icon"
-          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>"
-        />
         <link rel="preconnect" href="https://api.fontshare.com" />
         <link
           href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500&display=swap"

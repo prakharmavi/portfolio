@@ -18,13 +18,17 @@ export default function LiveDemo({
 
   if (!showDemo) {
     return (
-      <div className="not-prose my-8">
+      <div className="not-prose">
         <button
           onClick={() => setShowDemo(true)}
-          className="group relative w-full overflow-hidden rounded-xl border border-gray-200 bg-gray-50 transition-all hover:border-gray-300 hover:shadow-md"
+          className="group relative w-full border-y border-gray-900 bg-[#f7f7f4] text-left transition-colors hover:bg-gray-900 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4"
         >
-          <div className="flex flex-col items-center justify-center gap-3 py-12 px-6">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-900 text-white transition-transform group-hover:scale-110">
+          <div className="flex items-center justify-between gap-6 px-1 py-8 md:py-10">
+            <div>
+              <span className="block text-lg font-medium">Launch interactive demo</span>
+              <span className="mt-1 block font-mono text-xs text-gray-500 group-hover:text-gray-300">{url}</span>
+            </div>
+            <div className="flex size-11 shrink-0 items-center justify-center border border-gray-400 transition-transform group-hover:translate-x-1 group-hover:border-white">
               <svg
                 width="20"
                 height="20"
@@ -38,10 +42,6 @@ export default function LiveDemo({
                 <polygon points="5 3 19 12 5 21 5 3" />
               </svg>
             </div>
-            <span className="text-sm font-medium text-gray-700">
-              Launch interactive demo
-            </span>
-            <span className="text-xs text-gray-400">{url}</span>
           </div>
         </button>
       </div>
@@ -49,8 +49,8 @@ export default function LiveDemo({
   }
 
   return (
-    <div className="not-prose my-8">
-      <div className="overflow-hidden rounded-xl border border-gray-200 shadow-sm">
+    <div className="not-prose">
+      <div className="overflow-hidden border border-gray-900">
         <div className="flex items-center justify-between border-b border-gray-200 bg-gray-50 px-4 py-2">
           <div className="flex items-center gap-2">
             <div className="flex gap-1.5">

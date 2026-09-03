@@ -11,11 +11,11 @@ export const project = {
 
 This site is where I explain the work behind the screenshots. It uses Next.js 15 and React 19, keeps project writing in MDX, and sends the few interactive jobs to small client components.
 
-## What I wanted from it
+## The brief
 
 I did not want a loading animation to be the most memorable part of my portfolio. The site needed to be quick, readable, and specific about what I built. Most pages are rendered on the server, and the interactive pieces load only where they are used.
 
-## Projects without a CMS
+## Content as data
 
 Each project is an MDX file with an exported metadata object. The metadata feeds the home-page cards, project routes, sitemap, social previews, and JSON-LD. The rest of the file becomes the case study.
 
@@ -33,14 +33,14 @@ The contact form posts to a Next.js route that:
 
 The limiter is an in-memory `Map`. It is fine for basic abuse control on this site, but it does not share state across server instances or regions. I would move it to Redis or a managed key-value store before treating it as a hard security boundary.
 
-## Small details I kept
+## Interaction stays intentional
 
 - The pronunciation button plays my name instead of asking visitors to decode phonetics
 - The Cal.com button imports the calendar only when someone opens it
 - The hero question field streams Fastman's answer without leaving the page
 - Project links and metadata are rendered on the server
 
-## Why MDX and server components
+## The technical boundary
 
 MDX keeps writing next to the code without turning every paragraph into JSX. React Server Components keep that content out of the client bundle. Client state is reserved for the contact form, calendar, audio control, and other parts that actually respond to input.
 

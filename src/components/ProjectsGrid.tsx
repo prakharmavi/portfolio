@@ -9,9 +9,13 @@ export default async function ProjectsGrid() {
   }
 
   return (
-    <div className="mt-6 grid gap-6 md:grid-cols-2">
-      {projects.map((project) => (
-        <ProjectCard key={project.slug} project={project} />
+    <div className="mt-14 border-y border-gray-900">
+      {projects.map((project, index) => (
+        <ProjectCard
+          key={project.slug}
+          project={project}
+          index={index + 1}
+        />
       ))}
     </div>
   );

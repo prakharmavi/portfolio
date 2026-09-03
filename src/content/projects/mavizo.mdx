@@ -8,7 +8,11 @@ export const project = {
 
 Mavizo separates the parts of a store that change for different reasons. Medusa owns products, orders, payments, and fulfillment. Sanity owns articles and marketing pages. The Next.js apps read from both.
 
-## What lives in the monorepo
+## The boundary
+
+Commerce and editorial content should not be coupled just because they appear on the same storefront. Keeping them separate lets catalog rules, campaign pages, and frontend work evolve at their own pace.
+
+## The workspace
 
 ```text
 mavizo/
@@ -28,7 +32,7 @@ mavizo/
 
 Turborepo and pnpm keep the apps in one workspace. Shared components and configuration live under `packages`, so a storefront does not need to copy the same UI or compiler settings from another app.
 
-## Why it is split this way
+## Why the split holds
 
 ### Commerce stays in Medusa
 

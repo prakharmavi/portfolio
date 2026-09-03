@@ -11,13 +11,15 @@ export const project = {
 
 HireSpark starts an interview the same way a phone starts a call. An employer rings a candidate, the candidate accepts on mobile, and both join the same video room.
 
-## Why skip the calendar
+## The problem
 
 Scheduling adds email, reminders, and another chance for either person to disappear. HireSpark tests a more direct flow for early screening calls: see who is available, call them, and move on if they do not answer.
 
 The product has two interfaces because the two sides use it differently.
 
-## Employer dashboard
+## Two sides of the call
+
+### Employer dashboard
 
 Employers can:
 
@@ -27,7 +29,7 @@ Employers can:
 - Message a candidate
 - Start a video call from the candidate record
 
-## Candidate app
+### Candidate app
 
 Candidates use an Expo app to:
 
@@ -37,7 +39,7 @@ Candidates use an Expo app to:
 - Answer an incoming call from a full-screen overlay
 - Join a video interview with the other person full screen and their own camera in the corner
 
-## One backend for both apps
+## One shared system
 
 ```text
 hirespark/
@@ -54,7 +56,7 @@ Convex holds the shared data and server functions. Its generated types are used 
 
 Stream handles the WebRTC connection. Clerk owns sign-in, then the backend validates the Clerk session and returns a Stream token for that user. The client never creates its own video credentials.
 
-## Where the work went
+## The parts that needed care
 
 ### The call had to feel native on both sides
 

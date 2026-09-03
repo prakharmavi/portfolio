@@ -13,15 +13,13 @@ export const project = {
 
 Fastman answers questions about my work through a custom system prompt. Cerebras handles generation, while the interface streams each response as NDJSON instead of waiting for the full message.
 
-<FastmanInput />
-
-## Why I built it
+## The problem
 
 A portfolio can explain what I shipped, but it cannot answer a follow-up question. I built Fastman to handle those questions without making people wait through a slow chat interface.
 
 The system prompt covers my projects, how I make technical decisions, and how I tend to explain them. It is more useful than a generic assistant wearing my name.
 
-## What the chat can do
+## The interaction
 
 - Stream responses as they are generated
 - Edit an earlier message and regenerate from that point
@@ -32,7 +30,9 @@ The system prompt covers my projects, how I make technical decisions, and how I 
 
 Editing an old message removes everything after it. That keeps the conversation linear instead of inventing a branching model the interface does not support.
 
-## How it works
+<FastmanInput />
+
+## How it is built
 
 ```text
 Chat.svelte              # Message state, requests, and scrolling
@@ -44,7 +44,7 @@ RateLimitOverlay.svelte  # Reset state and countdown
 
 The frontend uses SvelteKit 2, Svelte 5 runes, TypeScript, and Tailwind CSS v4. A single `/api/chat/+server.ts` endpoint validates the request origin, sends the prompt to Cerebras through the Vercel AI SDK, and forwards the streamed response and rate-limit headers.
 
-## Decisions that mattered
+## The details that mattered
 
 ### Cerebras for response time
 

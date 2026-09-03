@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { getPublishedProject, listPublishedProjects } from "@/lib/projects";
-import LiveDemo from "@/components/LiveDemo";
 import ProjectHeader from "@/components/ProjectHeader";
 
 type ProjectParams = Promise<{ slug: string }>;
@@ -75,9 +74,6 @@ export default async function ProjectPage({
   const siteUrl = (
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://pmavi.com"
   ).replace(/\/$/, "");
-  const liveLink = meta.links.find(
-    (link) => link.type === "live" || link.type === "demo",
-  );
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareSourceCode",
@@ -102,22 +98,18 @@ export default async function ProjectPage({
 
       <ProjectHeader project={meta} />
 
-      {liveLink ? (
-        <div className="border-b border-gray-100 px-6 py-8 sm:px-10 md:px-14">
-          <div className="mx-auto max-w-3xl">
-            <h2 className="font-display mb-4 text-xl font-bold tracking-tight text-gray-900">
-              Try it
-            </h2>
-            <LiveDemo url={liveLink.url} title={meta.title} />
+      <section className="px-6 py-16 md:px-10 md:py-28">
+        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-12">
+          <aside className="lg:col-span-3">
+            <p className="font-mono text-xs uppercase tracking-[0.14em] text-gray-500">
+              Case study
+            </p>
+          </aside>
+          <div className="prose prose-lg prose-gray max-w-none lg:col-span-7 lg:col-start-5 prose-headings:font-display prose-headings:font-semibold prose-headings:tracking-[-0.035em] prose-h2:mt-16 prose-h2:border-t prose-h2:border-gray-300 prose-h2:pt-8 prose-h2:text-3xl prose-h3:mt-10 prose-h3:text-xl prose-p:leading-relaxed prose-a:font-medium prose-a:text-gray-900 prose-a:underline-offset-4 prose-pre:rounded-none prose-pre:bg-gray-950 prose-img:rounded-none prose-hr:my-12">
+            <Content />
           </div>
         </div>
-      ) : null}
-
-      <div className="px-6 py-8 sm:px-10 md:px-14 md:py-12">
-        <div className="prose prose-gray mx-auto max-w-3xl prose-headings:font-display prose-headings:tracking-tight prose-h2:mt-10 prose-h2:text-2xl prose-h3:text-lg prose-p:leading-relaxed prose-a:font-medium prose-a:text-gray-900 prose-a:underline-offset-4 prose-pre:rounded-xl prose-pre:bg-gray-950 prose-img:rounded-xl prose-hr:my-8">
-          <Content />
-        </div>
-      </div>
+      </section>
     </article>
   );
 }

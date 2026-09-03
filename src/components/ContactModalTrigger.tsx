@@ -10,6 +10,8 @@ import {
   type MouseEvent,
   type ReactElement,
   type RefObject,
+  type Dispatch,
+  type SetStateAction,
 } from "react";
 import { createPortal } from "react-dom";
 import { LuX } from "react-icons/lu";
@@ -27,90 +29,26 @@ type ContactModalTriggerProps = {
   children: ReactElement<TriggerProps>;
 };
 
-function ContactDialog({
-  onClose,
-  dialogRef,
-  labelledBy,
-}: {
-  onClose: () => void;
-  dialogRef: RefObject<HTMLDivElement | null>;
-  labelledBy: string;
-}) {
-  return (
-    <div
-      className="fixed inset-0 z-[120] flex items-center justify-center bg-black/40 px-4 py-6 backdrop-blur-sm"
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) {
-          onClose();
-        }
-      }}
-    >
-      <div
-        ref={dialogRef}
-        tabIndex={-1}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={labelledBy}
-        className="relative w-full max-w-2xl overflow-hidden rounded-[28px] border border-gray-200/80 bg-white/95 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.4)] backdrop-blur"
-      >
-        <button
-          type="button"
-          onClick={onClose}
-          className="absolute right-5 top-5 inline-flex size-9 items-center justify-center rounded-full border border-gray-200/70 bg-white/90 text-gray-600 focus:outline-hidden"
-          aria-label="Close contact form"
-        >
-          <LuX className="size-5" aria-hidden />
-        </button>
-        <div className="max-h-[80svh] overflow-y-auto px-6 py-8 sm:px-12 sm:py-12">
-          <div className="mb-8 space-y-2" id={labelledBy}>
-            <span className="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-medium uppercase tracking-[0.35em] text-gray-500">
-              Let&apos;s talk
-            </span>
-            <h2 className="text-3xl font-semibold text-gray-900">
-              Start the conversation
-            </h2>
-            <p className="max-w-prose text-sm text-gray-600">
-              Share a few details about the product, challenge, or collaboration you have in mind. I&apos;ll get back within a day.
-            </p>
-          </div>
-          <ContactForm />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default function ContactModalTrigger({
-  children,
-}: ContactModalTriggerProps) {
-  const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+function useDialogFocus(
+  open: boolean,
+  setOpen: Dispatch<SetStateAction<boolean>>,
+) {
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const previouslyFocused = useRef<Element | null>(null);
-  const labelId = useId();
-  const focusTrap = useRef<{ first: HTMLElement | null; last: HTMLElement | null }>({
-    first: null,
-    last: null,
+  const focusTrap = useRef({
+    first: null as HTMLElement | null,
+    last: null as HTMLElement | null,
   });
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!open) {
-      return;
-    }
+    if (!open) return;
     previouslyFocused.current = document.activeElement;
     const onKeyDown = (event: KeyboardEvent) => {
+      const { first, last } = focusTrap.current;
       if (event.key === "Escape") {
         event.preventDefault();
         setOpen(false);
-      } else if (event.key === "Tab") {
-        const { first, last } = focusTrap.current;
-        if (!first || !last) {
-          return;
-        }
+      } else if (event.key === "Tab" && first && last) {
         if (event.shiftKey && document.activeElement === first) {
           event.preventDefault();
           last.focus();
@@ -126,13 +64,9 @@ export default function ContactModalTrigger({
       const focusables = dialogRef.current?.querySelectorAll<HTMLElement>(
         "a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex='-1'])",
       );
-      if (!focusables?.length) {
-        dialogRef.current?.focus();
-        return;
-      }
-      focusTrap.current.first = focusables[0];
-      focusTrap.current.last = focusables[focusables.length - 1];
-      focusTrap.current.first.focus();
+      focusTrap.current.first = focusables?.[0] ?? null;
+      focusTrap.current.last = focusables?.[focusables.length - 1] ?? null;
+      (focusTrap.current.first ?? dialogRef.current)?.focus();
     });
     return () => {
       window.removeEventListener("keydown", onKeyDown);
@@ -142,7 +76,85 @@ export default function ContactModalTrigger({
       }
       focusTrap.current = { first: null, last: null };
     };
-  }, [open]);
+  }, [open, setOpen]);
+
+  return dialogRef;
+}
+
+function ContactDialog({
+  onClose,
+  dialogRef,
+  labelledBy,
+}: {
+  onClose: () => void;
+  dialogRef: RefObject<HTMLDivElement | null>;
+  labelledBy: string;
+}) {
+  return (
+    <div
+      className="fixed inset-0 z-[120] flex items-center justify-center bg-black/55 px-3 py-3 backdrop-blur-sm sm:px-6 sm:py-6"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+      <div
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={labelledBy}
+        className="relative w-full max-w-5xl overflow-hidden border border-gray-900 bg-[#f7f7f4] shadow-[0_30px_90px_-30px_rgba(0,0,0,0.55)]"
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute right-5 top-5 z-10 inline-flex size-10 items-center justify-center border border-gray-400 bg-[#f7f7f4] text-gray-700 hover:border-gray-900 hover:bg-gray-900 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4"
+          aria-label="Close contact form"
+        >
+          <LuX className="size-5" aria-hidden />
+        </button>
+        <div className="max-h-[92svh] overflow-y-auto px-6 py-10 sm:px-10 sm:py-12">
+          <header className="grid gap-8 pr-14 md:grid-cols-12" id={labelledBy}>
+            <div className="md:col-span-7">
+              <p className="font-mono text-xs uppercase tracking-[0.14em] text-gray-500">
+                Contact / Toronto
+              </p>
+              <h2 className="mt-4 max-w-xl font-display text-5xl font-semibold leading-[0.88] tracking-[-0.05em] text-gray-900 sm:text-6xl">
+                Tell me what you&apos;re building.
+              </h2>
+            </div>
+            <p className="self-end text-lg leading-relaxed text-gray-600 md:col-span-5">
+              Send the rough version. What it does, where it is stuck, and what
+              you need from me. I usually reply within one business day.
+            </p>
+          </header>
+          <div className="mt-10 border-t border-gray-900 pt-8 md:mt-12 md:grid md:grid-cols-12 md:gap-8">
+            <p className="mb-8 font-mono text-xs uppercase tracking-[0.14em] text-gray-500 md:col-span-3 md:mb-0">
+              Start a conversation
+            </p>
+            <div className="md:col-span-9">
+              <ContactForm />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function ContactModalTrigger({
+  children,
+}: ContactModalTriggerProps) {
+  const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const dialogRef = useDialogFocus(open, setOpen);
+  const labelId = useId();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const triggerElement = children;
 

@@ -20,35 +20,31 @@ export default async function Home() {
         discordUrl={DISCORD_URL}
       />
 
-      {/* About */}
       <section
         id="about"
-        className="w-full px-6 md:px-10 py-12 md:py-16 scroll-mt-24"
+        className="scroll-mt-24 border-t border-gray-900 px-6 py-20 md:px-10 md:py-28"
       >
-        <div className="max-w-5xl mx-auto space-y-8">
-          <article className="relative bg-white border border-gray-200 rounded-[24px] p-6 md:p-8">
+        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-4">
             <SectionHeader label="About" title="How I work" />
-            <div className="mt-5 space-y-4 text-gray-700">
-              <AboutContent />
-            </div>
-          </article>
+          </div>
+          <div className="max-w-2xl text-lg leading-relaxed text-gray-700 lg:col-span-7 lg:col-start-6">
+            <AboutContent />
+          </div>
         </div>
       </section>
 
-      {/* Projects */}
       <section
         id="projects"
-        className="w-full px-6 md:px-10 py-12 md:py-16 scroll-mt-24"
+        className="scroll-mt-24 border-t border-gray-900 bg-[#f7f7f4] px-6 py-20 md:px-10 md:py-28"
       >
-        <div className="max-w-5xl mx-auto">
-          <article className="relative bg-white border border-gray-200 rounded-[24px] p-6 md:p-8">
-            <SectionHeader
-              label="Projects"
-              title="Selected work"
-              description="Things I have built, what got complicated, and why I made the calls I did."
-            />
-            <ProjectsGrid />
-          </article>
+        <div className="mx-auto max-w-6xl">
+          <SectionHeader
+            label="Projects / 05"
+            title="Selected work"
+            description="Five projects, with the product decisions and implementation details that screenshots miss."
+          />
+          <ProjectsGrid />
         </div>
       </section>
     </main>

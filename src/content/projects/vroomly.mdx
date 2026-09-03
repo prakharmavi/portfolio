@@ -14,9 +14,7 @@ export const project = {
 
 Vroomly is a car-sharing marketplace where owners publish a car and renters request a date range. The interesting part is not the listing form. It is keeping two people, two sets of permissions, and one booking in sync.
 
-<VroomlyBrowse />
-
-## What each person can do
+## The marketplace
 
 Owners can add photos and vehicle details, set a price and availability window, and approve or decline requests. They can edit, deactivate, or remove a listing later.
 
@@ -24,7 +22,9 @@ Renters can filter cars by place and date, open a listing, request a booking, an
 
 Both sides get profiles, reviews, unread message notices, and either Google or email-and-password sign-in.
 
-## How it is put together
+<VroomlyBrowse />
+
+## The system shape
 
 ```text
 React 19, TypeScript, and Vite 6
@@ -44,23 +44,23 @@ React 19, TypeScript, and Vite 6
 
 This is a client-heavy app. Most screens depend on the signed-in user or a live Firestore listener, so I used React Router instead of adding server rendering that the private parts of the marketplace would not benefit from.
 
-## A booking has rules
+## Booking is a state machine
 
 A booking moves from `pending` to `approved` and then `completed`, or it ends at `declined`. Owners and renters see different actions at each step. The request form checks the car's availability window and blocks an overlapping booking.
 
 Those rules live behind the interface rather than in a collection of conditional buttons. The UI reads the current state and offers only the next action that person is allowed to take.
 
-## Messaging stays live
-
-Firestore `onSnapshot` listeners add messages to an open conversation as they arrive. A global `MessageNotifier` checks unread counts outside the message screen and raises a toast when there is something new.
-
-Every listener returns a cleanup function from `useEffect`. Without that cleanup, navigating between conversations leaves old subscriptions running and produces duplicate or stale updates.
-
-## Firebase is the backend
+## Firebase carries the backend
 
 There is no separate API server. Firebase Authentication establishes identity, Firestore holds the marketplace data, and Storage keeps uploaded images. Security rules decide who can change a booking or read a private conversation.
 
 That makes the rules part of the application, not deployment boilerplate. A screen hiding an edit button is not authorization. Firestore still has to reject the same write.
+
+## Keeping conversations live
+
+Firestore `onSnapshot` listeners add messages to an open conversation as they arrive. A global `MessageNotifier` checks unread counts outside the message screen and raises a toast when there is something new.
+
+Every listener returns a cleanup function from `useEffect`. Without that cleanup, navigating between conversations leaves old subscriptions running and produces duplicate or stale updates.
 
 ## The awkward parts
 

@@ -8,10 +8,10 @@ import PronunciationButton from "@/components/PronunciationButton";
 export default function HeroIntro() {
   return (
     <div>
-      <p className="text-xs uppercase tracking-wide text-gray-500">
+      <p className="text-xs font-medium uppercase tracking-[0.16em] text-gray-500">
         Hi, I&apos;m
       </p>
-      <h1 className="mt-2 font-display text-5xl font-semibold leading-[0.95] tracking-tight text-gray-900 text-3d sm:text-6xl lg:text-[4rem] xl:text-7xl">
+      <h1 className="mt-3 font-display text-6xl font-semibold leading-[0.88] tracking-[-0.055em] text-gray-900 sm:text-7xl lg:text-[5.5rem] xl:text-8xl">
         Prakhar Mavi
       </h1>
       <div className="mt-3">
@@ -21,29 +21,29 @@ export default function HeroIntro() {
           audioSrc="/pronunciation.mp3"
         />
       </div>
-      <p className="mt-5 max-w-prose text-lg leading-relaxed text-gray-600">
-        I build web and mobile apps. I care about quick response
-        times and simple systems that hold up when real people use them.
+      <p className="mt-7 max-w-xl text-xl leading-relaxed text-gray-600 md:text-2xl">
+        I build web and mobile apps that feel quick, make sense, and keep
+        working once people actually start using them.
       </p>
 
       <div className="mt-7 flex flex-wrap items-center gap-2.5">
         <Link
           href="/#projects"
-          className="inline-flex items-center gap-2 rounded-full bg-gray-800 px-4 py-2.5 text-sm text-white focus-visible:outline-2 focus-visible:outline-offset-2"
+          className="inline-flex items-center gap-2 bg-gray-900 px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-gray-700 focus-visible:outline-2 focus-visible:outline-offset-2"
         >
           See my work
           <LuArrowRight className="size-4" aria-hidden />
         </Link>
         <Link
           href="/#about"
-          className="inline-flex items-center rounded-full bg-gray-800 px-4 py-2.5 text-sm text-white focus-visible:outline-2 focus-visible:outline-offset-2"
+          className="inline-flex items-center border-b border-gray-900 pb-1 text-sm font-medium text-gray-900 transition-colors hover:border-gray-400 hover:text-gray-500 focus-visible:outline-2 focus-visible:outline-offset-2"
         >
           About me
         </Link>
         <ContactModalTrigger>
           <button
             type="button"
-            className="inline-flex items-center rounded-full border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="inline-flex items-center border-b border-gray-900 pb-1 text-sm font-medium text-gray-900 transition-colors hover:border-gray-400 hover:text-gray-500 focus-visible:outline-2 focus-visible:outline-offset-2"
           >
             Contact
           </button>

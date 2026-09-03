@@ -10,15 +10,14 @@ type HeroSectionProps = {
 
 export default function HeroSection(props: HeroSectionProps) {
   return (
-    <section className="min-h-dvh w-full px-6 pb-12 pt-28 md:px-10 md:pb-16 md:pt-32 lg:flex lg:items-center">
-      <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(18rem,0.6fr)] lg:items-stretch">
-        <div className="flex flex-col justify-center py-2 lg:py-4">
+    <section className="min-h-dvh w-full pt-20 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(22rem,40vw)]">
+      <div className="flex px-6 py-16 md:px-10 md:py-24 lg:items-center lg:py-28 lg:pl-[max(2.5rem,calc((100vw-72rem)/2))] lg:pr-16">
+        <div className="max-w-2xl">
           <HeroIntro />
           <HeroProfileLinks {...props} />
         </div>
-
-        <HeroPortrait />
       </div>
+      <HeroPortrait />
     </section>
   );
 }
