@@ -3,6 +3,48 @@ import type { FastmanMessage } from "@/types/api";
 const DEFAULT_FASTMAN_URL = "https://fastman.vercel.app";
 const DEFAULT_PORTFOLIO_ORIGIN = "https://www.pmavi.com";
 const MAX_MESSAGES = 20;
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const MAX_REQUESTS_PER_WINDOW = 10;
+
+type RateLimitEntry = {
+  count: number;
+  reset: number;
+};
+
+const rateLimitEntries = new Map<string, RateLimitEntry>();
+
+function isPortfolioRequest(request: Request) {
+  const portfolioOrigin = process.env.PORTFOLIO_ORIGIN ?? DEFAULT_PORTFOLIO_ORIGIN;
+  return request.headers.get("origin") === portfolioOrigin;
+}
+
+function getClientIp(request: Request) {
+  return (
+    request.headers.get("x-vercel-forwarded-for") ??
+    request.headers.get("x-forwarded-for") ??
+    "unknown"
+  );
+}
+
+function checkRateLimit(clientIp: string) {
+  const now = Date.now();
+  const entry = rateLimitEntries.get(clientIp);
+
+  if (!entry || now >= entry.reset) {
+    rateLimitEntries.set(clientIp, { count: 1, reset: now + RATE_LIMIT_WINDOW_MS });
+    return { allowed: true, retryAfterSeconds: 0 };
+  }
+
+  if (entry.count < MAX_REQUESTS_PER_WINDOW) {
+    entry.count += 1;
+    return { allowed: true, retryAfterSeconds: 0 };
+  }
+
+  return {
+    allowed: false,
+    retryAfterSeconds: Math.max(1, Math.ceil((entry.reset - now) / 1000)),
+  };
+}
 
 function isFastmanMessage(value: unknown): value is FastmanMessage {
   if (!value || typeof value !== "object") return false;
@@ -40,11 +82,23 @@ function prepareMessages(messages: FastmanMessage[]) {
 }
 
 export async function POST(request: Request) {
+  if (!isPortfolioRequest(request)) {
+    return Response.json({ error: "This endpoint only accepts portfolio requests." }, { status: 403 });
+  }
+
   const payload: unknown = await request.json().catch(() => null);
   const messages = parseMessages(payload);
 
   if (!messages) {
     return Response.json({ error: "The conversation is invalid or too long." }, { status: 400 });
+  }
+
+  const limit = checkRateLimit(getClientIp(request));
+  if (!limit.allowed) {
+    return Response.json(
+      { error: "Too many chat requests. Please wait a minute and try again." },
+      { status: 429, headers: { "Retry-After": String(limit.retryAfterSeconds) } },
+    );
   }
 
   const fastmanUrl = process.env.FASTMAN_URL ?? DEFAULT_FASTMAN_URL;
