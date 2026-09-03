@@ -145,6 +145,21 @@
       0 0.03em 0 rgba(17,24,39,0.45),
       0 0.12em 0.25em rgba(17,24,39,0.18);
   }
+
+  .vanish-copy {
+    animation: vanish-copy 420ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+}
+
+@keyframes vanish-copy {
+  from { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); }
+  to { opacity: 0; filter: blur(6px); transform: translateY(-10px) scale(0.97); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vanish-copy {
+    animation: none;
+  }
 }
 
 /* Project page prose refinements */
