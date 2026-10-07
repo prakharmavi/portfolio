@@ -22,13 +22,13 @@ export default async function Home() {
 
       <section
         id="about"
-        className="scroll-mt-24 border-t border-gray-900 px-6 py-20 md:px-10 md:py-28"
+        className="scroll-mt-24 border-t border-foreground px-6 py-20 md:px-10 md:py-28"
       >
         <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-4">
             <SectionHeader label="About" title="How I work" />
           </div>
-          <div className="max-w-2xl text-lg leading-relaxed text-gray-700 lg:col-span-7 lg:col-start-6">
+          <div className="max-w-2xl text-lg leading-relaxed text-foreground lg:col-span-7 lg:col-start-6">
             <AboutContent />
           </div>
         </div>
@@ -36,7 +36,7 @@ export default async function Home() {
 
       <section
         id="projects"
-        className="scroll-mt-24 border-t border-gray-900 bg-[#f7f7f4] px-6 py-20 md:px-10 md:py-28"
+        className="scroll-mt-24 border-t border-foreground bg-card px-6 py-20 md:px-10 md:py-28"
       >
         <div className="mx-auto max-w-6xl">
           <SectionHeader

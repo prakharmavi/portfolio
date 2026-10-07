@@ -10,10 +10,10 @@ export default function CalFloatingButton() {
     try {
       const { getCalApi } = await import("@calcom/embed-react");
       const cal = await getCalApi({ namespace: "30min" });
-      cal("ui", { theme: "light", hideEventTypeDetails: false, layout: "month_view" });
+      cal("ui", { theme: "dark", hideEventTypeDetails: false, layout: "month_view" });
       cal("modal", {
         calLink: "prakhar-mavi/30min",
-        config: { layout: "month_view", theme: "light" },
+        config: { layout: "month_view", theme: "dark" },
       });
     } finally {
       setLoading(false);
@@ -25,7 +25,7 @@ export default function CalFloatingButton() {
       type="button"
       onClick={openCalendar}
       disabled={loading}
-      className="fixed bottom-6 right-6 z-[110] inline-flex items-center gap-3 rounded-full bg-black px-5 py-3 text-sm font-medium text-white shadow-lg hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-60"
+      className="fixed bottom-6 right-6 z-[110] inline-flex items-center gap-3 rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground shadow-lg hover:bg-primary/80 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-60"
       aria-label="Schedule a 30-minute call"
     >
       <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>

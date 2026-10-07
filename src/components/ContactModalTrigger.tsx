@@ -92,7 +92,7 @@ function ContactDialog({
 }) {
   return (
     <div
-      className="fixed inset-0 z-[120] flex items-center justify-center bg-black/55 px-3 py-3 backdrop-blur-sm sm:px-6 sm:py-6"
+      className="fixed inset-0 z-[120] flex items-center justify-center bg-black/70 px-3 py-3 backdrop-blur-sm sm:px-6 sm:py-6"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) {
           onClose();
@@ -105,12 +105,12 @@ function ContactDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby={labelledBy}
-        className="relative w-full max-w-5xl overflow-hidden border border-gray-900 bg-[#f7f7f4] shadow-[0_30px_90px_-30px_rgba(0,0,0,0.55)]"
+        className="relative w-full max-w-5xl overflow-hidden border border-foreground bg-card shadow-[0_30px_90px_-30px_rgba(0,0,0,0.55)]"
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-5 top-5 z-10 inline-flex size-10 items-center justify-center border border-gray-400 bg-[#f7f7f4] text-gray-700 hover:border-gray-900 hover:bg-gray-900 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4"
+          className="absolute right-5 top-5 z-10 inline-flex size-10 items-center justify-center border border-border bg-card text-foreground hover:border-foreground hover:bg-primary hover:text-primary-foreground focus-visible:outline-2 focus-visible:outline-offset-4"
           aria-label="Close contact form"
         >
           <LuX className="size-5" aria-hidden />
@@ -118,20 +118,20 @@ function ContactDialog({
         <div className="max-h-[92svh] overflow-y-auto px-6 py-10 sm:px-10 sm:py-12">
           <header className="grid gap-8 pr-14 md:grid-cols-12" id={labelledBy}>
             <div className="md:col-span-7">
-              <p className="font-mono text-xs uppercase tracking-[0.14em] text-gray-500">
+              <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
                 Contact / Toronto
               </p>
-              <h2 className="mt-4 max-w-xl font-display text-5xl font-semibold leading-[0.88] tracking-[-0.05em] text-gray-900 sm:text-6xl">
+              <h2 className="mt-4 max-w-xl font-display text-5xl font-semibold leading-[0.88] tracking-[-0.05em] text-foreground sm:text-6xl">
                 Tell me what you&apos;re building.
               </h2>
             </div>
-            <p className="self-end text-lg leading-relaxed text-gray-600 md:col-span-5">
+            <p className="self-end text-lg leading-relaxed text-muted-foreground md:col-span-5">
               Send the rough version. What it does, where it is stuck, and what
               you need from me. I usually reply within one business day.
             </p>
           </header>
-          <div className="mt-10 border-t border-gray-900 pt-8 md:mt-12 md:grid md:grid-cols-12 md:gap-8">
-            <p className="mb-8 font-mono text-xs uppercase tracking-[0.14em] text-gray-500 md:col-span-3 md:mb-0">
+          <div className="mt-10 border-t border-foreground pt-8 md:mt-12 md:grid md:grid-cols-12 md:gap-8">
+            <p className="mb-8 font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground md:col-span-3 md:mb-0">
               Start a conversation
             </p>
             <div className="md:col-span-9">

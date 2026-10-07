@@ -16,9 +16,9 @@ const rainbowButtonVariants = cva(
     variants: {
       variant: {
         default:
-          "border-2 border-gray-900 bg-gray-900 text-white",
+          "border-2 border-foreground bg-primary text-primary-foreground",
         outline:
-          "border-2 border-gray-900 bg-white text-gray-900",
+          "border-2 border-foreground bg-background text-foreground",
       },
       size: {
         default: "h-9 px-4 py-2",

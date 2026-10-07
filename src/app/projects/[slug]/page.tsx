@@ -101,11 +101,11 @@ export default async function ProjectPage({
       <section className="px-6 py-16 md:px-10 md:py-28">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-12">
           <aside className="lg:col-span-3">
-            <p className="font-mono text-xs uppercase tracking-[0.14em] text-gray-500">
+            <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
               Case study
             </p>
           </aside>
-          <div className="prose prose-lg prose-gray max-w-none lg:col-span-7 lg:col-start-5 prose-headings:font-display prose-headings:font-semibold prose-headings:tracking-[-0.035em] prose-h2:mt-16 prose-h2:border-t prose-h2:border-gray-300 prose-h2:pt-8 prose-h2:text-3xl prose-h3:mt-10 prose-h3:text-xl prose-p:leading-relaxed prose-a:font-medium prose-a:text-gray-900 prose-a:underline-offset-4 prose-pre:rounded-none prose-pre:bg-gray-950 prose-img:rounded-none prose-hr:my-12">
+          <div className="prose prose-lg prose-gray prose-invert max-w-none lg:col-span-7 lg:col-start-5 prose-headings:font-display prose-headings:font-semibold prose-headings:tracking-[-0.035em] prose-h2:mt-16 prose-h2:border-t prose-h2:border-border prose-h2:pt-8 prose-h2:text-3xl prose-h3:mt-10 prose-h3:text-xl prose-p:leading-relaxed prose-a:font-medium prose-a:text-foreground prose-a:underline-offset-4 prose-pre:rounded-none prose-pre:bg-gray-950 prose-img:rounded-none prose-hr:my-12">
             <Content />
           </div>
         </div>

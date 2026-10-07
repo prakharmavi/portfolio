@@ -62,26 +62,26 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 function ToastCard({ item, onClose }: { item: ToastItem; onClose: () => void }) {
   const { kind, title, description } = item;
   const Icon = kind === "error" ? LuX : LuCheck;
-  const accent = kind === "error" ? "text-red-600" : kind === "info" ? "text-gray-700" : "text-emerald-600";
+  const accent = kind === "error" ? "text-red-400" : kind === "info" ? "text-foreground" : "text-emerald-400";
 
   return (
     <div
       role="status"
       aria-live="polite"
-      className="pointer-events-auto relative isolate flex items-start gap-3 rounded-2xl border border-gray-200 bg-white/95 px-4 py-3 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-white/75"
+      className="pointer-events-auto relative isolate flex items-start gap-3 rounded-2xl border border-border bg-background/95 px-4 py-3 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/75"
     >
       <div className={`mt-0.5 ${accent}`}>
         <Icon className="size-4" aria-hidden />
       </div>
       <div className="min-w-0">
-        <p className="text-sm font-medium text-gray-900">{title}</p>
-        {description ? <p className="mt-0.5 text-xs text-gray-600">{description}</p> : null}
+        <p className="text-sm font-medium text-foreground">{title}</p>
+        {description ? <p className="mt-0.5 text-xs text-muted-foreground">{description}</p> : null}
       </div>
       <button
         type="button"
         onClick={onClose}
         aria-label="Dismiss notification"
-        className="ml-auto inline-flex size-7 items-center justify-center rounded-full text-gray-500 focus:outline-hidden"
+        className="ml-auto inline-flex size-7 items-center justify-center rounded-full text-muted-foreground focus:outline-hidden"
       >
         <LuX className="size-4" aria-hidden />
       </button>
