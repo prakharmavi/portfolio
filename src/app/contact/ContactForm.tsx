@@ -70,12 +70,12 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={submitting}
-            className="inline-flex items-center gap-3 bg-gray-900 px-6 py-3 text-sm font-medium text-white hover:bg-gray-700 focus-visible:outline-2 focus-visible:outline-offset-4 disabled:cursor-not-allowed disabled:opacity-40"
+            className="inline-flex items-center gap-3 bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/80 focus-visible:outline-2 focus-visible:outline-offset-4 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {submitting ? "Sending..." : "Send message"}
             <LuArrowUpRight className="size-4" aria-hidden />
           </button>
-          {error ? <p className="text-sm text-red-600">{error}</p> : null}
+          {error ? <p className="text-sm text-red-400">{error}</p> : null}
         </div>
       </form>
       <div className="mt-12">

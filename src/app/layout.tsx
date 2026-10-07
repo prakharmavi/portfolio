@@ -48,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="dark scroll-smooth">
       <head>
         {/* Fontshare fonts for Clash Display and Satoshi */}
         <link rel="preconnect" href="https://api.fontshare.com" />

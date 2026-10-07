@@ -145,7 +145,7 @@ export default function PronunciationButton({ text, phonetic, className, audioSr
       <button
         type="button"
         onClick={speaking ? stop : speak}
-        className="inline-flex items-center justify-center rounded-full border border-gray-300 text-gray-700 size-8 focus:outline-hidden"
+        className="inline-flex items-center justify-center rounded-full border border-border text-foreground size-8 focus:outline-hidden"
         aria-label={speaking ? "Stop pronunciation" : `Hear pronunciation`}
         title={phonetic ? `Pronounced: ${phonetic}` : "Hear pronunciation"}
       >
@@ -156,7 +156,7 @@ export default function PronunciationButton({ text, phonetic, className, audioSr
         )}
       </button>
       {phonetic ? (
-        <span className="hidden md:inline text-sm text-gray-500" aria-hidden>
+        <span className="hidden md:inline text-sm text-muted-foreground" aria-hidden>
           {phonetic}
         </span>
       ) : null}

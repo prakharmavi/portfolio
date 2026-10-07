@@ -1,45 +1,46 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+@custom-variant dark (&:where(.dark, .dark *));
 /* Display + Body fonts loaded via <link> in layout.tsx */
 
 :root {
-    color-scheme: light;
+    color-scheme: dark;
     --color-1: oklch(66.2% 0.225 25.9);
     --color-2: oklch(60.4% 0.26 302);
     --color-3: oklch(69.6% 0.165 251);
     --color-4: oklch(80.2% 0.134 225);
     --color-5: oklch(90.7% 0.231 133);
     --radius: 0.625rem;
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.985 0 0);
+    --primary-foreground: oklch(0.145 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
     --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
+    --border: oklch(0.371 0 0);
+    --input: oklch(0.371 0 0);
     --ring: oklch(0.708 0 0);
     --chart-1: oklch(0.646 0.222 41.116);
     --chart-2: oklch(0.6 0.118 184.704);
     --chart-3: oklch(0.398 0.07 227.392);
     --chart-4: oklch(0.828 0.189 84.429);
     --chart-5: oklch(0.769 0.188 70.08);
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.985 0 0);
+    --sidebar-primary-foreground: oklch(0.145 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(0.371 0 0);
     --sidebar-ring: oklch(0.708 0 0);
 }
 
@@ -51,15 +52,15 @@
     --font-sans: "Satoshi", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     /* shadcn/ui token aliases expected by components */
-    --color-primary: #111827; /* gray-900 */
-    --color-primary-foreground: #f8fafc; /* gray-50 */
-    --color-accent: #f4f4f5; /* zinc-100 */
-    --color-accent-foreground: #111827; /* gray-900 */
-    --color-destructive: #ef4444; /* red-500 */
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
     --color-destructive-foreground: #ffffff;
-    --color-border: #e5e7eb; /* gray-200 */
-    --color-input: #e5e7eb; /* gray-200 */
-    --color-ring: #111827; /* gray-900 */
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
     --color-color-5: var(--color-5);
     --color-color-4: var(--color-4);
     --color-color-3: var(--color-3);
@@ -92,7 +93,7 @@
   --radius-xl: calc(var(--radius) + 4px)
 }
 
-/* Force light theme: remove dark-mode overrides */
+/* The portfolio uses a dark theme on every device. */
 
 /* Adds pointer cursor to buttons */
 @layer base {
@@ -168,24 +169,24 @@
     @apply w-full text-sm;
   }
   .prose thead th {
-    @apply border-b-2 border-gray-200 bg-gray-50 px-4 py-2.5 text-left text-xs font-semibold uppercase tracking-wider text-gray-500;
+    @apply border-b-2 border-border bg-muted px-4 py-2.5 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground;
   }
   .prose tbody td {
-    @apply border-b border-gray-100 px-4 py-2.5;
+    @apply border-b border-border px-4 py-2.5;
   }
   .prose tbody tr:last-child td {
     @apply border-b-0;
   }
   .prose hr {
-    @apply border-gray-200;
+    @apply border-border;
   }
   .prose blockquote {
-    @apply border-l-4 border-gray-900 bg-gray-50 px-5 py-4 not-italic;
+    @apply border-l-4 border-primary bg-muted px-5 py-4 not-italic;
   }
   .prose pre {
-    @apply border border-gray-800;
+    @apply border border-border;
   }
   .prose code:not(pre code) {
-    @apply rounded bg-gray-100 px-1.5 py-0.5 text-sm font-medium text-gray-800 before:content-[''] after:content-[''];
+    @apply rounded bg-muted px-1.5 py-0.5 text-sm font-medium text-foreground before:content-[''] after:content-[''];
   }
 }

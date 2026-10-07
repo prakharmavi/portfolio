@@ -30,7 +30,7 @@ function UserAvatar() {
     <span
       role="img"
       aria-label="You"
-      className="grid size-7 place-items-center rounded-full bg-white text-gray-900"
+      className="grid size-7 place-items-center rounded-full bg-background text-foreground"
     >
       <LuUserRound className="size-3.5" aria-hidden />
     </span>
@@ -52,13 +52,13 @@ export default function FastmanConversation(props: FastmanConversationProps) {
       ref={container}
       aria-live="polite"
       aria-busy={status === "loading"}
-      className="min-h-44 flex-1 overflow-y-auto bg-[#f7f7f4]"
+      className="min-h-44 flex-1 overflow-y-auto bg-card"
     >
       {messages.map((message, index) =>
         message.role === "user" ? (
           <div
             key={index}
-            className="grid grid-cols-[3.5rem_minmax(0,1fr)] gap-3 border-b border-gray-300 bg-gray-900 px-5 py-4 text-white"
+            className="grid grid-cols-[3.5rem_minmax(0,1fr)] gap-3 border-b border-border bg-primary px-5 py-4 text-primary-foreground"
           >
             <UserAvatar />
             <p className="text-sm leading-6">{message.content}</p>
@@ -66,10 +66,10 @@ export default function FastmanConversation(props: FastmanConversationProps) {
         ) : (
           <div
             key={index}
-            className="grid grid-cols-[3.5rem_minmax(0,1fr)] gap-3 border-b border-gray-300 px-5 py-5"
+            className="grid grid-cols-[3.5rem_minmax(0,1fr)] gap-3 border-b border-border px-5 py-5"
           >
             <PrakharAvatar />
-            <p className="whitespace-pre-wrap text-sm leading-6 text-gray-700">
+            <p className="whitespace-pre-wrap text-sm leading-6 text-foreground">
               {message.content}
               {status === "loading" && index === messages.length - 1 && (
                 <span className="ml-1 inline-block size-1.5 animate-pulse rounded-full bg-gray-400" />
@@ -79,9 +79,9 @@ export default function FastmanConversation(props: FastmanConversationProps) {
         ),
       )}
       {(awaitingAnswer || status === "error") && (
-        <div className="grid grid-cols-[3.5rem_minmax(0,1fr)] gap-3 border-b border-gray-300 px-5 py-5">
+        <div className="grid grid-cols-[3.5rem_minmax(0,1fr)] gap-3 border-b border-border px-5 py-5">
           <PrakharAvatar />
-          <p className="text-sm leading-6 text-gray-600">
+          <p className="text-sm leading-6 text-muted-foreground">
             {awaitingAnswer ? "Checking the project notes..." : error}
           </p>
         </div>

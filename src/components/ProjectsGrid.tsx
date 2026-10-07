@@ -9,7 +9,7 @@ export default async function ProjectsGrid() {
   }
 
   return (
-    <div className="mt-14 border-y border-gray-900">
+    <div className="mt-14 border-y border-foreground">
       {projects.map((project, index) => (
         <ProjectCard
           key={project.slug}
