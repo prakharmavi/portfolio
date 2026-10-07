@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
-import Navbar from "../components/Navbar";
 import CalFloatingButton from "../components/CalFloatingButton";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://pmavi.com";
@@ -59,7 +58,6 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <Providers>
-          <Navbar />
           {children}
           <CalFloatingButton />
         </Providers>
