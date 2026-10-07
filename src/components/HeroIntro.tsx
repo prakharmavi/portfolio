@@ -21,7 +21,7 @@ export default function HeroIntro() {
           audioSrc="/pronunciation.mp3"
         />
       </div>
-      <p className="mt-6 max-w-sm text-base leading-relaxed text-muted-foreground sm:text-lg">
+      <p className="mt-6 max-w-sm text-base leading-relaxed text-muted-foreground sm:text-lg lg:max-w-none lg:min-h-[3.25em]">
         I build fast, intuitive web and mobile apps that hold up in everyday use.
       </p>
 
@@ -43,8 +43,8 @@ export default function HeroIntro() {
         </ContactModalTrigger>
       </div>
 
-      <div className="mt-8 max-w-sm border-t border-border/60 pt-5">
-        <p className="mb-3 text-xs font-medium text-muted-foreground">
+      <div className="mt-3 max-w-sm lg:max-w-xl">
+        <p className="mb-1 text-xs font-medium text-muted-foreground">
           Curious about my work? Ask a question.
         </p>
         <AskMeInput appearance="quiet" />
