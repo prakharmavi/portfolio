@@ -1,17 +1,21 @@
 import Image from "next/image";
+import HeroDither from "@/components/HeroDither";
 
 export default function HeroPortrait() {
   return (
-    <div className="absolute inset-y-0 right-0 -z-10 hidden w-[52%] overflow-hidden lg:block">
+    <div className="absolute inset-0 w-full overflow-hidden lg:left-auto lg:w-[52%]">
+      <HeroDither />
       <Image
         src="/images/prakhar-hero-natural-cutout.png"
         alt="Portrait of Prakhar Mavi"
         fill
         priority
         sizes="(min-width: 1024px) 52vw, 100vw"
-        className="object-cover object-top"
+        className="pointer-events-none hidden object-cover object-top lg:block"
       />
-      <div aria-hidden className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-background to-transparent" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-black/55 lg:hidden" />
+      <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 hidden w-40 bg-linear-to-r from-black to-transparent lg:block" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-black to-transparent" />
     </div>
   );
 }
