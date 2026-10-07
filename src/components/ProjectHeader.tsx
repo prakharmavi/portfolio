@@ -28,11 +28,11 @@ function previewClassName(slug: string) {
 
 export default function ProjectHeader({ project }: Props) {
   return (
-    <header className="border-b border-gray-900 bg-[#f7f7f4] px-6 pt-20 md:px-10 md:pt-28">
+    <header className="border-b border-foreground bg-card px-6 pt-20 md:px-10 md:pt-28">
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-7">
-            <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.14em] text-gray-500">
+            <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
               <span>Case study</span>
               {project.date ? (
                 <>
@@ -41,16 +41,16 @@ export default function ProjectHeader({ project }: Props) {
                 </>
               ) : null}
             </div>
-            <h1 className="mt-5 font-display text-6xl font-semibold leading-[0.86] tracking-[-0.055em] text-gray-900 sm:text-7xl lg:text-8xl">
+            <h1 className="mt-5 font-display text-6xl font-semibold leading-[0.86] tracking-[-0.055em] text-foreground sm:text-7xl lg:text-8xl">
               {project.title}
             </h1>
           </div>
           <div className="flex flex-col justify-end lg:col-span-5 lg:pb-1">
-            <p className="max-w-xl text-xl leading-relaxed text-gray-600 md:text-2xl">
+            <p className="max-w-xl text-xl leading-relaxed text-muted-foreground md:text-2xl">
               {project.description}
             </p>
             {project.tags.length > 0 ? (
-              <p className="mt-5 font-mono text-xs uppercase tracking-[0.12em] text-gray-500">
+              <p className="mt-5 font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground">
                 {project.tags.join(" / ")}
               </p>
             ) : null}
@@ -64,7 +64,7 @@ export default function ProjectHeader({ project }: Props) {
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 border-b border-gray-900 pb-1 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-500 focus-visible:outline-2 focus-visible:outline-offset-4"
+                      className="inline-flex items-center gap-2 border-b border-foreground pb-1 text-sm font-medium text-foreground hover:border-border hover:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-4"
                     >
                       <span>{link.label}</span>
                       <Icon className="size-4" aria-hidden />
@@ -76,7 +76,7 @@ export default function ProjectHeader({ project }: Props) {
           </div>
         </div>
 
-        <div className="relative mt-16 aspect-[16/8] overflow-hidden bg-gray-200 md:mt-24">
+        <div className="relative mt-16 aspect-[16/8] overflow-hidden bg-muted md:mt-24">
           <Image
             src={project.thumbnail}
             alt={`${project.title} project preview`}

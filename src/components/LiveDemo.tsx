@@ -21,14 +21,14 @@ export default function LiveDemo({
       <div className="not-prose">
         <button
           onClick={() => setShowDemo(true)}
-          className="group relative w-full border-y border-gray-900 bg-[#f7f7f4] text-left transition-colors hover:bg-gray-900 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4"
+          className="group relative w-full border-y border-foreground bg-card text-left transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-2 focus-visible:outline-offset-4"
         >
           <div className="flex items-center justify-between gap-6 px-1 py-8 md:py-10">
             <div>
               <span className="block text-lg font-medium">Launch interactive demo</span>
-              <span className="mt-1 block font-mono text-xs text-gray-500 group-hover:text-gray-300">{url}</span>
+              <span className="mt-1 block font-mono text-xs text-muted-foreground group-hover:text-primary-foreground/70">{url}</span>
             </div>
-            <div className="flex size-11 shrink-0 items-center justify-center border border-gray-400 transition-transform group-hover:translate-x-1 group-hover:border-white">
+            <div className="flex size-11 shrink-0 items-center justify-center border border-border transition-transform group-hover:translate-x-1 group-hover:border-primary-foreground">
               <svg
                 width="20"
                 height="20"
@@ -50,15 +50,15 @@ export default function LiveDemo({
 
   return (
     <div className="not-prose">
-      <div className="overflow-hidden border border-gray-900">
-        <div className="flex items-center justify-between border-b border-gray-200 bg-gray-50 px-4 py-2">
+      <div className="overflow-hidden border border-foreground">
+        <div className="flex items-center justify-between border-b border-border bg-muted px-4 py-2">
           <div className="flex items-center gap-2">
             <div className="flex gap-1.5">
               <span className="h-3 w-3 rounded-full bg-red-400" />
               <span className="h-3 w-3 rounded-full bg-yellow-400" />
               <span className="h-3 w-3 rounded-full bg-green-400" />
             </div>
-            <span className="ml-2 text-xs text-gray-500 font-mono">
+            <span className="ml-2 text-xs text-muted-foreground font-mono">
               {url}
             </span>
           </div>
@@ -66,15 +66,15 @@ export default function LiveDemo({
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-gray-500 hover:text-gray-700 underline"
+            className="text-xs text-muted-foreground hover:text-foreground underline"
           >
             Open in new tab
           </a>
         </div>
         <div className="relative" style={{ height }}>
           {!loaded && (
-            <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
-              <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900" />
+            <div className="absolute inset-0 flex items-center justify-center bg-muted">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-border border-t-foreground" />
             </div>
           )}
           <iframe
