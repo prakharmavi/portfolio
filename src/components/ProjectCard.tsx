@@ -14,40 +14,35 @@ export default function ProjectCard({ project, index }: Props) {
   return (
     <Link
       href={project.path}
-      className="group grid gap-6 border-b border-border py-7 transition-colors last:border-b-0 hover:bg-background focus-visible:bg-background focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gray-900 md:grid-cols-12 md:items-center md:gap-5 md:px-4 md:py-6"
+      className="group grid gap-6 border-b border-border/60 py-7 last:border-b-0 focus-visible:rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring md:grid-cols-12 md:items-center md:gap-10 md:py-9"
       aria-label={`Read about ${project.title}`}
     >
-      <div className="flex items-start justify-between md:col-span-1 md:block md:self-start">
-        <span className="font-mono text-xs text-muted-foreground">
-          {String(index).padStart(2, "0")}
+      <div className="md:col-span-7">
+        <div className="flex items-center gap-3 text-xs font-medium text-muted-foreground">
+          <span>{String(index).padStart(2, "0")}</span>
+          <span aria-hidden className="h-3 w-px bg-border" />
+          <span>{year}</span>
+        </div>
+        <h3 className="mt-3 font-display text-2xl font-semibold leading-tight tracking-[-0.03em] text-foreground md:text-3xl">
+          {project.title}
+        </h3>
+        <p className="mt-3 max-w-[48ch] text-base leading-relaxed text-muted-foreground">
+          {project.description}
+        </p>
+        <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors group-hover:text-foreground group-focus-visible:text-foreground">
+          View project
+          <LuArrowUpRight className="size-4 transition-transform motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5" aria-hidden />
         </span>
-        <span className="font-mono text-xs text-muted-foreground md:hidden">{year}</span>
       </div>
 
-      <h3 className="font-display text-3xl font-semibold leading-[0.95] tracking-[-0.04em] text-foreground md:col-span-3 md:text-4xl">
-        {project.title}
-      </h3>
-
-      <p className="max-w-md text-sm leading-relaxed text-muted-foreground md:col-span-3">
-        {project.description}
-      </p>
-
-      <div className="relative aspect-[16/10] overflow-hidden bg-muted md:col-span-3">
+      <div className="relative aspect-video overflow-hidden rounded-md border border-border/60 bg-muted md:col-span-5">
         <Image
           src={project.thumbnail}
-          alt={project.title}
+          alt=""
           fill
-          className="object-cover grayscale transition duration-300 group-hover:scale-[1.03] group-hover:grayscale-0 group-focus-visible:grayscale-0"
-          sizes="(max-width: 768px) 100vw, 270px"
-          priority={false}
+          className="object-cover transition-transform duration-300 motion-safe:group-hover:scale-[1.03]"
+          sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1152px) 40vw, 430px"
         />
-      </div>
-
-      <div className="hidden items-center justify-end gap-5 md:col-span-2 md:flex">
-        <span className="font-mono text-xs text-muted-foreground">{year}</span>
-        <span className="flex size-9 items-center justify-center border border-border transition-colors group-hover:border-foreground group-hover:bg-primary group-hover:text-primary-foreground">
-          <LuArrowUpRight className="size-4" aria-hidden />
-        </span>
       </div>
     </Link>
   );

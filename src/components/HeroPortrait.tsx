@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function HeroPortrait() {
   return (
-    <div className="relative -z-10 h-[28rem] overflow-hidden sm:h-[36rem] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[52%]">
+    <div className="absolute inset-y-0 right-0 -z-10 hidden w-[52%] overflow-hidden lg:block">
       <Image
         src="/images/prakhar-hero-natural-cutout.png"
         alt="Portrait of Prakhar Mavi"

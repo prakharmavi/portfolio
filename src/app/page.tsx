@@ -1,4 +1,4 @@
-import SectionHeader from "../components/SectionHeader";
+import SectionHeader from "@/components/SectionHeader";
 import AboutContent from "@/content/about/content.mdx";
 import ProjectsGrid from "@/components/ProjectsGrid";
 import HeroSection from "@/components/HeroSection";
@@ -22,13 +22,13 @@ export default async function Home() {
 
       <section
         id="about"
-        className="scroll-mt-24 border-t border-foreground px-6 py-20 md:px-10 md:py-28"
+        className="scroll-mt-20 border-t border-border/60 py-14 md:py-24"
       >
-        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className="mx-auto grid max-w-6xl gap-7 px-6 md:px-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-4">
             <SectionHeader label="About" title="How I work" />
           </div>
-          <div className="max-w-2xl text-lg leading-relaxed text-foreground lg:col-span-7 lg:col-start-6">
+          <div className="max-w-[58ch] space-y-5 text-base leading-relaxed text-muted-foreground [&>p:first-child]:text-foreground md:text-lg lg:col-span-7 lg:col-start-6">
             <AboutContent />
           </div>
         </div>
@@ -36,9 +36,9 @@ export default async function Home() {
 
       <section
         id="projects"
-        className="scroll-mt-24 border-t border-foreground bg-card px-6 py-20 md:px-10 md:py-28"
+        className="scroll-mt-20 border-t border-border/60 py-14 md:py-24"
       >
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-6xl px-6 md:px-10">
           <SectionHeader
             label="Projects / 05"
             title="Selected work"

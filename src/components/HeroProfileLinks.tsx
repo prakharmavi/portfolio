@@ -14,13 +14,13 @@ export default function HeroProfileLinks({
   discordUrl,
 }: HeroProfileLinksProps) {
   return (
-    <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+    <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1">
       <Link
         href={githubUrl}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="GitHub profile"
-        className="inline-flex items-center gap-2 border-b border-border pb-1 text-sm font-medium text-foreground hover:border-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="inline-flex min-h-11 items-center gap-2 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2"
       >
         <LuGithub className="size-4" aria-hidden />
         <span>GitHub</span>
@@ -30,7 +30,7 @@ export default function HeroProfileLinks({
         target="_blank"
         rel="noopener noreferrer"
         aria-label="LinkedIn profile"
-        className="inline-flex items-center gap-2 border-b border-border pb-1 text-sm font-medium text-foreground hover:border-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="inline-flex min-h-11 items-center gap-2 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2"
       >
         <LuLinkedin className="size-4" aria-hidden />
         <span>LinkedIn</span>
@@ -40,7 +40,7 @@ export default function HeroProfileLinks({
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Discord profile"
-        className="inline-flex items-center gap-2 border-b border-border pb-1 text-sm font-medium text-foreground hover:border-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="inline-flex min-h-11 items-center gap-2 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2"
       >
         <SiDiscord className="size-4" aria-hidden />
         <span>Discord</span>

@@ -9,6 +9,7 @@ import { useFastmanAnswer } from "@/lib/useFastmanAnswer";
 
 type AskMeInputProps = {
   placeholder?: string;
+  appearance?: "quiet" | "glow";
 };
 
 const sampleQuestions = [
@@ -18,7 +19,7 @@ const sampleQuestions = [
   "What's running this portfolio?",
 ];
 
-export default function AskMeInput({ placeholder }: AskMeInputProps) {
+export default function AskMeInput({ placeholder, appearance = "glow" }: AskMeInputProps) {
   const [query, setQuery] = useState("");
   const [panelOpen, setPanelOpen] = useState(false);
   const { ask, error, messages, status } = useFastmanAnswer();
@@ -36,18 +37,25 @@ export default function AskMeInput({ placeholder }: AskMeInputProps) {
     submitQuestion(nextQuestion);
   }
 
+  const input = (
+    <PlaceholdersAndVanishInput
+      placeholders={placeholder ? [placeholder] : sampleQuestions}
+      onChange={(event) => setQuery(event.target.value)}
+      onSubmit={handleSubmit}
+    />
+  );
+
   return (
     <div className="w-full">
-      <NoiseBackground
-        containerClassName="w-full rounded-lg p-[2px]"
-        className="overflow-hidden rounded-[6px]"
-      >
-        <PlaceholdersAndVanishInput
-          placeholders={placeholder ? [placeholder] : sampleQuestions}
-          onChange={(event) => setQuery(event.target.value)}
-          onSubmit={handleSubmit}
-        />
-      </NoiseBackground>
+      {appearance === "quiet" ? (
+        <div className="overflow-hidden rounded-md border border-border transition-colors focus-within:border-ring focus-within:ring-1 focus-within:ring-ring">
+          {input}
+        </div>
+      ) : (
+        <NoiseBackground containerClassName="w-full rounded-lg p-[2px]" className="overflow-hidden rounded-[6px]">
+          {input}
+        </NoiseBackground>
+      )}
       {panelOpen && (
         <FastmanPanel
           error={error}

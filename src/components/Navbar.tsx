@@ -58,7 +58,7 @@ export default function Navbar() {
             <ContactModalTrigger>
               <button
                 type="button"
-                className="bg-primary px-4 py-2 text-left text-primary-foreground hover:bg-primary/80 focus-visible:outline-2 focus-visible:outline-offset-2"
+                className="rounded-md border border-border px-4 py-2 text-left text-foreground transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2"
                 onClick={() => setOpen(false)}
               >
                 Contact
