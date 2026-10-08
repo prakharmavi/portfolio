@@ -26,6 +26,7 @@
     "@types/mdx": "^2.0.13",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "gsap": "^3.15.0",
     "motion": "^13.1.1",
     "next": "15.5.9",
     "postprocessing": "^6.39.5",
