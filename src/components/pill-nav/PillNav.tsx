@@ -11,7 +11,7 @@ import "./PillNav.css";
 
 // Adapted from React Bits PillNav (JavaScript + CSS) for Next.js.
 export default function PillNav({
-  logo, logoAlt = "Logo", brandName = "Home", items, activeHref, className = "",
+  logo, logoAlt = "Logo", brandName, items, activeHref, className = "",
   ease = "power3.out", baseColor = "#fff", pillColor = "#120F17",
   hoveredPillTextColor = "#120F17", pillTextColor, onMobileMenuClick,
   initialLoadAnimation = true,
@@ -27,11 +27,11 @@ export default function PillNav({
   return (
     <div ref={rootRef} className={`pill-nav-container ${className}`} style={colors}>
       <nav className="pill-nav" aria-label="Primary navigation">
-        <Link href="/" className={`pill-logo${logo ? "" : " pill-brand"}`}
-          aria-label={`${brandName} — home`} onMouseEnter={animateLogo}
+        {(logo || brandName) && <Link href="/" className={`pill-logo${logo ? "" : " pill-brand"}`}
+          aria-label={brandName ? `${brandName} — home` : "Home"} onMouseEnter={animateLogo}
           onClick={() => setOpen(false)}>
           {logo ? <Image src={logo} alt={logoAlt} width={28} height={28} unoptimized /> : brandName}
-        </Link>
+        </Link>}
         <div className="pill-nav-items">
           <ul className="pill-list">
             {items.map((item, index) => (

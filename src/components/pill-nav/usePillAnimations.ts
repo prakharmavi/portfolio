@@ -45,7 +45,8 @@ export function usePillAnimations(ease: string, initialLoadAnimation: boolean, i
       root.querySelectorAll(".pill").forEach(pill => observer.observe(pill));
       document.fonts.ready.then(layout).catch(() => {});
       if (initialLoadAnimation) {
-        gsap.from(root.querySelector(".pill-logo"), { scale: 0, duration: 0.6, ease });
+        const logo = root.querySelector(".pill-logo");
+        if (logo) gsap.from(logo, { scale: 0, duration: 0.6, ease });
         gsap.from(root.querySelector(".pill-nav-items"), { clipPath: "inset(0 100% 0 0)", duration: 0.6, ease });
       }
       return () => {

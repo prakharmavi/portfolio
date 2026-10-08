@@ -10,7 +10,6 @@ export default function Navbar() {
   return (
     <header className="pointer-events-none fixed inset-x-0 top-4 z-50 px-4 sm:top-6 sm:px-6">
       <PillNav
-        brandName="Prakhar"
         items={items}
         baseColor="#f5f5f5"
         pillColor="#18181b"

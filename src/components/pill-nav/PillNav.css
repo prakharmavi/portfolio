@@ -159,7 +159,7 @@
   .pill-nav-container { width: 100%; }
   .pill-nav { justify-content: space-between; }
   .pill-nav-items { display: none; }
-  .mobile-menu-button { display: flex; }
+  .mobile-menu-button { display: flex; margin-inline-start: auto; }
   .mobile-menu-popover { display: block; }
 }
 
